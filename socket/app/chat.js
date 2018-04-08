@@ -8,7 +8,8 @@ const chat = function(io){
         console.log('Total users : ' + numUsers);
 
         socket.on('chat', function(msg){
-            socket.broadcast.emit('chat', msg)
+            socket.broadcast.emit('chat', msg);
+            console.log(msg);
         })
 
         socket.on('disconnect', function(){
