@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Splendor</title>
     <script src="../js/socket.io.js"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
     <script>
         var connectionOptions =  {
             "force new connection" : true,
@@ -14,6 +15,15 @@
             "transports" : ["websocket"]
         };
         var socketio = io('http://localhost:8000', connectionOptions);
+
+        var login = (function() {
+            var username = $('#username').val();
+            var password = $('#password').val();
+            socketio.emit('login', {
+                username: username,
+                password: password
+            })
+        });
     </script>
     <link rel="stylesheet" type="text/css" href="../style/style.css">
     <link rel="stylesheet" type="text/css" href="../style/bootstrap-grid.css">
@@ -23,10 +33,10 @@
         <h1>Login</h1>
         <form>
             <p>Username</p>
-            <input type="text" name = "username" placeholder="username here...">
+            <input type="text" id="username" name = "username" placeholder="username here...">
             <p>Password</p>
-            <input type="password" name = "password" placeholder="password here...">
-            <input type="submit" name = "submit" value="Login">
+            <input type="password" id="password" name = "password" placeholder="password here...">
+            <input type="submit" name = "submit" value="Login" onclick="login()">
         </form>
     </div>
 </body>
