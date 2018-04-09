@@ -45,7 +45,7 @@ body{
     color: white;
     font-size: 16px;
 }
-.boxlogin input[type = "submit"],.boxregister input[type = "submit"]{
+.boxlogin input[type = "button"],.boxregister input[type = "button"]{
     border: none;
     outline: none;
     height: 40px;
@@ -54,20 +54,64 @@ body{
     font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
     font-size: 18px;
     border-radius: 20px;
-    margin-top: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
-.boxlogin input[type = "submit"]:hover,.boxregister input[type = "submit"]:hover{
+.boxlogin input[type = "button"]:hover,.boxregister input[type = "button"]:hover{
     cursor: pointer;
 }
 .boxregister{
     width: 320px;
     height: 580px;
+    overflow:hidden;
     background: rgba(0, 0, 0, 0.3);
     color: white;
-    top: 15%;
+    top: 20px;
     left: 75%;
-    position: absolute;
+    position: relative;
     box-sizing: border-box;
     padding: 40px 30px;
     border-radius: 15px;
+}
+
+.relative {
+    position: relative;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.box.relative {
+    width: 260px;
+    height: 480px;
+}
+
+.register {
+    position: relative;
+}
+
+.register i {
+    position: absolute;
+    top: 3px;
+    left: 0;
+}
+
+#login, #register {
+    position: absolute;
+    width: 260px;
+}
+
+#login {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    transition: .5s transform;
+}
+
+#register {
+    top: 50%;
+    left: calc(100% + 30px);
+    transform: translateY(-50%);
+    transition: .5s transform;
 }
