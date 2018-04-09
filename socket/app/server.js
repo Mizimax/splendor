@@ -1,4 +1,4 @@
-const port = 80;
+const port = 8000;
 const app = require('express')();
 const server = app.listen(port)
 const io = require('socket.io').listen(server);
