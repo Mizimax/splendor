@@ -16,6 +16,15 @@
         };
         var socketio = io('http://localhost:8000', connectionOptions);
 
+        socketio.on("register_message", function(message) {
+            alert(message);
+            toggleForm();
+        })
+
+        socketio.on("login_message", function(message) {
+            alert(message);
+        })
+
         var login = (function() {
             var username = $('#username').val();
             var password = $('#password').val();
@@ -32,24 +41,23 @@
         var register = (function() {
 
             //ดักเว้นว่าง
-            if($("#username").val() === "" || $("#password").val() === "" || $("#confirmpass").val() === "" || $("#email").val() === "" || $("#displayname").val() === "") {
+            if($("#username-reg").val() === "" || $("#password-reg").val() === "" || $("#confirmpass").val() === "" || $("#email").val() === "" || $("#displayname").val() === "") {
                 alert("Please fill out this form completely");
                 return 0;
             }
 
-            if($("#password").val() !== $("#confirmpass").val()){
+            if($("#password-reg").val() !== $("#confirmpass").val()){
                 alert("Your password doesn't match");
                 return 0;
             }
 
             socketio.emit("register",{
-                username:$("#username").val(),
-                password:$("#password").val(),
+                username:$("#username-reg").val(),
+                password:$("#password-reg").val(),
                 email:$("#email").val(),
                 displayname:$("#displayname").val()
             });
 
-            toggleForm();
         });
 
         var toggled = false;
@@ -93,9 +101,9 @@
                 <br>
                 <form method="post">
                     <p>User Name</p>
-                    <input id = "username" type = "text" name = "username">
+                    <input id = "username-reg" type = "text" name = "username">
                     <p>Password</p>
-                    <input id = "password" type = "password" name = "password">
+                    <input id = "password-reg" type = "password" name = "password">
                     <p>Confirm Password</p>
                     <input id = "confirmpass" type = "password" name = "confirmpass">
                     <p>Email Address</p>
