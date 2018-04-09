@@ -13,11 +13,20 @@
             "timeout" : 10000,                  //before connect_error and connect_timeout are emitted.
             "transports" : ["websocket"]
         };
-        
         var socketio = io('http://localhost:8000', connectionOptions);
     </script>
+    <link rel="stylesheet" type="text/css" href="C:\Users\User\Desktop\splendor\web\public\style\style.css"
 </head>
 <body>
-    เกม Splendor
+    <div class="boxlogin">
+        <h1>Login</h1>
+        <form>
+            <p>Username</p>
+            <input type="text" name = "username" placeholder="username here...">
+            <p>Password</p>
+            <input type="password" name = "password" placeholder="password here...">
+            <input type="submit" name = "submit" value="Login">
+        </form>
+    </div>
 </body>
 </html>
