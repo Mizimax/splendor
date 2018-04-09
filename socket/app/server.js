@@ -6,7 +6,7 @@ const server = app.listen(port)
 const io = require('socket.io').listen(server);
 const db = require('./mysql.js').connection(mysql);
 const chat = require('./chat.js').chat;
-const login = require('./login.js').login;
+const user = require('./user.js');
 
 io.on('connection', function(socket){
     let numUsers = 0;
@@ -14,7 +14,7 @@ io.on('connection', function(socket){
     console.log('Total users : ' + numUsers);
 
     chat(socket, db);
-    login(socket, db);
+    user.login(socket, db);
     
     socket.on('disconnect', function(){
         numUsers--;
