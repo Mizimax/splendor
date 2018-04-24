@@ -1,7 +1,6 @@
 
 var lobbystate = {
     preload: function () {
-        alert("lobby");
         game.load.image('button', 'assets/yw-sapphirebutton.png');
         game.load.image('logo', 'assets/splendor.png');
         game.load.image('chat', 'assets/chat.png');
