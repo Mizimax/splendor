@@ -5,7 +5,6 @@ const io = require('socket.io').listen(server);
 const cors = require('cors')
 const chat = require('./chat.js').chat;
 
-
 chat(io);
 
 app.use(cors());

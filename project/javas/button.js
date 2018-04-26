@@ -19,7 +19,8 @@ var lobbystate = {
            bmd.context.fillText(word, 64, 64);
            bmd.addToWorld();
        */
-
+      game.add.plugin(PhaserInput.Plugin);
+      var chat = game.add.inputfield(10,90);
         //button 1
         button1 = game.add.button(1200, window.outerHeight - 150, 'button', actionOnClick, this);
         button1.inputEnabled = true;
