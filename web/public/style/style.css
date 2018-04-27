@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: Roboto, serif;
+    background-color: goldenrod;
+}
+::placeholder{
+    color: whitesmoke;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+}
+
+.boxlogin{
+    width: 320px;
+    height: 420px;
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    top: 15%;
+    left: 75%;
+    position: absolute;
+    box-sizing: border-box;
+    padding: 70px 30px;
+    border-radius: 15px;
+}
+.boxlogin h1,.boxregister h1{
+    margin: 0;
+    padding: 0 0 20px;
+    text-align: center;
+    font-size: 22px;
+}
+.boxlogin p,.boxregister p{
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+}
+.boxlogin input,.boxregister input{
+    width: 100%;
+    margin-bottom: 20px;
+}
+.boxlogin input[type = "text"],.boxlogin input[type = "password"],.boxregister input[type = "text"],.boxregister input[type = "password"]{
+    border: none;
+    border-bottom: 1px solid white;
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: white;
+    font-size: 16px;
+}
+.boxlogin input[type = "button"],.boxregister input[type = "button"]{
+    border: none;
+    outline: none;
+    height: 40px;
+    background-color: darkgoldenrod;
+    color: white;
+    font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+    font-size: 18px;
+    border-radius: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.boxlogin input[type = "button"]:hover,.boxregister input[type = "button"]:hover{
+    cursor: pointer;
+}
+.boxregister{
+    width: 100%;
+    height: 580px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    position: absolute;
+    padding: 40px 30px;
+    border-radius: 15px;
+}
+
+.relative {
+    position: relative;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.box.relative {
+    width: 260px;
+    height: 480px;
+}
+
+.register {
+    position: relative;
+}
+
+.register i {
+    position: absolute;
+    top: 3px;
+    left: 0;
+}
+
+#login, #register {
+    position: absolute;
+    width: 260px;
+}
+
+#login {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    transition: .35s transform;
+}
+
+#register {
+    top: 50%;
+    left: calc(100% + 30px);
+    transform: translateY(-50%);
+    transition: .35s transform;
+}
