@@ -222,11 +222,11 @@ gameModal = function(game) {
                 }
 
                 if (itemType !== "bitmapText" && itemType !== "graphics") {
-                    console.log(modalLabel)
                     modalLabel.bringToTop();
                     modalGroup.add(modalLabel);
                     modalLabel.bringToTop();
                     modalGroup.bringToTop(modalLabel);
+                   
                 } else {
                     modalGroup.add(modalLabel);
                     modalGroup.bringToTop(modalLabel);

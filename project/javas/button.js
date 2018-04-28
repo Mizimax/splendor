@@ -3,6 +3,7 @@ var reg = {};
 var lobbystate = {
     preload: function () {
         game.load.image('button', 'assets/yw-sapphirebutton.png');
+        game.load.image('navBg', 'assets/nav-wood.png');
         game.load.image('logo', 'assets/splendor.png');
         game.load.image('chat', 'assets/chat.png');
         game.load.image('ruby', 'assets/ruby.png');
@@ -12,14 +13,17 @@ var lobbystate = {
     create: function () {
 
         // modal
-        reg.modal = new gameModal(game);
-
+        var bg = game.add.sprite(0, 0, 'bg');
+        bg.width = window.innerWidth;
   
         var button = [];
         game.stage.backgroundColor = '#182d3b';
-        var logo = game.add.sprite(0, 0, 'logo');
-        logo.scale.setTo(1.2, 1);
+        var navBg = game.add.sprite(0, 0, 'navBg');
+        navBg.width = window.innerWidth;
+        navBg.height = 147;
 
+        var logo = game.add.sprite(60,10, 'logo')
+     //   logo.scale.setTo(0.15);
         /*   bmd = game.make.bitmapData(800, 200);
            bmd.context.font = '64px Arial';
            bmd.context.fillStyle = '#ffffff';
@@ -96,50 +100,5 @@ function rubyClick() {
 }
 
 function initModal() {
-  reg.modal.createModal({
-    type: "modal",
-    includeBackground: true,
-    modalCloseOnInput: false,
-    itemsArr: [{
-            type: "image",
-            content: "bg",
-            offsetY: 0,
-            contentScale: 0.6
-        }, {
-          type: "image",
-          content: "clear",
-          contentScale: 0.5,
-          offsetY: -80
-      }, {
-          type: "image",
-          content: "star",
-          offsetY: 80,
-          offsetX: -100,
-          contentScale: 0.6
-      }, {
-          type: "image",
-          content: "star",
-          offsetY: 50,
-          offsetX: 0,
-          contentScale: 0.6
-      }, {
-          type: "image",
-          content: "star",
-          offsetY: 80,
-          offsetX: 100,
-          contentScale: 0.6
-      }, {
-          type: "text",
-          content: "X",
-          fontSize: 52,
-          color: "0x000000",
-          offsetY: -130,
-          offsetX: 240,
-          callback: function() {
-              reg.modal.hideModal("modal");
-          }
-      }
-
-      ]
-  });
+  
 }
