@@ -4,17 +4,46 @@
         <meta charset="UTF-8">
         
         <title>Room</title>
-        
         <style>
-            body {
-                margin: 0px 0 0 0;
+            #square {
+                width:10%;
+                height:10%;
+                background:red;
+            }
+            table,th,td{
+                top:50%;
+                table-layout: auto;
+                width: 180px; 
+            }
 
+            body {
+                background: lightblue url("assets/roombg.jpg") no-repeat fixed center;
+            }
+            image {
+                position: absolute;
+                top: 80%;
+                left:75%;
             }
         </style>
-
         <script type="text/javascript" src="js/room.js"></script>
+        <link rel="stylesheet" type="text/css" href="../style/style.css">
     </head>
-    <body background="assets/roombg.jpg">
-
+    <body>
+        <image src="assets/exit.png"></image>
+        <image src="assets/go.png"></image>
+        <table>
+                <tr>
+                    <th>Friends</th>
+                    <th>Invite</th>
+                </tr>
+                <tr>
+                    <td>Jardet</td>
+                    <td></td>
+                </tr>
+                <tr>
+                  <td>Peter</td>
+                  <td></td>
+                </tr>
+        </table>
     </body>
 </html>

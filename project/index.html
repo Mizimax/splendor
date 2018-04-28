@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-<<<<<<< HEAD
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <title>PhaserJS Game Tutorial by Devahoy</title>
@@ -31,21 +30,6 @@
    <!--  <div style="left: 50px; top: 500px;">
             </div>
     <script type="text/javascript" src="login.js"></script> -->
-=======
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Splendor</title>
-    <script src="../js/socket.io.js"></script>
-    <script src="../js/jquery-3.3.1.min.js"></script>
-    <script>
-        var connectionOptions =  {
-            "force new connection" : true,
-            "reconnectionAttempts": "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
-            "timeout" : 10000,                  //before connect_error and connect_timeout are emitted.
-            "transports" : ["websocket"]
-        };
-        var socketio = io('http://localhost:8080', connectionOptions);
->>>>>>> 9d0a692efb5ec71382cd9a45a0ec5306d28e1ade
 
         socketio.on("register_message", function(message) {
             alert(message);
