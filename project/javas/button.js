@@ -82,5 +82,5 @@ function ChatClick() {
 }
 // button[2]
 function rubyClick() {
-    game.state.start('star');
+    game.state.start('game');
 }
