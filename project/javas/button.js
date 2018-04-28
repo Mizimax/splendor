@@ -1,3 +1,4 @@
+var reg = {};
 
 var lobbystate = {
     preload: function () {
@@ -6,8 +7,14 @@ var lobbystate = {
         game.load.image('chat', 'assets/chat.png');
         game.load.image('ruby', 'assets/ruby.png');
         game.load.image('emerald', 'assets/emerald.png');
+        game.load.image('bg', 'assets/BG.jpg');
     },
     create: function () {
+
+        // modal
+        reg.modal = new gameModal(game);
+
+  
         var button = [];
         game.stage.backgroundColor = '#182d3b';
         var logo = game.add.sprite(0, 0, 'logo');
@@ -82,5 +89,57 @@ function ChatClick() {
 }
 // button[2]
 function rubyClick() {
-    game.state.start('star');
+    // game.state.start('star');
+    // game.add.tween(bg.scale).to({ x: 0.7, y: 0.7 }, 400, Phaser.Easing.Back.Out, true, 0);
+    initModal();
+
+}
+
+function initModal() {
+  reg.modal.createModal({
+    type: "modal",
+    includeBackground: true,
+    modalCloseOnInput: false,
+    itemsArr: [{
+            type: "image",
+            content: "bg",
+            offsetY: 0,
+            contentScale: 0.6
+        }, {
+          type: "image",
+          content: "clear",
+          contentScale: 0.5,
+          offsetY: -80
+      }, {
+          type: "image",
+          content: "star",
+          offsetY: 80,
+          offsetX: -100,
+          contentScale: 0.6
+      }, {
+          type: "image",
+          content: "star",
+          offsetY: 50,
+          offsetX: 0,
+          contentScale: 0.6
+      }, {
+          type: "image",
+          content: "star",
+          offsetY: 80,
+          offsetX: 100,
+          contentScale: 0.6
+      }, {
+          type: "text",
+          content: "X",
+          fontSize: 52,
+          color: "0x000000",
+          offsetY: -130,
+          offsetX: 240,
+          callback: function() {
+              reg.modal.hideModal("modal");
+          }
+      }
+
+      ]
+  });
 }
