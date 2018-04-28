@@ -1,5 +1,6 @@
 var gamestate = {
     preload: function () {
+        this.load.image('BG','image/BG_game_test.jpg');
         //profile
         this.load.image('player1','image/profile/music.png');
         this.load.image('player2','image/profile/satchan.png');
@@ -66,48 +67,53 @@ var gamestate = {
         this.load.image('coinWhite','image/coin/Coin_white.png');
     },
     create: function () {
-        this.player1 = this.game.add.sprite(0,100,'player1');
-        this.player2 = this.game.add.sprite(0,225,'player2'); 
-        this.player3 = this.game.add.sprite(0,350,'player3');
-
-        this.player4 = this.game.add.sprite(this.game.world.centerX-350,this.game.world.centerY+175,'player4');
+    //    this.add.image(window.outerWidth,window.outerHeight,'BG').scale.setTo(2);
+        x=window.outerWidth/12;     //row
+        y=window.outerHeight/4;     //col
         
-        this.coinBlack = this.game.add.sprite(this.game.world.centerX+300,this.game.world.centerY-50,'coinBlack');
-        this.coinRed = this.game.add.sprite(this.game.world.centerX+300,this.game.world.centerY-130,'coinRed');
-        this.coinBlue = this.game.add.sprite(this.game.world.centerX+300,this.game.world.centerY-210,'coinBlue');
-        this.coinGreen = this.game.add.sprite(this.game.world.centerX+300,this.game.world.centerY-290,'coinGreen');
-        this.coinWhite = this.game.add.sprite(this.game.world.centerX+300,this.game.world.centerY-370,'coinWhite');
-        this.coinGold = this.game.add.sprite(this.game.world.centerX+300,this.game.world.centerY+30,'coinGold');
+        this.player1 = this.game.add.sprite(0,y-50,'player1');
+        this.player2 = this.game.add.sprite(0,1.5*y-25,'player2'); 
+        this.player3 = this.game.add.sprite(0,2*y,'player3');
 
-        this.level1_BG = this.game.add.sprite(this.game.world.centerX-420,this.game.world.centerY-40,'level1_BG');
-        this.level2_BG = this.game.add.sprite(this.game.world.centerX-420,this.game.world.centerY-220,'level2_BG');
-        this.level3_BG = this.game.add.sprite(this.game.world.centerX-420,this.game.world.centerY-400,'level3_BG');        
+        this.player4 = this.game.add.sprite(3*x,3*y-25,'player4');
+        
+        this.coinBlack = this.game.add.sprite(8*x+50,0*y+20,'coinBlack');
+        this.coinRed = this.game.add.sprite(8*x+50,0.5*y-10,'coinRed');
+        this.coinBlue = this.game.add.sprite(8*x+50,y-30,'coinBlue');
+        this.coinGreen = this.game.add.sprite(8*x+50,y+50,'coinGreen');
+        this.coinWhite = this.game.add.sprite(8*x+50,1.5*y+25,'coinWhite');
+        this.coinGold = this.game.add.sprite(8*x+50,2*y,'coinGold');
+
+        this.level1_BG = this.game.add.sprite(3*x-20,2*y-20,'level1_BG');
+        this.level2_BG = this.game.add.sprite(3*x-20,y,'level2_BG');
+        this.level3_BG = this.game.add.sprite(3*x-20,0*y+20,'level3_BG');        
 
     //    var button = [];
     /*    button[0] = game.add.button(this.game.world.centerX-280,this.game.world.centerY-40, 'level1_1', cardlevel_1, this);
         button[0].inputEnabled = true;*/
-        var count=140;
-        var count2=140;
-        var count3=140;
-        var count4=130;
+        var count=0;
+        var count2=0;
+        var count3=0;
+        var count4=0;
+
         //level1
         for(i=0;i<4;i++){
-           this.game.add.sprite(this.game.world.centerX-420+count,this.game.world.centerY-40, this.rand[i]);
+           this.game.add.sprite(4*x+count,2*y-20, this.rand[i]);
             count+=140;
         }
         //level2
         for(i=0;i<4;i++){
-           this.game.add.sprite(this.game.world.centerX-420+count2,this.game.world.centerY-220, this.rand2[i]);
+           this.game.add.sprite(4*x+count2,y, this.rand2[i]);
             count2+=140;
         }
         //level3
         for(i=0;i<4;i++){
-           this.game.add.sprite(this.game.world.centerX-420+count3,this.game.world.centerY-400, this.rand3[i]);
+           this.game.add.sprite(4*x+count3,0*y+20, this.rand3[i]);
             count3+=140;
         }
         //Noble
         for(i=0;i<4;i++){
-            this.game.add.sprite(this.game.world.centerX+400,this.game.world.centerY-520+count4, this.rand4[i]);
+            this.game.add.sprite(10*x-100,20+count4, this.rand4[i]);
              count4+=130;
          }
     },
