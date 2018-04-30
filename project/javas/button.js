@@ -9,6 +9,7 @@ var lobbystate = {
         game.load.image('ruby', 'assets/ruby.png');
         game.load.image('emerald', 'assets/emerald.png');
         game.load.image('bg', 'assets/BG.jpg');
+        game.load.image('modal', 'assets/464885029.jpg');
     },
     create: function () {
 
@@ -61,10 +62,18 @@ var lobbystate = {
         button[2].onInputOver.add(function () { this.game.canvas.style.cursor = "pointer"; game.add.tween(button[2].scale).to({ x: 0.4, y: 0.4 }, 400, Phaser.Easing.Back.Out, true, 0); });
         button[2].onInputOut.add(function () { this.game.canvas.style.cursor = "default"; game.add.tween(button[2].scale).to({ x: 0.3, y: 0.3 }, 400, Phaser.Easing.Back.In, true, 0); });
 
-        modal.create(window.innerWidth*0.6, window.innerHeight*0.8, false, function() {
-          modal.content = game.add.text(game.world.centerX, game.world.centerY, 'Total clicks: ', { fill: '#ffffff', font: '14pt Arial' });
-          modal.content.anchor.setTo(0.5)
-          modal.modalGroup.add(modal.content);
+        // profile modal
+        modal.create(window.innerWidth*0.5, window.innerHeight*0.66, true, function() {
+          var x = game.world.centerX - ((window.innerWidth*0.5)/2);
+          var y = game.world.centerY - ((window.innerHeight*0.66)/2);
+          var title = game.add.text(x + 80, y + 40, 'Profile', { fill: '#000000', font: '20pt Arial' });
+          title.anchor.setTo(0.5)
+          var profile_img = game.add.sprite(x + 145, y + 180, 'bg');
+          profile_img.width = 200;
+          profile_img.height = 200;
+          profile_img.anchor.setTo(0.5)
+          modal.modalGroup.add(title);
+          modal.modalGroup.add(profile_img);
         });
         
     },
