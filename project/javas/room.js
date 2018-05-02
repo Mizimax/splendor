@@ -5,6 +5,9 @@ var roomheadache = {
         game.load.image('go','assets/go2.png');
         game.load.image('playerbox','assets/playerbox.png');
         game.load.image('playerOne','assets/player.jpg');
+        game.load.image('playerTwo','assets/player2.jpg');
+        game.load.image('playerThree','assets/player3.jpg')
+        game.load.image('playerFour','assets/player4.jpg');
         game.load.image('info','assets/roominfo.png');
         game.load.image('send','assets/send.png');
         game.load.image('invite','assets/invite.png');
@@ -19,9 +22,9 @@ var roomheadache = {
         playerBox.scale.setTo(1);
         var player = [];
         player[0] = game.add.sprite(window.outerWidth-1211,window.outerHeight-761,'playerOne');
-        player[1] = game.add.sprite(window.outerWidth-1211,window.outerHeight-687,'playerOne');
-        player[2] = game.add.sprite(window.outerWidth-1211,window.outerHeight-605,'playerOne');
-        player[3] = game.add.sprite(window.outerWidth-1211,window.outerHeight-526,'playerOne');
+        player[1] = game.add.sprite(window.outerWidth-1211,window.outerHeight-687,'playerTwo');
+        player[2] = game.add.sprite(window.outerWidth-1211,window.outerHeight-605,'playerThree');
+        player[3] = game.add.sprite(window.outerWidth-1211,window.outerHeight-526,'playerFour');
         player[0].width=64;
         player[0].height=65;
         player[1].width=64;
