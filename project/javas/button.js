@@ -14,17 +14,13 @@ var lobbystate = {
     },
     create: function () {
 
-        // modal
         var bg = game.add.sprite(0, 0, 'bg');
         bg.width = window.innerWidth;
+
+        navbar.create();
   
         var button = [];
         game.stage.backgroundColor = '#182d3b';
-        var navBg = game.add.sprite(0, 0, 'navBg');
-        navBg.width = window.innerWidth;
-        navBg.height = 147;
-
-        var logo = game.add.sprite(60,10, 'logo')
      //   logo.scale.setTo(0.15);
         /*   bmd = game.make.bitmapData(800, 200);
            bmd.context.font = '64px Arial';
@@ -32,6 +28,7 @@ var lobbystate = {
            bmd.context.fillText(word, 64, 64);
            bmd.addToWorld();
        */
+        
 
         //button 1
         button1 = game.add.button(1200, window.outerHeight - 150, 'button', actionOnClick, this);
@@ -87,6 +84,7 @@ function out() {
 }
 function actionOnClick() {
     console.log(button[0]);
+    
 }
 //button
 // button[1]

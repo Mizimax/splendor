@@ -1,4 +1,4 @@
-const port = 8888;
+const port = 8080;
 const app = require('express')();
 const cors = require('cors')
 const mysql = require('mysql2');
