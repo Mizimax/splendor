@@ -11,7 +11,10 @@ const login = function(socket, db){
     function(err, results) {
       if(!err) {
         if(results.length === 1) {
-          //create token ใช้ package jwt
+          console.log(results[0])
+          socket.handshake.session.userdata = results[0].user_id;
+          socket.handshake.session.save();
+          console.log(socket.handshake.session.userdata);
           //create cookie จำไว้ใน remember_token ด้วย
           socket.emit('login_message', 'Login Success !');
         }
