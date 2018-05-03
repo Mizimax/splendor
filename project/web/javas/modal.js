@@ -7,6 +7,11 @@ var modal = {
     this.overlay = game.add.sprite(0,0, 'modal_bg')
     this.overlay.width = window.innerWidth;
     this.overlay.height = window.innerHeight;
+    this.overlay.inputEnabled = true;
+    var self = this;
+    this.overlay.events.onInputDown.add(function() {
+      self.hide();
+    })
     // this.overlay = game.add.graphics(0,0);
     // this.overlay.beginFill(0x000000);
     // this.overlay.alpha = 0.5;
@@ -36,8 +41,10 @@ var modal = {
   },
   show: function() {
     game.add.tween(this.modalGroup).to({ alpha: 1 }, 200, Phaser.Easing.Linear.None, true, 0);
+    this.overlay.inputEnabled = true;
   },
   hide: function() {
     game.add.tween(this.modalGroup).to({ alpha: 0 }, 200, Phaser.Easing.Linear.None, true, 0);
+    this.overlay.inputEnabled = false;
   }
 };
