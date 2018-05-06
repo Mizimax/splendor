@@ -12,17 +12,13 @@ var lobbystate = {
     },
     create: function () {
 
-        // modal
         var bg = game.add.sprite(0, 0, 'bg');
         bg.width = window.innerWidth;
+
+        navbar.create();
   
         var button = [];
         game.stage.backgroundColor = '#182d3b';
-        var navBg = game.add.sprite(0, 0, 'navBg');
-        navBg.width = window.innerWidth;
-        navBg.height = 147;
-
-        var logo = game.add.sprite(60,10, 'logo')
      //   logo.scale.setTo(0.15);
         /*   bmd = game.make.bitmapData(800, 200);
            bmd.context.font = '64px Arial';
@@ -30,6 +26,7 @@ var lobbystate = {
            bmd.context.fillText(word, 64, 64);
            bmd.addToWorld();
        */
+        
 
         //button 1
         button1 = game.add.button(1200, window.outerHeight - 150, 'button', actionOnClick, this);
@@ -64,7 +61,12 @@ var lobbystate = {
         button[2].onInputOver.add(function () { this.game.canvas.style.cursor = "pointer"; game.add.tween(button[2].scale).to({ x: 0.4, y: 0.4 }, 400, Phaser.Easing.Back.Out, true, 0); });
         button[2].onInputOut.add(function () { this.game.canvas.style.cursor = "default"; game.add.tween(button[2].scale).to({ x: 0.3, y: 0.3 }, 400, Phaser.Easing.Back.In, true, 0); });
 
-
+        modal.create(window.innerWidth*0.6, window.innerHeight*0.8, false, function() {
+          modal.content = game.add.text(game.world.centerX, game.world.centerY, 'Total clicks: ', { fill: '#ffffff', font: '14pt Arial' });
+          modal.content.anchor.setTo(0.5)
+          modal.modalGroup.add(modal.content);
+        });
+        
     },
     render: function(){
     },
@@ -85,6 +87,7 @@ function out() {
 }
 function actionOnClick() {
     console.log(button[0]);
+    
 }
 //button
 // button[1]
@@ -93,5 +96,5 @@ function ChatClick() {
 }
 // button[2]
 function rubyClick() {
-    game.state.start('game');
+    modal.show();
 }
