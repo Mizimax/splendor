@@ -1,24 +1,22 @@
-const jwt = require('jsonwebtoken');
-const secret_key = 'databaseza';
+const db = require("./mysql").connect();
 
-const auth = function() {
-  var token = req.body.token || req.query.token || req.headers['x-access-token']
-  if (token) {
-      jwt.verify(token, secret_key, function(err, decoded) {      
-          if (err) {
-              res.status(401).json({ error: 'Failed to authenticate or token expired.', err: err });   
-          } else {
-              req.decoded = decoded    
-              next();
-          }
-      });
-  } else {
-      res.status(403).json({ 
-          error: 'Cannot Access'
-      })
-  }
-}
+const auth = function(socket, callback) {
+  return async function() {
+    if (socket.request.session.userdata) return callback();
+
+    let resCookieAuth = await db.query(
+      "SELECT * FROM users WHERE RememberToken = ?",
+      [socket.handshake.sessionID]
+    );
+    console.log(resCookieAuth);
+    if (resCookieAuth) {
+    }
+    let err = new Error("Authentication error");
+    err.data = { type: "authentication_error" };
+    socket.emit("error", { auth: "Authentication Error" });
+  };
+};
 
 module.exports = {
   auth: auth
-}
+};

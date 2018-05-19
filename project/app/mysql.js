@@ -1,11 +1,13 @@
-// create the connection to database
-const connection = function(mysql) {
-    return mysql.createConnection({
-        host: 'db.maxang.me',
-        user: 'root',
-        password: 'Lw05TNPCmqry',
-        database: 'splendor'
-    });
-}
+const mysql = require("mysql2-promise")();
 
-exports.connection = connection;
+// create the connection to database
+const connect = function() {
+  mysql.configure({
+    host: "db.maxang.me",
+    user: "root",
+    password: "Lw05TNPCmqry",
+    database: "splendor"
+  });
+};
+
+exports.connect = connect;

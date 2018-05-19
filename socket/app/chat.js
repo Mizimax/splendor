@@ -1,11 +1,9 @@
+const db = require("./mysql").connect();
 
-const chat = function(socket, db){
-
-    socket.on('chat', function(msg){
-        socket.broadcast.emit('chat', msg);
-    })
-    
-}
+const chat = function() {
+  socket.on("chat", function(msg) {
+    socket.broadcast.emit("chat", msg);
+  });
+};
 
 exports.chat = chat;
-
