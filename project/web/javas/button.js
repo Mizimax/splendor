@@ -1,5 +1,30 @@
 var reg = {};
 
+function loading() {
+  modal.create(
+    window.innerWidth * 0,
+    window.innerHeight * 0,
+    false,
+    function() {
+      var x = game.world.centerX - window.innerWidth * 0.5 / 2;
+      var y = game.world.centerY - window.innerHeight * 0.66 / 2;
+      var loading = game.add.text(
+        game.world.centerX,
+        game.world.centerY,
+        "Authenticating...",
+        {
+          fill: "#fff",
+          font: "24pt Arial"
+        }
+      );
+      loading.anchor.setTo(0.5);
+      modal.modalGroup.add(loading);
+    }
+  );
+  modal.show();
+  game.world.bringToTop(modal.modalGroup);
+}
+
 var lobbystate = {
   preload: function() {
     game.load.image("button", "assets/yw-sapphirebutton.png");
@@ -13,6 +38,15 @@ var lobbystate = {
     game.load.image("modal_bg", "assets/modal_bg.png");
   },
   create: function() {
+    socket.emit("AUTH_ATTEMPT", "");
+    socket.on("AUTH", function(res) {
+      if (res.status === "success") {
+        modal.hide();
+      } else {
+        window.location.href = "/";
+      }
+    });
+
     var bg = game.add.sprite(0, 0, "bg");
     bg.width = window.innerWidth;
 
@@ -111,6 +145,7 @@ var lobbystate = {
         .tween(button[2].scale)
         .to({ x: 0.3, y: 0.3 }, 400, Phaser.Easing.Back.In, true, 0);
     });
+    loading();
   },
   render: function() {}
 };
@@ -154,7 +189,7 @@ function rubyClick() {
         fill: "#000000",
         font: "24pt Arial"
       });
-      var name = game.add.text(x + 90, y + 55, "Profile", {
+      var name = game.add.text(x + 90, y + 55, "Name : ", {
         fill: "#000000",
         font: "24pt Arial"
       });
@@ -175,6 +210,8 @@ function rubyClick() {
   );
   modal.show();
   game.world.bringToTop(modal.modalGroup);
+
+  button[1].inputEnabled = false;
 }
 
 function profileClick() {
@@ -186,4 +223,5 @@ function profileClick() {
   );
   modal.show();
   game.world.bringToTop(modal.modalGroup);
+  button[2].inputEnabled = false;
 }

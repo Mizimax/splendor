@@ -6,49 +6,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Splendor</title>
-  <script src="../js/socket.io.js"></script>
   <script src="../js/jquery-3.3.1.min.js"></script>
   <script>
-    var connectionOptions = {
-      "force new connection": true,
-      "reconnectionAttempts": "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
-      "timeout": 10000,                  //before connect_error and connect_timeout are emitted.
-      "transports": ["websocket"]
-    };
-    var socketio = io('http://localhost:8888', connectionOptions);
-
-    function setCookie(name, value, days) {
-      var expires = "";
-      if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toUTCString();
-      }
-      document.cookie = name + "=" + (value || "") + expires + "; path=/";
-    }
-
-    socketio.on("register_message", function (data) {
-      alert(data.message);
-
-      if (message.status === 'success') {
-        toggleForm();
-      }
-    })
-
-    socketio.on("login_message", function (message) {
-      alert(message)
-    })
 
     var login = (function () {
+
       var username = $('#username').val();
       var password = $('#password').val();
       if (username === "" || password === "") {
         alert("Please fill out this form completely");
-        return 0;
+        return false;
       }
-      socketio.emit('login', {
-        username: username,
-        password: password
+      $.ajax({
+        method: 'post',
+        url: "/login",
+        data: $('#loginForm').serialize(),
+        success: function (res) {
+          alert(res.message)
+          window.location.href = "/game.html"
+        },
+        error: function (res) {
+          alert(res.responseJSON.message)
+        }
       })
     });
 
@@ -57,21 +36,26 @@
       //ดักเว้นว่าง
       if ($("#username-reg").val() === "" || $("#password-reg").val() === "" || $("#confirmpass").val() === "" || $("#email").val() === "" || $("#displayname").val() === "") {
         alert("Please fill out this form completely");
-        return 0;
+        return false;
       }
 
       if ($("#password-reg").val() !== $("#confirmpass").val()) {
         alert("Your password doesn't match");
-        return 0;
+        return false;
       }
 
-      socketio.emit("register", {
-        username: $("#username-reg").val(),
-        password: $("#password-reg").val(),
-        password2: $("#confirmpass").val(),
-        email: $("#email").val(),
-        displayname: $("#displayname").val()
-      });
+      $.ajax({
+        method: 'post',
+        url: "/register",
+        data: $('#registerForm').serialize(),
+        success: function (res) {
+          alert(res.message)
+          toggleForm();
+        },
+        error: function (res) {
+          alert(res.responseJSON.message)
+        }
+      })
 
     });
 
@@ -108,12 +92,12 @@
           <div class="boxregister">
             <div id="login">
               <h1>Login</h1>
-              <form>
+              <form id="loginForm" onSubmit="login(); return false;">
                 <p>Username</p>
                 <input type="text" id="username" name="username" placeholder="username here...">
                 <p>Password</p>
                 <input type="password" id="password" name="password" placeholder="password here...">
-                <input type="button" name="submit" value="Login" onclick="login()">
+                <input type="submit" name="submit" value="Login">
                 <input type="button" name="submit" value="Register" onclick="toggleForm()">
               </form>
             </div>
@@ -124,7 +108,7 @@
                 Register
               </h1>
               <br>
-              <form method="post">
+              <form id="registerForm" onSubmit="register(); return false;">
                 <p>User Name</p>
                 <input id="username-reg" type="text" name="username">
                 <p>Password</p>
@@ -135,7 +119,7 @@
                 <input id="email" type="text" name="email">
                 <p>User Display Name</p>
                 <input id="displayname" type="text" name="displayname">
-                <input onclick="register()" type="button" name="submit" value="Submit">
+                <input type="submit" name="submit" value="Register">
               </form>
             </div>
           </div>

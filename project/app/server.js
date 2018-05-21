@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const bcrypt = require("bcrypt");
+const bodyParser = require("body-parser");
 const cookieParser = require("socket.io-cookie-parser");
 const sharedsession = require("express-socket.io-session");
 const session = require("express-session")({
@@ -13,6 +15,7 @@ const port = 8888;
 const server = app.listen(port);
 const io = require("socket.io").listen(server);
 
+const db = require("./mysql").connect();
 const auth = require("./auth.js").auth;
 const chat = require("./chat.js").chat;
 //const user = require("./user.js");
@@ -20,12 +23,33 @@ const io_connect = require("./io.connect.js");
 
 auth(io);
 
-io.on("connection", function(socket) {
+io.on("connection", async function(socket) {
   let numUsers = 0;
   numUsers++;
   console.log("Total users : " + numUsers);
 
-  auth(socket, chat(socket));
+  socket.on("AUTH_ATTEMPT", async function(data) {
+    let resCookieAuth = [];
+    if (socket.handshake.session.userdata) {
+      [resCookieAuth] = await db.query(
+        "SELECT * FROM users WHERE RememberToken = ?",
+        [socket.handshake.sessionID]
+      );
+      if (resCookieAuth.length != 0) {
+        socket.emit("AUTH", {
+          status: "success",
+          message: "Authentication Success"
+        });
+      }
+    } else {
+      socket.emit("AUTH", {
+        status: "error",
+        message: "Authentication Error"
+      });
+    }
+  });
+
+  chat(socket);
 
   socket.on("disconnect", function() {
     numUsers--;
@@ -36,6 +60,12 @@ io.on("connection", function(socket) {
 app.use(cors());
 app.use(session);
 app.use(express.static(__dirname + "/../web"));
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
 
 app.post("/login", async function(req, res) {
   let data = req.body;
@@ -68,8 +98,8 @@ app.post("/login", async function(req, res) {
 app.post("/register", async function(req, res) {
   let data = req.body;
   //เขียนดัก password != password confirm
-  if (data.password !== data.password2) {
-    res.status(404).json({
+  if (data.password !== data.confirmpass) {
+    res.status(422).json({
       status: "error",
       message: "Password not match !"
     });
@@ -80,12 +110,11 @@ app.post("/register", async function(req, res) {
   let hash = await bcrypt.hash(data.password, 10);
   data.password = hash;
   try {
-    let [res] = await db.query(
+    let [resReg] = await db.query(
       "INSERT INTO users(UserName, UserPassword, UserEmail, UserDisplayName) VALUES (?,?,?,?)",
       [data.username, data.password, data.email, data.displayname]
     );
-
-    if (res.affectedRows > 0) {
+    if (resReg.affectedRows > 0) {
       res.status(201).json({
         status: "success",
         message: "Register Success !"

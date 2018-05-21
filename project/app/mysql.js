@@ -1,4 +1,4 @@
-const mysql = require("mysql2-promise")();
+let mysql = require("mysql2-promise")();
 
 // create the connection to database
 const connect = function() {
@@ -8,6 +8,7 @@ const connect = function() {
     password: "Lw05TNPCmqry",
     database: "splendor"
   });
+  return mysql;
 };
 
 exports.connect = connect;
