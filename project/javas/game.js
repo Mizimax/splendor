@@ -1,4 +1,43 @@
 var button = [];
+var checkcoin = [];
+var turn = 1;
+var InfoPlayer = [];
+InfoPlayer[1] = {
+  coin: 0,
+  cardblack: 0,
+  cardblue: 0,
+  cardred: 0,
+  cardgreen: 0,
+  cardwhite: 0,
+  cardgold: 0
+};
+InfoPlayer[2] = {
+  coin: 0,
+  cardblack: 0,
+  cardblue: 0,
+  cardred: 0,
+  cardgreen: 0,
+  cardwhite: 0,
+  cardgold: 0
+};
+InfoPlayer[3] = {
+  coin: 0,
+  cardblack: 0,
+  cardblue: 0,
+  cardred: 0,
+  cardgreen: 0,
+  cardwhite: 0,
+  cardgold: 0
+};
+InfoPlayer[4] = {
+  coin: 0,
+  cardblack: 0,
+  cardblue: 0,
+  cardred: 0,
+  cardgreen: 0,
+  cardwhite: 0,
+  cardgold: 0
+};
 var aImageFiles = [
   "1",
   "2",
@@ -266,7 +305,7 @@ var gamestate = {
     //coin
     button[12] = game.add.button(8 * x + 50, 20, "coinBlack");
     button[12].events.onInputDown.add(function() {
-      click_coin(button[12], 8 * x + 50, 20);
+      click_coin(button[12], 8 * x + 50, 20, "black");
     });
     button[12].inputEnabled = true;
     button[13] = game.add.button(
@@ -416,13 +455,14 @@ function click_Noble(card) {
     card.destroy(card);
   }
 }
-function click_coin(coin, x, y) {
+function click_coin(coin, x, y, color) {
   if (count == 0) {
-    console.log(coin);
     coin.events.onInputDown.add(function() {
       count += 1;
-      click_coin(coin, x, y);
-      console.log(count);
+      if (color == "black") {
+        console.log(color);
+      }
+      // click_coin(coin, x, y, color);
     });
   } else if (count >= 3) {
     var person = prompt("Error", "... Maxumum ...");
