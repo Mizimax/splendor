@@ -9,6 +9,7 @@ const chat = require('./chat.js').chat;
 const user = require('./user.js');
 const db = require('./mysql.js').connection(mysql);
 
+<<<<<<< HEAD
 io.on('connection', function(socket){
     let numUsers = 0;
     numUsers++;
@@ -24,6 +25,9 @@ io.on('connection', function(socket){
     })
 });
 
+=======
+chat(io);
+>>>>>>> a50ec79c937c835f1ae3d799086b3e9976e8fa5b
 
 app.use(cors());
 
