@@ -7,6 +7,7 @@ var scroller;
 var timeCheck;
 var button = [];
 var galax;
+var music;
 var lobbystate = {
     preload: function () {
         game.load.image('button', 'assets/yw-sapphirebutton.png');
@@ -29,13 +30,13 @@ var lobbystate = {
 
         game.inputEnabled = true;
 
-        var music = game.add.audio('sfx');
+        music = game.add.audio('sfx');
         music.loop= true;
         music.volume = 0.2;
         music.speed = 5;
         console.log(music);
         game.input.onUp.add( function(){console.log("out");} );
-        game.input.onDown.add( function(){console.log("out2");} );
+        if(!game.input.onDown)console.log();
         music.play();
 
         var bg = game.add.sprite(0, 0, 'bg');
@@ -171,8 +172,9 @@ function out() {
     game.add.tween(button.scale).to({ x: 0.6, y: 0.6 }, 200, Phaser.Easing.Back.In, true, 0);
 }
 function actionOnClick() {
-    console.log(button[0]);
-    
+    console.log(button1);
+    if(!music.paused)music.pause();
+    //else music.play();
 }
 //button
 // button[1]
