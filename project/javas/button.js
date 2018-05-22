@@ -22,9 +22,21 @@ var lobbystate = {
         game.load.image('bg_profile', 'assets/profile.png');
         game.load.image('anime', 'assets/anime.png');
         game.load.image('player', 'assets/Erika_Karata-p1.jpg');
+        game.load.audio('sfx', 'assets/ORNLY YOU - มะงึกๆอุ๋งๆ 【OFS Audio】.mp3');
         game.add.plugin(PhaserInput.Plugin);
     },
     create: function () {
+
+        game.inputEnabled = true;
+
+        var music = game.add.audio('sfx');
+        music.loop= true;
+        music.volume = 0.2;
+        music.speed = 5;
+        console.log(music);
+        game.input.onUp.add( function(){console.log("out");} );
+        game.input.onDown.add( function(){console.log("out2");} );
+        music.play();
 
         var bg = game.add.sprite(0, 0, 'bg');
         bg.width = window.innerWidth;
@@ -35,7 +47,6 @@ var lobbystate = {
         console.log(profile);
         profile.scale.setTo(1/profile.width,1/profile.height);
         profile.anchor.setTo(0.5,0);
-        //profile.visible = false;
         game.add.tween(profile.scale).to({x:1.5, y:0.8 }, 400, Phaser.Easing.Back.In, true, 0);
         console.log(profile);
         player = game.add.image(-270+40,40,'player');
@@ -44,20 +55,15 @@ var lobbystate = {
 
         var p_info = game.add.text(-100,70,"Name :"+" Erika  Karata"+"\nWinrate: "+"99.99"+"%"+"\nWin:"+" 99"+"\tLose: "+"999",{font: '14pt Arial',fill: '#ffffff', stroke: 'purple', strokeThickness: 2});
         profile.addChild(p_info);
-
+    
         game.stage.backgroundColor = '#182d3b';
-     //   logo.scale.setTo(0.15);
-        /*   bmd = game.make.bitmapData(800, 200);
-           bmd.context.font = '64px Arial';
-           bmd.context.fillStyle = '#ffffff';
-           bmd.context.fillText(word, 64, 64);
-           bmd.addToWorld();
-       */
+
         
 
         //button 1
         button1 = game.add.button(window.outerWidth*0.9, window.outerHeight - 150, 'anime', actionOnClick, this);
         button1.inputEnabled = true;
+
         //console.log(button1);
         var b1 = button1.width;
         var b2 = button1.height;
@@ -124,13 +130,6 @@ var lobbystate = {
         
 
         scroller = game.add.existing(new ScrollableArea(chat.x,chat.y-205, 300, 210));
-        /*var textStyle = {font:"30px Arial", fill:"#ffff00"};
-        for (var i=0;i<10;i++) {
-            for (var j=0;j<80;j++) {
-                var text = game.make.text(i*330, j*30, "Yes, everything scrolls", textStyle);
-                scroller.addChild(text);
-            }
-        }*/
         
         scroller.start();
         button[3] = game.add.button(galax.x,galax.y, 'chat_head', ChatDown, this);
