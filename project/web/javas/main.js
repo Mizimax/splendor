@@ -1,11 +1,13 @@
 var game = new Phaser.Game(
   window.innerWidth,
   window.innerHeight,
-  Phaser.CANVAS,
+  Phaser.AUTO,
   "phaser-example"
 );
 // var resizeGame = function () {
-
+Phaser.Device.whenReady(function() {
+  game.plugins.add(PhaserInput.Plugin);
+});
 //   var height = window.innerHeight;
 //   var width = window.innerWidth;
 
