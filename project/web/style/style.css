@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+  font-family: "Kanit", sans-serif;
   background: url(../assets/BG.jpg) no-repeat center center fixed;
   background-size: cover;
 }

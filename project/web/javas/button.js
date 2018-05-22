@@ -14,7 +14,7 @@ function loading() {
         "Authenticating...",
         {
           fill: "#fff",
-          font: "24pt Arial"
+          font: "24pt Kanit"
         }
       );
       loading.anchor.setTo(0.5);
@@ -178,25 +178,47 @@ function ChatClick() {
 // button[2]
 function rubyClick() {
   // profile modal
+  modal.hasOverlay = true;
   modal.create(
     window.innerWidth * 0.5,
-    window.innerHeight * 0.66,
+    window.innerHeight * 0.53,
     true,
     function() {
       var x = game.world.centerX - window.innerWidth * 0.5 / 2;
-      var y = game.world.centerY - window.innerHeight * 0.66 / 2;
+      var y = game.world.centerY - window.innerHeight * 0.53 / 2;
       var title = game.add.text(x + 90, y + 55, "Profile", {
-        fill: "#000000",
-        font: "24pt Arial"
+        fill: "#372316",
+        font: "24pt Kanit"
       });
-      var name = game.add.text(x + 90, y + 55, "Name : ", {
-        fill: "#000000",
-        font: "24pt Arial"
-      });
-      var stat = game.add.text(x + 90, y + 55, "Profile", {
-        fill: "#000000",
-        font: "24pt Arial"
-      });
+      var name = game.add.text(
+        x + 270,
+        y + 81,
+        `Username : Show username
+Display Name : Show Displayname`,
+        {
+          fill: "#372316",
+          font: "16pt Kanit"
+        }
+      );
+      var rank = game.add.text(
+        x + 270,
+        y + 170,
+        "Rank : Show Rankname (75 EXP)",
+        {
+          fill: "#372316",
+          font: "16pt Kanit"
+        }
+      );
+      var stat = game.add.text(
+        x + 270,
+        y + 225,
+        `Casual Score : 500 
+Ranking Score : 400`,
+        {
+          fill: "#372316",
+          font: "16pt Kanit"
+        }
+      );
       title.anchor.setTo(0.5);
       var profile_img = game.add.sprite(x + 145, y + 188, "bg");
       profile_img.width = 200;
@@ -204,6 +226,7 @@ function rubyClick() {
       profile_img.anchor.setTo(0.5);
       modal.modalGroup.add(title);
       modal.modalGroup.add(name);
+      modal.modalGroup.add(rank);
       modal.modalGroup.add(stat);
       modal.modalGroup.add(profile_img);
     }
@@ -215,6 +238,7 @@ function rubyClick() {
 }
 
 function profileClick() {
+  modal.hasOverlay = true;
   modal.create(
     window.innerWidth * 0.5,
     window.innerHeight * 0.66,

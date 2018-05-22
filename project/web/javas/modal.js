@@ -2,18 +2,22 @@ var modal = {
   modalGroup: 0,
   closeBtn: 0,
   overlayClose: true,
+  hasOverlay: true,
   content: {},
   create: function(width, height, close, callback) {
     this.modalGroup = game.add.group();
-    this.overlay = game.add.sprite(0, 0, "modal_bg");
-    this.overlay.width = window.innerWidth;
-    this.overlay.height = window.innerHeight;
-    this.overlay.inputEnabled = true;
-    var self = this;
-    if (this.overlayClose)
-      this.overlay.events.onInputDown.add(function() {
-        self.hide();
-      });
+    if (this.hasOverlay) {
+      this.overlay = game.add.sprite(0, 0, "modal_bg");
+      this.overlay.width = window.innerWidth;
+      this.overlay.height = window.innerHeight;
+      this.overlay.inputEnabled = true;
+      var self = this;
+      if (this.overlayClose)
+        this.overlay.events.onInputDown.add(function() {
+          self.hide();
+        });
+      this.modalGroup.add(this.overlay);
+    }
     // this.overlay = game.add.graphics(0,0);
     // this.overlay.beginFill(0x000000);
     // this.overlay.alpha = 0.5;
@@ -30,7 +34,6 @@ var modal = {
     this.modal.anchor.setTo(0.5);
     this.modal.inputEnabled = true;
 
-    this.modalGroup.add(this.overlay);
     this.modalGroup.add(this.modal);
 
     if (close) {
@@ -55,12 +58,12 @@ var modal = {
     game.add
       .tween(this.modalGroup)
       .to({ alpha: 1 }, 200, Phaser.Easing.Linear.None, true, 0);
-    this.overlay.inputEnabled = true;
+    if (this.hasOverlay) this.overlay.inputEnabled = true;
   },
   hide: function() {
     game.add
       .tween(this.modalGroup)
       .to({ alpha: 0 }, 200, Phaser.Easing.Linear.None, true, 0);
-    this.overlay.inputEnabled = false;
+    if (this.hasOverlay) this.overlay.inputEnabled = false;
   }
 };
