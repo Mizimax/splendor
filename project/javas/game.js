@@ -306,7 +306,7 @@ var gamestate = {
     text [12] = game.add.text(6*x,3*y+40, ": "+InfoPlayer[1].cardred, { font: "30px Arial", fill: "#ff00ff", align: "center" });
     text [13] = game.add.text(7*x-30,3*y+40, ": "+InfoPlayer[1].cardgreen, { font: "30px Arial", fill: "#ff00ff", align: "center" });
     text [14] = game.add.text(8*x-55,3*y+40, ": "+InfoPlayer[1].cardblack, { font: "30px Arial", fill: "#ff00ff", align: "center" });
-
+    text [15] = game.add.text(8*x+80,3*y+75, "Total 0/10", { font: "25px Arial", fill: "#ffffff", align: "center" });
     //reservedCard
     button[25] = game.add.button( 8 * x +25, 3*y+40, "lilGold");
     
@@ -415,7 +415,12 @@ function click_coin(coin, color) {
   }
 }
 function OhRight(){
-  if(coinNum[0]+coinNum[1]+coinNum[2]+coinNum[3]+coinNum[4]<=3){
+  var total = InfoPlayer[1].blueCoin+InfoPlayer[1].whiteCoin+InfoPlayer[1].redCoin+InfoPlayer[1].greenCoin+InfoPlayer[1].blackCoin;
+  if(total+coinNum[0]+coinNum[1]+coinNum[2]+coinNum[3]+coinNum[4] > 10){
+    testMessageBox("toomuch");
+    ohCancel();
+  }
+  else if(coinNum[0]+coinNum[1]+coinNum[2]+coinNum[3]+coinNum[4]<=3){
     if(coinNum[0]<=1&&coinNum[1]<=1&&coinNum[2]<=1&&coinNum[3]<=1&&coinNum[4]<=1){
       InfoPlayer[1].blueCoin+=coinNum[0];
       text[5].setText(": "+InfoPlayer[1].blueCoin);
@@ -437,6 +442,8 @@ function OhRight(){
       text[3].setText("Green: "+coinNum[3]);
       coinNum[4]=0;
       text[4].setText("Black:  "+coinNum[4]);
+      total = InfoPlayer[1].blueCoin+InfoPlayer[1].whiteCoin+InfoPlayer[1].redCoin+InfoPlayer[1].greenCoin+InfoPlayer[1].blackCoin;
+      text[15].setText("Total "+total+"/10");
     }
     else if(coinNum[0]+coinNum[1]+coinNum[2]+coinNum[3]+coinNum[4]<3&&(coinNum[0]==2||coinNum[1]==2||coinNum[2]==2||coinNum[3]==2||coinNum[4]==2)){
       InfoPlayer[1].blueCoin+=coinNum[0];
@@ -459,6 +466,8 @@ function OhRight(){
       text[3].setText("Green: "+coinNum[3]);
       coinNum[4]=0;
       text[4].setText("Black:  "+coinNum[4]);
+      total = InfoPlayer[1].blueCoin+InfoPlayer[1].whiteCoin+InfoPlayer[1].redCoin+InfoPlayer[1].greenCoin+InfoPlayer[1].blackCoin;
+      text[15].setText("Total "+total+"/10");
     }
     else{
       testMessageBox("format");
@@ -491,6 +500,9 @@ function summit() {
 function testMessageBox(type) {
   if(type=="format"){
     this.showMessageBox("Wrong coin picking format!", 5*x,2*y);
+  }
+  else if(type=="toomuch"){
+    this.showMessageBox("Your total coins exxceed 10!", 5*x,2*y);
   }
   else if(type=="numbe"){
     this.showMessageBox("You can't pick more than three coins!", 5*x,2*y);
