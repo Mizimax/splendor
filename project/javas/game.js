@@ -7,12 +7,6 @@ coinNum[2] = 0;
 coinNum[3] = 0;
 coinNum[4] = 0;
 var detail =[];
-/*var playerCoin=[];
-playerCoin[0] =0;
-playerCoin[1] =0;
-playerCoin[2] =0;
-playerCoin[3] =0;
-playerCoin[4] =0;*/
 var checkcoin = [];
 var turn = 1;
 var InfoPlayer = [];
@@ -60,6 +54,11 @@ var gamestate = {
     //confirmCancel
     this.load.image("right", "image/right.png");
     this.load.image("wrong", "image/wrong.png");
+    //misc
+    this.load.image("lilBlue","image/misc/blue.png");
+    this.load.image("lilGold","image/misc/Eflower.png");
+    this.load.image("popup","image/misc/popup.png");
+    this.load.image("exitpopup","image/misc/exit.png")
     //Noble
     for (i = 0; i < 4; i++) {
       var randIndex4 = Math.floor(Math.random() * aImageFiles4.length);
@@ -261,11 +260,7 @@ var gamestate = {
     button[24].height= 30;
     button[24].events.onInputDown.add(function() {ohCancel();});
     button[24].inputEnabled = true;
-    text [0] = game.add.text(8*x+50,2*y+153, "Blue:   "+coinNum[0], { font: "10px Arial", fill: "#ffffff", align: "center" });
-    text [1] = game.add.text(8*x+50,2*y+164, "White: "+coinNum[1], { font: "10px Arial", fill: "#ffffff", align: "center" });
-    text [2] = game.add.text(8*x+50,2*y+175, "Red:    "+coinNum[2], { font: "10px Arial", fill: "#ffffff", align: "center" });
-    text [3] = game.add.text(8*x+50,2*y+186, "Green: "+coinNum[3], { font: "10px Arial", fill: "#ffffff", align: "center" });
-    text [4] = game.add.text(8*x+50,2*y+197, "Black:  "+coinNum[4], { font: "10px Arial", fill: "#ffffff", align: "center" });
+    //playerInfo
     detail[0] = this.game.add.sprite(4 * x+15 , 3 * y, "coinBlue");
     detail[0].width=35;
     detail[0].height=35;
@@ -281,11 +276,40 @@ var gamestate = {
     detail[4] = this.game.add.sprite(8 * x-95 , 3 * y, "coinBlack");
     detail[4].width=35;
     detail[4].height=35;
+    detail[5] = this.game.add.sprite(4 * x+15 , 3 * y+40, "lilBlue");
+    detail[5].width=35;
+    detail[5].height=35;
+    detail[6] = this.game.add.sprite(5 * x-13 , 3 * y+40, "lilBlue");
+    detail[6].width=35;
+    detail[6].height=35;
+    detail[7] = this.game.add.sprite(6 *x -40 , 3 * y+40, "lilBlue");
+    detail[7].width=35;
+    detail[7].height=35;
+    detail[8] = this.game.add.sprite(7 * x-70 , 3 * y+40, "lilBlue");
+    detail[8].width=35;
+    detail[8].height=35;
+    detail[9] = this.game.add.sprite(8 * x-95 , 3 * y+40, "lilBlue");
+    detail[9].width=35;
+    detail[9].height=35;
+    text [0] = game.add.text(8*x+50,2*y+153, "Blue:   "+coinNum[0], { font: "10px Arial", fill: "#ffffff", align: "center" });
+    text [1] = game.add.text(8*x+50,2*y+164, "White: "+coinNum[1], { font: "10px Arial", fill: "#ffffff", align: "center" });
+    text [2] = game.add.text(8*x+50,2*y+175, "Red:    "+coinNum[2], { font: "10px Arial", fill: "#ffffff", align: "center" });
+    text [3] = game.add.text(8*x+50,2*y+186, "Green: "+coinNum[3], { font: "10px Arial", fill: "#ffffff", align: "center" });
+    text [4] = game.add.text(8*x+50,2*y+197, "Black:  "+coinNum[4], { font: "10px Arial", fill: "#ffffff", align: "center" });
     text [5] = game.add.text(4*x+55,3*y, ": "+InfoPlayer[1].blueCoin, { font: "30px Arial", fill: "#ff00ff", align: "center" });
     text [6] = game.add.text(5*x+27,3*y, ": "+InfoPlayer[1].whiteCoin, { font: "30px Arial", fill: "#ff00ff", align: "center" });
     text [7] = game.add.text(6*x,3*y, ": "+InfoPlayer[1].redCoin, { font: "30px Arial", fill: "#ff00ff", align: "center" });
     text [8] = game.add.text(7*x-30,3*y, ": "+InfoPlayer[1].greenCoin, { font: "30px Arial", fill: "#ff00ff", align: "center" });
     text [9] = game.add.text(8*x-55,3*y, ": "+InfoPlayer[1].blackCoin, { font: "30px Arial", fill: "#ff00ff", align: "center" });
+    text [10] = game.add.text(4*x+55,3*y+40, ": "+InfoPlayer[1].cardblue, { font: "30px Arial", fill: "#ff00ff", align: "center" });
+    text [11] = game.add.text(5*x+27,3*y+40, ": "+InfoPlayer[1].cardwhite, { font: "30px Arial", fill: "#ff00ff", align: "center" });
+    text [12] = game.add.text(6*x,3*y+40, ": "+InfoPlayer[1].cardred, { font: "30px Arial", fill: "#ff00ff", align: "center" });
+    text [13] = game.add.text(7*x-30,3*y+40, ": "+InfoPlayer[1].cardgreen, { font: "30px Arial", fill: "#ff00ff", align: "center" });
+    text [14] = game.add.text(8*x-55,3*y+40, ": "+InfoPlayer[1].cardblack, { font: "30px Arial", fill: "#ff00ff", align: "center" });
+
+    //reservedCard
+    button[25] = game.add.button( 8 * x +25, 3*y+40, "lilGold");
+    
   },
   render: function() {}
 };
@@ -375,7 +399,7 @@ function click_coin(coin, color) {
   }
   else if(color=="white"){
     coinNum[1]+=1;
-    text[1].setText("White:     "+coinNum[1]);
+    text[1].setText("White: "+coinNum[1]);
   }
   else if(color=="red"){
     coinNum[2]+=1;
@@ -391,37 +415,69 @@ function click_coin(coin, color) {
   }
 }
 function OhRight(){
-  if(coinNum[0]+coinNum[1]+coinNum[2]+coinNum[3]+coinNum[4]<3){
-    
+  if(coinNum[0]+coinNum[1]+coinNum[2]+coinNum[3]+coinNum[4]<=3){
+    if(coinNum[0]<=1&&coinNum[1]<=1&&coinNum[2]<=1&&coinNum[3]<=1&&coinNum[4]<=1){
+      InfoPlayer[1].blueCoin+=coinNum[0];
+      text[5].setText(": "+InfoPlayer[1].blueCoin);
+      InfoPlayer[1].whiteCoin+=coinNum[1];
+      text[6].setText(": "+InfoPlayer[1].whiteCoin);
+      InfoPlayer[1].redCoin+=coinNum[2];
+      text[7].setText(": "+InfoPlayer[1].redCoin);
+      InfoPlayer[1].greenCoin+=coinNum[3];
+      text[8].setText(": "+InfoPlayer[1].greenCoin);
+      InfoPlayer[1].blackCoin+=coinNum[4];
+      text[9].setText(": "+InfoPlayer[1].blackCoin);
+      coinNum[0]=0;
+      text[0].setText("Blue:   "+coinNum[0]);
+      coinNum[1]=0;
+      text[1].setText("White:  "+coinNum[1]);
+      coinNum[2]=0;
+      text[2].setText("Red:    "+coinNum[2]);
+      coinNum[3]=0;
+      text[3].setText("Green: "+coinNum[3]);
+      coinNum[4]=0;
+      text[4].setText("Black:  "+coinNum[4]);
+    }
+    else if(coinNum[0]+coinNum[1]+coinNum[2]+coinNum[3]+coinNum[4]<3&&(coinNum[0]==2||coinNum[1]==2||coinNum[2]==2||coinNum[3]==2||coinNum[4]==2)){
+      InfoPlayer[1].blueCoin+=coinNum[0];
+      text[5].setText(": "+InfoPlayer[1].blueCoin);
+      InfoPlayer[1].whiteCoin+=coinNum[1];
+      text[6].setText(": "+InfoPlayer[1].whiteCoin);
+      InfoPlayer[1].redCoin+=coinNum[2];
+      text[7].setText(": "+InfoPlayer[1].redCoin);
+      InfoPlayer[1].greenCoin+=coinNum[3];
+      text[8].setText(": "+InfoPlayer[1].greenCoin);
+      InfoPlayer[1].blackCoin+=coinNum[4];
+      text[9].setText(": "+InfoPlayer[1].blackCoin);
+      coinNum[0]=0;
+      text[0].setText("Blue:   "+coinNum[0]);
+      coinNum[1]=0;
+      text[1].setText("White:  "+coinNum[1]);
+      coinNum[2]=0;
+      text[2].setText("Red:    "+coinNum[2]);
+      coinNum[3]=0;
+      text[3].setText("Green: "+coinNum[3]);
+      coinNum[4]=0;
+      text[4].setText("Black:  "+coinNum[4]);
+    }
+    else{
+      testMessageBox("format");
+      ohCancel();
+    }
+      
   }
-  else if(coinNum[0]+coinNum[0])
-  InfoPlayer[1].blueCoin+=coinNum[0];
-  text[5].setText(": "+InfoPlayer[1].blueCoin);
-  InfoPlayer[1].whiteCoin+=coinNum[1];
-  text[6].setText(": "+InfoPlayer[1].whiteCoin);
-  InfoPlayer[1].redCoin+=coinNum[2];
-  text[7].setText(": "+InfoPlayer[1].redCoin);
-  InfoPlayer[1].greenCoin+=coinNum[3];
-  text[8].setText(": "+InfoPlayer[1].greenCoin);
-  InfoPlayer[1].blackCoin+=coinNum[4];
-  text[9].setText(": "+InfoPlayer[1].blackCoin);
-  coinNum[0]=0;
-  text[0].setText("Blue:   "+coinNum[0]);
-  coinNum[1]=0;
-  text[1].setText("White:     "+coinNum[1]);
-  coinNum[2]=0;
-  text[2].setText("Red:    "+coinNum[2]);
-  coinNum[3]=0;
-  text[3].setText("Green: "+coinNum[3]);
-  coinNum[4]=0;
-  text[4].setText("Black:  "+coinNum[4]);
+  else{
+    testMessageBox("numbe");
+    ohCancel();
+  }
+  
   
 }
 function ohCancel(){
     coinNum[0]=0;
     text[0].setText("Blue:   "+coinNum[0]);
     coinNum[1]=0;
-    text[1].setText("White:     "+coinNum[1]);
+    text[1].setText("White: "+coinNum[1]);
     coinNum[2]=0;
     text[2].setText("Red:    "+coinNum[2]);
     coinNum[3]=0;
@@ -431,4 +487,41 @@ function ohCancel(){
 }
 function summit() {
   var person = prompt("มันใจหรอ", "... summit ...");
+}
+function testMessageBox(type) {
+  if(type=="format"){
+    this.showMessageBox("Wrong coin picking format!", 5*x,2*y);
+  }
+  else if(type=="numbe"){
+    this.showMessageBox("You can't pick more than three coins!", 5*x,2*y);
+  }
+  
+}
+function showMessageBox(text, w = 300, h = 300) {
+  if (this.msgBox) {
+      this.msgBox.destroy();
+  }
+  var msgBox = game.add.group();
+  var back = game.add.sprite(0, 0, "popup");
+  var closeButton = game.add.sprite(0, 0, "exitpopup");
+  var text1 = game.add.text(0, 0, text);
+  text1.wordWrap = true;
+  text1.wordWrapWidth = w * .9;
+  back.width = w;
+  back.height = h;
+  msgBox.add(back);
+  msgBox.add(closeButton);
+  msgBox.add(text1);
+  closeButton.x = back.width / 2 - closeButton.width / 2;
+  closeButton.y = back.height - closeButton.height;
+  closeButton.inputEnabled = true;
+  closeButton.events.onInputDown.add(this.hideBox, this);
+  msgBox.x = game.width / 2 - msgBox.width / 2;
+  msgBox.y = game.height / 2 - msgBox.height / 2;
+  text1.x = back.width / 2 - text1.width / 2;
+  text1.y = back.height / 2 - text1.height / 2 -100;
+  this.msgBox = msgBox;
+}
+function hideBox() {
+  this.msgBox.destroy();
 }
