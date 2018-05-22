@@ -9,6 +9,7 @@ coinNum[4] = 0;
 var detail =[];
 var checkcoin = [];
 var turn = 1;
+var InfoCard = [];
 var InfoPlayer = [];
 InfoPlayer[1] = {blueCoin: 0,whiteCoin: 0,redCoin: 0,greenCoin: 0,blackCoin: 0,cardblack: 0,cardblue: 0,cardred: 0,cardgreen: 0,cardwhite: 0,cardgold: 0};
 InfoPlayer[2] = {blueCoin: 0,whiteCoin: 0,redCoin: 0,greenCoin: 0,blackCoin:0,cardblack: 0,cardblue: 0,cardred: 0,cardgreen: 0,cardwhite: 0,cardgold: 0};
