@@ -8,6 +8,7 @@ var timeCheck;
 var button = [];
 var galax;
 function loading() {
+  modal.overlayClose = false;
   modal.create(
     window.innerWidth * 0,
     window.innerHeight * 0,
@@ -138,54 +139,6 @@ var lobbystate = {
         .to({ x: 100 / b1, y: 100 / b2 }, 400, Phaser.Easing.Back.Out, true, 0);
     });
 
-    //button 3
-    button[1] = game.add.button(
-      window.outerWidth * 0.75,
-      75,
-      "ruby",
-      rubyClick,
-      this
-    );
-    button[1].inputEnabled = true;
-    button[1].anchor.setTo(0.5, 0.5);
-    button[1].scale.setTo(0.2, 0.2);
-    button[1].onInputOver.add(function() {
-      this.game.canvas.style.cursor = "pointer";
-      game.add
-        .tween(button[1].scale)
-        .to({ x: 0.25, y: 0.25 }, 400, Phaser.Easing.Back.Out, true, 0);
-    });
-    button[1].onInputOut.add(function() {
-      this.game.canvas.style.cursor = "default";
-      game.add
-        .tween(button[1].scale)
-        .to({ x: 0.2, y: 0.2 }, 400, Phaser.Easing.Back.In, true, 0);
-    });
-
-    //button 4
-    button[2] = game.add.button(
-      window.outerWidth * 0.9,
-      75,
-      "emerald",
-      rubyClick,
-      this
-    );
-    button[2].inputEnabled = true;
-    button[2].anchor.setTo(0.5, 0.5);
-    button[2].scale.setTo(0.3, 0.3);
-    button[2].onInputOver.add(function() {
-      this.game.canvas.style.cursor = "pointer";
-      game.add
-        .tween(button[2].scale)
-        .to({ x: 0.4, y: 0.4 }, 400, Phaser.Easing.Back.Out, true, 0);
-    });
-    button[2].onInputOut.add(function() {
-      this.game.canvas.style.cursor = "default";
-      game.add
-        .tween(button[2].scale)
-        .to({ x: 0.3, y: 0.3 }, 400, Phaser.Easing.Back.In, true, 0);
-    });
-
     // profile modal
     modal.create(
       window.innerWidth * 0.5,
@@ -273,6 +226,53 @@ var lobbystate = {
     console.log(button[3]);
 
     if (game.input.onInputOver) console.log("on");
+    //button 3
+    button[1] = game.add.button(
+      window.outerWidth * 0.75,
+      60,
+      "ruby",
+      rubyClick,
+      this
+    );
+    button[1].inputEnabled = true;
+    button[1].anchor.setTo(0.5, 0.5);
+    button[1].scale.setTo(0.2, 0.2);
+    button[1].onInputOver.add(function() {
+      this.game.canvas.style.cursor = "pointer";
+      game.add
+        .tween(button[1].scale)
+        .to({ x: 0.25, y: 0.25 }, 400, Phaser.Easing.Back.Out, true, 0);
+    });
+    button[1].onInputOut.add(function() {
+      this.game.canvas.style.cursor = "default";
+      game.add
+        .tween(button[1].scale)
+        .to({ x: 0.2, y: 0.2 }, 400, Phaser.Easing.Back.In, true, 0);
+    });
+
+    //button 4
+    button[2] = game.add.button(
+      window.outerWidth * 0.9,
+      75,
+      "emerald",
+      profileClick,
+      this
+    );
+    button[2].inputEnabled = true;
+    button[2].anchor.setTo(0.5, 0.5);
+    button[2].scale.setTo(0.3, 0.3);
+    button[2].onInputOver.add(function() {
+      this.game.canvas.style.cursor = "pointer";
+      game.add
+        .tween(button[2].scale)
+        .to({ x: 0.4, y: 0.4 }, 400, Phaser.Easing.Back.Out, true, 0);
+    });
+    button[2].onInputOut.add(function() {
+      this.game.canvas.style.cursor = "default";
+      game.add
+        .tween(button[2].scale)
+        .to({ x: 0.3, y: 0.3 }, 400, Phaser.Easing.Back.In, true, 0);
+    });
     loading();
   },
   update: function() {
@@ -332,6 +332,7 @@ function ChatClick() {
 function rubyClick() {
   // profile modal
   modal.hasOverlay = true;
+  modal.overlayClose = true;
   modal.create(
     window.innerWidth * 0.5,
     window.innerHeight * 0.53,
@@ -386,14 +387,13 @@ Ranking Score : 400`,
   );
   modal.show();
   game.world.bringToTop(modal.modalGroup);
-
-  button[1].inputEnabled = false;
 }
 function ChatDown() {
   scroller.visible = !scroller.visible;
   galax.visible = !galax.visible;
   chat.visible = !chat.visible;
   button[0].visible = !button[0].visible;
+
   if (!scroller.visible) {
     button[3].y = chat.y;
   } else {
@@ -402,6 +402,7 @@ function ChatDown() {
 }
 function profileClick() {
   modal.hasOverlay = true;
+  modal.overlayClose = true;
   modal.create(
     window.innerWidth * 0.5,
     window.innerHeight * 0.66,
