@@ -1,11 +1,21 @@
 var game = new Phaser.Game(
   window.innerWidth,
   window.innerHeight,
+<<<<<<< HEAD:project/javas/main.js
   Phaser.CANVAS,
   "phaser-example"
 );
 // var resizeGame = function () {
 
+=======
+  Phaser.AUTO,
+  "phaser-example"
+);
+// var resizeGame = function () {
+Phaser.Device.whenReady(function() {
+  game.plugins.add(PhaserInput.Plugin);
+});
+>>>>>>> 18ea4c3a0c01828e1268b87bfa30b3aa0240906f:project/web/javas/main.js
 //   var height = window.innerHeight;
 //   var width = window.innerWidth;
 
@@ -24,4 +34,8 @@ var game = new Phaser.Game(
 // })
 game.state.add("lobby", lobbystate);
 game.state.add("game", gamestate);
+<<<<<<< HEAD:project/javas/main.js
+=======
+game.state.add("room", roomheadache);
+>>>>>>> 18ea4c3a0c01828e1268b87bfa30b3aa0240906f:project/web/javas/main.js
 game.state.start("lobby");

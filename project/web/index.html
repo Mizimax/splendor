@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Splendor</title>
+  <link href="https://fonts.googleapis.com/css?family=Kanit&amp;subset=thai" rel="stylesheet">
+  <script src="../js/jquery-3.3.1.min.js"></script>
+  <script>
+
+    var login = (function () {
+
+      var username = $('#username').val();
+      var password = $('#password').val();
+      if (username === "" || password === "") {
+        alert("Please fill out this form completely");
+        return false;
+      }
+      $.ajax({
+        method: 'post',
+        url: "/login",
+        data: $('#loginForm').serialize(),
+        success: function (res) {
+          alert(res.message)
+          window.location.href = "/game.html"
+        },
+        error: function (res) {
+          alert(res.responseJSON.message)
+        }
+      })
+    });
+
+    var register = (function () {
+
+      //ดักเว้นว่าง
+      if ($("#username-reg").val() === "" || $("#password-reg").val() === "" || $("#confirmpass").val() === "" || $("#email").val() === "" || $("#displayname").val() === "") {
+        alert("Please fill out this form completely");
+        return false;
+      }
+
+      if ($("#password-reg").val() !== $("#confirmpass").val()) {
+        alert("Your password doesn't match");
+        return false;
+      }
+
+      $.ajax({
+        method: 'post',
+        url: "/register",
+        data: $('#registerForm').serialize(),
+        success: function (res) {
+          alert(res.message)
+          toggleForm();
+        },
+        error: function (res) {
+          alert(res.responseJSON.message)
+        }
+      })
+
+    });
+
+    var toggled = false;
+
+    var toggleForm = (function () {
+      if (!toggled) {
+        $('#register').css('transform', 'translate(calc(-150% - 15px), -50%)');
+        $('#login').css('transform', 'translate(calc(-150% - 30px), -50%)');
+      }
+      else {
+        $('#register').css('transform', 'translate(0, -50%)');
+        $('#login').css('transform', 'translate(-50%, -50%)');
+      }
+      toggled = !toggled;
+    })
+  </script>
+  <link rel="stylesheet" type="text/css" href="../style/fontawesome-all.min.css">
+  <link rel="stylesheet" type="text/css" href="../style/style.css">
+  <link rel="stylesheet" type="text/css" href="../style/bootstrap-grid.css">
+</head>
+
+<body>
+  <div id="app">
+    <div class="container">
+
+      <img src="../style/Splendor.png" id="logo">
+
+      <div class="row">
+        <div class="col-md-8">
+          <img src="../style/5555.jpg" id="logo2">
+        </div>
+        <div class="col-md-4" style="height: 520px;">
+          <div class="boxregister">
+            <div id="login">
+              <h1>Login</h1>
+              <form id="loginForm" onSubmit="login(); return false;">
+                <p>Username</p>
+                <input type="text" id="username" name="username" placeholder="username here...">
+                <p>Password</p>
+                <input type="password" id="password" name="password" placeholder="password here...">
+                <input type="submit" name="submit" value="Login">
+                <input type="button" name="submit" value="Register" onclick="toggleForm()">
+              </form>
+            </div>
+
+            <div id="register">
+              <h1 class="register">
+                <i class="fas fa-arrow-left pointer" onclick="toggleForm()"></i>
+                Register
+              </h1>
+              <br>
+              <form id="registerForm" onSubmit="register(); return false;">
+                <p>User Name</p>
+                <input id="username-reg" type="text" name="username">
+                <p>Password</p>
+                <input id="password-reg" type="password" name="password">
+                <p>Confirm Password</p>
+                <input id="confirmpass" type="password" name="confirmpass">
+                <p>Email Address</p>
+                <input id="email" type="text" name="email">
+                <p>User Display Name</p>
+                <input id="displayname" type="text" name="displayname">
+                <input type="submit" name="submit" value="Register">
+              </form>
+            </div>
+          </div>
+        </div>
+        <div>
+          <img src="../style/2222.jpg" id="logo3">
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</body>
+
+</html>
