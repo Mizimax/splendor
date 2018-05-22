@@ -7,18 +7,15 @@ coinNum[2] = 0;
 coinNum[3] = 0;
 coinNum[4] = 0;
 var detail =[];
-var checkcoin = [];
 var turn = 1;
 var InfoCard = [];
 var InfoPlayer = [];
 InfoPlayer[1] = {blueCoin: 0,whiteCoin: 0,redCoin: 0,greenCoin: 0,blackCoin: 0,cardblack: 0,cardblue: 0,cardred: 0,cardgreen: 0,cardwhite: 0,cardgold: 0};
-InfoPlayer[2] = {blueCoin: 0,whiteCoin: 0,redCoin: 0,greenCoin: 0,blackCoin:0,cardblack: 0,cardblue: 0,cardred: 0,cardgreen: 0,cardwhite: 0,cardgold: 0};
+InfoPlayer[2] = {blueCoin: 0,whiteCoin: 0,redCoin: 0,greenCoin: 0,blackCoin: 0,cardblack: 0,cardblue: 0,cardred: 0,cardgreen: 0,cardwhite: 0,cardgold: 0};
 InfoPlayer[3] = {blueCoin: 0,whiteCoin: 0,redCoin: 0,greenCoin: 0,blackCoin: 0,cardblack: 0,cardblue: 0,cardred: 0,cardgreen: 0,cardwhite: 0,cardgold: 0};
 InfoPlayer[4] = {blueCoin: 0,whiteCoin: 0,redCoin: 0,greenCoin: 0,blackCoin: 0,cardblack: 0,cardblue: 0,cardred: 0,cardgreen: 0,cardwhite: 0,cardgold: 0};
-var aImageFiles = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23",
-"24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40"];
-var aImageFiles2 = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23",
-"24","25","26","27","28","29","30"];
+var aImageFiles = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40"];
+var aImageFiles2 = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"];
 var aImageFiles3 = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"];
 var aImageFiles4 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
 var rand = [];
@@ -77,7 +74,6 @@ var gamestate = {
       var randImage3 = aImageFiles3[randIndex3];
       rand3[i] = "level3_" + randImage3;
       aImageFiles3.splice(randIndex3, 1);
-      console.log(aImageFiles3);
     }
     //level2
     for (i = 0; i < 4; i++) {
@@ -85,7 +81,6 @@ var gamestate = {
       var randImage2 = aImageFiles2[randIndex2];
       rand2[i] = "level2_" + randImage2;
       aImageFiles2.splice(randIndex2, 1);
-      console.log(aImageFiles2);
     }
     //level1
     for (i = 0; i < 4; i++) {
@@ -93,7 +88,6 @@ var gamestate = {
       var randImage = aImageFiles[randIndex];
       rand[i] = "level1_" + randImage;
       aImageFiles.splice(randIndex, 1);
-      console.log(aImageFiles);
     }
     //deck_level1-3
     this.load.image("level1_BG", "image/level1/BG_1.png");
@@ -436,7 +430,7 @@ function OhRight(){
       coinNum[0]=0;
       text[0].setText("Blue:   "+coinNum[0]);
       coinNum[1]=0;
-      text[1].setText("White:  "+coinNum[1]);
+      text[1].setText("White: "+coinNum[1]);
       coinNum[2]=0;
       text[2].setText("Red:    "+coinNum[2]);
       coinNum[3]=0;
@@ -460,7 +454,7 @@ function OhRight(){
       coinNum[0]=0;
       text[0].setText("Blue:   "+coinNum[0]);
       coinNum[1]=0;
-      text[1].setText("White:  "+coinNum[1]);
+      text[1].setText("White: "+coinNum[1]);
       coinNum[2]=0;
       text[2].setText("Red:    "+coinNum[2]);
       coinNum[3]=0;
@@ -473,14 +467,12 @@ function OhRight(){
     else{
       testMessageBox("format");
       ohCancel();
-    }
-      
+    }  
   }
   else{
     testMessageBox("numbe");
     ohCancel();
   }
-  
   
 }
 function ohCancel(){
@@ -508,7 +500,6 @@ function testMessageBox(type) {
   else if(type=="numbe"){
     this.showMessageBox("You can't pick more than three coins!", 5*x,2*y);
   }
-  
 }
 function showMessageBox(text, w = 300, h = 300) {
   if (this.msgBox) {
