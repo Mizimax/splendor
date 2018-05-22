@@ -151,6 +151,8 @@ var gamestate = {
     this.load.image("green", "image/color/green.png");
     this.load.image("white", "image/color/white.jpg");
     this.load.image("gray", "image/color/gray.png");
+
+    this.load.image("popup", "image/exit.png");
     //profile
     this.load.image("player1", "image/profile/music.png");
     this.load.image("player2", "image/profile/satchan.png");
@@ -232,6 +234,7 @@ var gamestate = {
     this.red = this.game.add.sprite(5.5 * x + 18, 3 * y - 15, "red");
     this.green = this.game.add.sprite(6.5 * x - 10, 3 * y - 15, "green");
     this.black = this.game.add.sprite(7 * x + 27, 3 * y - 15, "black");
+    this.cardblackmini = this.game.add.sprite(20, 20, "popup");
 
     this.level1_BG = this.game.add.sprite(3 * x - 20, 2 * y - 20, "level1_BG");
     this.level2_BG = this.game.add.sprite(3 * x - 20, y, "level2_BG");
