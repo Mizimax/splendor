@@ -33,11 +33,10 @@ var lobbystate = {
         music = game.add.audio('sfx');
         music.loop= true;
         music.volume = 0.2;
-        music.speed = 5;
         console.log(music);
         game.input.onUp.add( function(){console.log("out");} );
         if(!game.input.onDown)console.log();
-        music.play();
+        //music.play();
 
         var bg = game.add.sprite(0, 0, 'bg');
         bg.width = window.innerWidth;
@@ -171,10 +170,9 @@ function out() {
     this.game.canvas.style.cursor = "default";
     game.add.tween(button.scale).to({ x: 0.6, y: 0.6 }, 200, Phaser.Easing.Back.In, true, 0);
 }
-function actionOnClick() {
-    console.log(button1);
-    if(!music.paused)music.pause();
-    //else music.play();
+function actionOnClick(button) {
+    //button.loadTexture('player',0);
+    window.open("problem.html", "_blank");
 }
 //button
 // button[1]
