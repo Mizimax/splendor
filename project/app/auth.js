@@ -5,7 +5,7 @@ const auth = function(socket, callback) {
     if (socket.request.session.userdata) return callback();
 
     let resCookieAuth = await db.query(
-      "SELECT * FROM users WHERE RememberToken = ?",
+      "SELECT * FROM user WHERE remember_token = ?",
       [socket.handshake.sessionID]
     );
     console.log(resCookieAuth);

@@ -33,7 +33,7 @@ io.on("connection", async function(socket) {
     let resCookieAuth = [];
     if (socket.handshake.session.userdata) {
       [resCookieAuth] = await db.query(
-        "SELECT * FROM users WHERE RememberToken = ?",
+        "SELECT * FROM user WHERE remember_token = ?",
         [socket.handshake.sessionID]
       );
       if (resCookieAuth.length != 0) {
@@ -53,24 +53,6 @@ io.on("connection", async function(socket) {
   chat(socket);
   room(socket);
 
-  socket.on("ADD_COIN", async function(data) {
-    let user_id = socket.handshake.session.userdata.user_id;
-    let [resRoleCheck] = await db.query(
-      "SELECT * FROM user WHERE user_id = ? AND user_role = ?",
-      [user_id, "admin"]
-    );
-    if (resRoleCheck.length != 0) {
-      let [resCoinAdd] = await db.query(
-        "INSERT INTO coin(card_score, card_level, card_image, coin_color_id) VALUES (?,?,?,?)",
-        [data.card_score, data.card_level, data.card_image, data.coin_color_id]
-      );
-      socket.emit("COIN_MESSAGE", {
-        status: "success",
-        message: "Card added"
-      });
-    }
-  });
-
   socket.on("disconnect", function() {
     numUsers--;
     console.log("Total users : " + numUsers);
@@ -89,21 +71,21 @@ app.use(bodyParser.json());
 
 app.post("/login", async function(req, res) {
   let data = req.body;
-  let [results] = await db.query("SELECT * FROM users WHERE UserName = ?", [
+  let [results] = await db.query("SELECT * FROM user WHERE user_name = ?", [
     data.username
   ]);
   if (results.length === 1) {
     let response = results[0];
-    let resEncrypt = await bcrypt.compare(data.password, response.UserPassword);
+    let resEncrypt = await bcrypt.compare(data.password, response.user_pw);
     if (resEncrypt) {
       if (!req.session.userdata) req.session.userdata = {};
-      req.session.userdata.user_id = response.UserID;
+      req.session.userdata.user_id = response.user_id;
       req.session.userdata.user_role = response.user_role;
       req.session.save();
       //create cookie จำไว้ใน remember_token ด้วย
       let [resUpdate] = await db.query(
-        "UPDATE users SET RememberToken = ? WHERE UserID = ?",
-        [req.sessionID, response.UserID]
+        "UPDATE user SET remember_token = ? WHERE user_id = ?",
+        [req.sessionID, response.user_id]
       );
       if (resUpdate.affectedRows === 1) {
         res.status(200).json({ message: "Login Success !" });
@@ -132,7 +114,7 @@ app.post("/register", async function(req, res) {
   data.password = hash;
   try {
     let [resReg] = await db.query(
-      "INSERT INTO users(UserName, UserPassword, UserEmail, UserDisplayName) VALUES (?,?,?,?)",
+      "INSERT INTO user(user_name, user_pw, user_email, user_display_name) VALUES (?,?,?,?)",
       [data.username, data.password, data.email, data.displayname]
     );
     if (resReg.affectedRows > 0) {
