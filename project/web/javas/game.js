@@ -420,7 +420,7 @@ var gamestate = {
     });
     button[21].inputEnabled = true;
     //showscore
-    button[22] = game.add.button(x + 50, 3 * y - 75, "score", showScore);
+    button[22] = game.add.button(x + 50, 3 * y - 75, "score", function(){showScore(5*x,2*y);});
     button[22].inputEnabled = true;
     //RightWrong
     button[23] = game.add.button(8 * x + 95, 2 * y + 120, "right");
@@ -569,12 +569,7 @@ var gamestate = {
       align: "center"
     });
     //reservedCard
-<<<<<<< HEAD
-    button[25] = game.add.button( 8 * x +25, 3*y+40, "lilGold");
-
-=======
     button[25] = game.add.button(8 * x + 25, 3 * y + 40, "lilGold");
->>>>>>> c155da521683c1c48de1c499a58e3e5e2c955150
   },
   render: function() {}
 };
@@ -840,14 +835,13 @@ function showMessageBox(text, w = 300, h = 300) {
 function hideBox() {
   this.msgBox.destroy();
 }
-<<<<<<< HEAD
 function showScore(w = 300, h = 300) {
   if (this.scrBox) {
       this.scrBox.destroy();
   }
   var scrBox = game.add.group();
-  var back = game.add.sprite(0, 0, "popup");
-  var closeButton = game.add.sprite(0, 0, "exitpopup");
+  var back2 = game.add.sprite(0, 0, "popup");
+  var closeButton2 = game.add.sprite(0, 0, "exitpopup");
   var totalInScore =[];
   totalInScore[1] = InfoPlayer[1].blueCoin+InfoPlayer[1].whiteCoin+InfoPlayer[1].redCoin+InfoPlayer[1].greenCoin+InfoPlayer[1].blackCoin;
   totalInScore[2] = InfoPlayer[2].blueCoin+InfoPlayer[2].whiteCoin+InfoPlayer[2].redCoin+InfoPlayer[2].greenCoin+InfoPlayer[2].blackCoin;
@@ -898,15 +892,17 @@ function showScore(w = 300, h = 300) {
   scoreNum[41]= game.add.text(0, 0, totalInScore[2]);
   scoreNum[42]= game.add.text(0, 0, totalInScore[3]);
   scoreNum[43]= game.add.text(0, 0, totalInScore[4]);
-  back.width = w;
-  back.height = h;
-  scrBox.add(back);
-  scrBox.add(closeButton);
-  //scrBox.add(scoreNum[0]);
-  closeButton.x = back.width / 2 - closeButton.width / 2;
-  closeButton.y = back.height - closeButton.height;
-  closeButton.inputEnabled = true;
-  closeButton.events.onInputDown.add(this.hideBox2, this);
+  back2.width = w;
+  back2.height = h;
+  scrBox.add(back2);
+  scrBox.add(closeButton2);
+  function(){
+    scrBox.add(scoreNum[0]);
+  }
+  closeButton2.x = back2.width / 2 - closeButton2.width / 2;
+  closeButton2.y = back2.height - closeButton2.height;
+  closeButton2.inputEnabled = true;
+  closeButton2.events.onInputDown.add(this.hideBox2, this);
   scrBox.x = game.width / 2 - scrBox.width / 2;
   scrBox.y = game.height / 2 - scrBox.height / 2;
   /*scoreNum[0] = back.width / 2 - text1.width / 2;
@@ -916,5 +912,3 @@ function showScore(w = 300, h = 300) {
 function hideBox2() {
   this.scrBox.destroy();
 }
-=======
->>>>>>> c155da521683c1c48de1c499a58e3e5e2c955150
