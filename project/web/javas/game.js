@@ -185,7 +185,7 @@ var gamestate = {
       this.load.image("level1_" + i, "image/Level1/" + i + ".png");
     }
     for (i = 1; i <= 30; i++) {
-      this.load.image("level2_" + i, "image/Lev   el2/" + i + ".png");
+      this.load.image("level2_" + i, "image/Level2/" + i + ".png");
     }
     for (i = 1; i <= 20; i++) {
       this.load.image("level3_" + i, "image/Level3/" + i + ".png");
@@ -598,11 +598,11 @@ function cardlevel_1(card, x, y) {
       });
       aImageFiles.splice(randIndex, 1);
     }
-  }
-  turn += 1;
-  turn = turn % 4;
-  if (turn % 4 == 0) {
-    turn += 4;
+    turn += 1;
+    turn = turn % 4;
+    if (turn % 4 == 0) {
+      turn += 4;
+    }
   }
 }
 function cardlevel_2(card, x, y) {
@@ -626,11 +626,11 @@ function cardlevel_2(card, x, y) {
       });
       aImageFiles2.splice(randIndex2, 1);
     }
-  }
-  turn += 1;
-  turn = turn % 4;
-  if (turn % 4 == 0) {
-    turn += 4;
+    turn += 1;
+    turn = turn % 4;
+    if (turn % 4 == 0) {
+      turn += 4;
+    }
   }
 }
 function cardlevel_3(card, x, y) {
@@ -654,11 +654,11 @@ function cardlevel_3(card, x, y) {
       });
       aImageFiles3.splice(randIndex3, 1);
     }
-  }
-  turn += 1;
-  turn = turn % 4;
-  if (turn % 4 == 0) {
-    turn += 4;
+    turn += 1;
+    turn = turn % 4;
+    if (turn % 4 == 0) {
+      turn += 4;
+    }
   }
 }
 function click_Noble(card) {
