@@ -242,7 +242,7 @@ var gamestate = {
     });
     button[21].inputEnabled = true;
     //showscore
-    button[22] = game.add.button(x + 50, 3 * y - 75, "score", show);
+    button[22] = game.add.button(x + 50, 3 * y - 75, "score", showScore);
     button[22].inputEnabled = true;
     //RightWrong
     button[23] = game.add.button(8*x+95,2*y+120,"right");
@@ -304,13 +304,10 @@ var gamestate = {
     text [15] = game.add.text(8*x+80,3*y+75, "Total 0/10", { font: "25px Arial", fill: "#ffffff", align: "center" });
     //reservedCard
     button[25] = game.add.button( 8 * x +25, 3*y+40, "lilGold");
-    
+
   },
   render: function() {}
 };
-function show() {
-  var person = prompt("Show Score", "บราๆๆๆๆๆ");
-}
 
 function cardlevel_1(card, x, y) {
   var person = confirm("Are you sure in this card level 1?");
@@ -528,4 +525,79 @@ function showMessageBox(text, w = 300, h = 300) {
 }
 function hideBox() {
   this.msgBox.destroy();
+}
+function showScore(w = 300, h = 300) {
+  if (this.scrBox) {
+      this.scrBox.destroy();
+  }
+  var scrBox = game.add.group();
+  var back = game.add.sprite(0, 0, "popup");
+  var closeButton = game.add.sprite(0, 0, "exitpopup");
+  var totalInScore =[];
+  totalInScore[1] = InfoPlayer[1].blueCoin+InfoPlayer[1].whiteCoin+InfoPlayer[1].redCoin+InfoPlayer[1].greenCoin+InfoPlayer[1].blackCoin;
+  totalInScore[2] = InfoPlayer[2].blueCoin+InfoPlayer[2].whiteCoin+InfoPlayer[2].redCoin+InfoPlayer[2].greenCoin+InfoPlayer[2].blackCoin;
+  totalInScore[3] = InfoPlayer[3].blueCoin+InfoPlayer[3].whiteCoin+InfoPlayer[3].redCoin+InfoPlayer[3].greenCoin+InfoPlayer[3].blackCoin;
+  totalInScore[4] = InfoPlayer[4].blueCoin+InfoPlayer[4].whiteCoin+InfoPlayer[4].redCoin+InfoPlayer[4].greenCoin+InfoPlayer[4].blackCoin;
+  var scoreNum= [];
+  scoreNum[0]= game.add.text(0, 0, InfoPlayer[1].blueCoin);
+  scoreNum[1]= game.add.text(0, 0, InfoPlayer[1].whiteCoin);
+  scoreNum[2]= game.add.text(0, 0, InfoPlayer[1].redCoin);
+  scoreNum[3]= game.add.text(0, 0, InfoPlayer[1].greenCoin);
+  scoreNum[4]= game.add.text(0, 0, InfoPlayer[1].blackCoin);
+  scoreNum[5]= game.add.text(0, 0, InfoPlayer[2].blueCoin);
+  scoreNum[6]= game.add.text(0, 0, InfoPlayer[2].whiteCoin);
+  scoreNum[7]= game.add.text(0, 0, InfoPlayer[2].redCoin);
+  scoreNum[8]= game.add.text(0, 0, InfoPlayer[2].greenCoin);
+  scoreNum[9]= game.add.text(0, 0, InfoPlayer[2].blackCoin);
+  scoreNum[10]= game.add.text(0, 0, InfoPlayer[3].blueCoin);
+  scoreNum[11]= game.add.text(0, 0, InfoPlayer[3].whiteCoin);
+  scoreNum[12]= game.add.text(0, 0, InfoPlayer[3].redCoin);
+  scoreNum[13]= game.add.text(0, 0, InfoPlayer[3].greenCoin);
+  scoreNum[14]= game.add.text(0, 0, InfoPlayer[3].blackCoin);
+  scoreNum[15]= game.add.text(0, 0, InfoPlayer[4].blueCoin);
+  scoreNum[16]= game.add.text(0, 0, InfoPlayer[4].whiteCoin);
+  scoreNum[17]= game.add.text(0, 0, InfoPlayer[4].redCoin);
+  scoreNum[18]= game.add.text(0, 0, InfoPlayer[4].greenCoin);
+  scoreNum[19]= game.add.text(0, 0, InfoPlayer[4].blackCoin);
+  scoreNum[20]= game.add.text(0, 0, InfoPlayer[1].cardblue);
+  scoreNum[21]= game.add.text(0, 0, InfoPlayer[1].cardwhite);
+  scoreNum[22]= game.add.text(0, 0, InfoPlayer[1].cardred);
+  scoreNum[23]= game.add.text(0, 0, InfoPlayer[1].cardgreen);
+  scoreNum[24]= game.add.text(0, 0, InfoPlayer[1].cardblack);
+  scoreNum[25]= game.add.text(0, 0, InfoPlayer[2].cardblue);
+  scoreNum[26]= game.add.text(0, 0, InfoPlayer[2].cardwhite);
+  scoreNum[27]= game.add.text(0, 0, InfoPlayer[2].cardred);
+  scoreNum[28]= game.add.text(0, 0, InfoPlayer[2].cardgreen);
+  scoreNum[29]= game.add.text(0, 0, InfoPlayer[2].cardblack);
+  scoreNum[30]= game.add.text(0, 0, InfoPlayer[3].cardblue);
+  scoreNum[31]= game.add.text(0, 0, InfoPlayer[3].cardwhite);
+  scoreNum[32]= game.add.text(0, 0, InfoPlayer[3].cardred);
+  scoreNum[33]= game.add.text(0, 0, InfoPlayer[3].cardgreen);
+  scoreNum[34]= game.add.text(0, 0, InfoPlayer[3].cardblack);
+  scoreNum[35]= game.add.text(0, 0, InfoPlayer[4].cardblue);
+  scoreNum[36]= game.add.text(0, 0, InfoPlayer[4].cardwhite);
+  scoreNum[37]= game.add.text(0, 0, InfoPlayer[4].cardred);
+  scoreNum[38]= game.add.text(0, 0, InfoPlayer[4].cardgreen);
+  scoreNum[39]= game.add.text(0, 0, InfoPlayer[4].cardblack);
+  scoreNum[40]= game.add.text(0, 0, totalInScore[1]);
+  scoreNum[41]= game.add.text(0, 0, totalInScore[2]);
+  scoreNum[42]= game.add.text(0, 0, totalInScore[3]);
+  scoreNum[43]= game.add.text(0, 0, totalInScore[4]);
+  back.width = w;
+  back.height = h;
+  scrBox.add(back);
+  scrBox.add(closeButton);
+  //scrBox.add(scoreNum[0]);
+  closeButton.x = back.width / 2 - closeButton.width / 2;
+  closeButton.y = back.height - closeButton.height;
+  closeButton.inputEnabled = true;
+  closeButton.events.onInputDown.add(this.hideBox2, this);
+  scrBox.x = game.width / 2 - scrBox.width / 2;
+  scrBox.y = game.height / 2 - scrBox.height / 2;
+  /*scoreNum[0] = back.width / 2 - text1.width / 2;
+  scoreNum[0] = back.height / 2 - text1.height / 2 -100;*/
+  this.scrBox = scrBox;
+}
+function hideBox2() {
+  this.scrBox.destroy();
 }
