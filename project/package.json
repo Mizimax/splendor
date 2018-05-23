@@ -10,9 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-<<<<<<< HEAD
-    "express": "^4.15.2"
-=======
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
@@ -23,6 +20,5 @@
     "mysql2-promise": "^0.1.4",
     "socket.io": "^2.1.0",
     "socket.io-cookie-parser": "^1.0.0"
->>>>>>> 7e4bdbced0e2cb944acb9f369269806f94faad60
   }
 }
