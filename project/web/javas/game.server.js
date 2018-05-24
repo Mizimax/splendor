@@ -1,9 +1,11 @@
 var server = {
   joined: false,
   match_id: "",
+  user_id: "",
+  ready: false,
   room: {
-    joinRoom: function() {
-      socket.emit("ROOM_JOIN");
+    joinRoom: function(match_id) {
+      socket.emit("ROOM_JOIN", { match_id: match_id });
     },
     joinPlayingRoom: function() {
       socket.emit("ROOM_JOIN_PLAYING");
@@ -16,7 +18,12 @@ var server = {
       });
     },
     playerReady: function() {
-      socket.to(this.match_id).emit(PLAYER_READY, { ready: true });
+      socket.emit("PLAYER_READY", { ready: this.ready });
+    },
+    getPlayerReady: function() {
+      socket.on("PLAYER_READY", function(data) {
+        console.log(data);
+      });
     },
     getDetail: function() {
       //ดึงข้อมูล
@@ -25,10 +32,14 @@ var server = {
       });
     },
     getRoomMessage: function() {
+      var self = this;
       socket.on("ROOM_MESSAGE", function(data) {
         if (data.action === "JOIN_ROOM") {
+          self.getPlayerReady();
+          self.playerReady();
           if (data.status === "success") {
             console.log(data.message);
+            this.match_id = data.match_id;
             this.joined = true;
           } else {
             alert(data.message);

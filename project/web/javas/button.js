@@ -7,31 +7,6 @@ var scroller;
 var timeCheck;
 var button = [];
 var galax;
-function loading() {
-  modal.overlayClose = false;
-  modal.create(
-    window.innerWidth * 0,
-    window.innerHeight * 0,
-    false,
-    function() {
-      var x = game.world.centerX - window.innerWidth * 0.5 / 2;
-      var y = game.world.centerY - window.innerHeight * 0.66 / 2;
-      var loading = game.add.text(
-        game.world.centerX,
-        game.world.centerY,
-        "Authenticating...",
-        {
-          fill: "#fff",
-          font: "24pt Kanit"
-        }
-      );
-      loading.anchor.setTo(0.5);
-      modal.modalGroup.add(loading);
-    }
-  );
-  modal.show();
-  game.world.bringToTop(modal.modalGroup);
-}
 var lobbystate = {
   preload: function() {
     game.load.image("button", "assets/yw-sapphirebutton.png");
@@ -51,15 +26,6 @@ var lobbystate = {
     game.add.plugin(PhaserInput.Plugin);
   },
   create: function() {
-    socket.emit("AUTH_ATTEMPT", "");
-    socket.on("AUTH", function(res) {
-      if (res.status === "success") {
-        modal.hide();
-      } else {
-        window.location.href = "/";
-      }
-    });
-
     var bg = game.add.sprite(0, 0, "bg");
     bg.width = window.innerWidth;
 
@@ -112,7 +78,6 @@ var lobbystate = {
            bmd.addToWorld();
        */
 
-    
     // profile modal
     modal.create(
       window.innerWidth * 0.5,
@@ -201,7 +166,6 @@ var lobbystate = {
         .to({ x: 100 / b1, y: 100 / b2 }, 400, Phaser.Easing.Back.Out, true, 0);
     });
 
-
     scroller = game.add.existing(
       new ScrollableArea(chat.x, chat.y - 200, 300, 190)
     );
@@ -275,7 +239,6 @@ var lobbystate = {
         .tween(button[2].scale)
         .to({ x: 0.3, y: 0.3 }, 400, Phaser.Easing.Back.In, true, 0);
     });
-    loading();
   },
   update: function() {
     if (game.input.keyboard.isDown(Phaser.Keyboard.ENTER)) {
@@ -308,7 +271,7 @@ function out() {
     .to({ x: 0.6, y: 0.6 }, 200, Phaser.Easing.Back.In, true, 0);
 }
 function actionOnClick() {
-  game.state.start('game')
+  game.state.start("game");
 }
 //button
 // button[1]
