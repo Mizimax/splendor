@@ -18,8 +18,11 @@ var text2=[];
 var message2 = [];
 var block2;
 var start_text=0;
+var InfoCardLv1 = [];
+var InfoCardLv2 = [];
+var InfoCardLv3 = [];
+var Noble = [];
 
-var InfoCard = [];
 var InfoPlayer = [];
 InfoPlayer[1] = {
   playerName : "Player1",
@@ -199,6 +202,62 @@ var gamestate = {
     game.load.image("galaxy", "assets/galaxy.jpg");
     game.load.image("chat_head", "assets/chat_box.png");
     game.load.image("chat", "assets/send.png");
+    //cardVar
+    for(var i=0;i<40;i++){
+      InfoCardLv1[i]={
+        reqBlue:1,
+        reqWhite:1,
+        reqRed:1,
+        reqGreen:1,
+        reqBlack:1,
+        addBlue:1,
+        addWhite:1,
+        addRed:1,
+        addGreen:1,
+        addBlack:1,
+        score:1
+      }
+    }
+    for(var i=0;i<30;i++){
+      InfoCardLv2[i]={
+        reqBlue:1,
+        reqWhite:1,
+        reqRed:1,
+        reqGreen:1,
+        reqBlack:1,
+        addBlue:1,
+        addWhite:1,
+        addRed:1,
+        addGreen:1,
+        addBlack:1,
+        score:1
+      }
+    }
+    for(var i=0;i<20;i++){
+      InfoCardLv3[i]={
+        reqBlue:1,
+        reqWhite:1,
+        reqRed:1,
+        reqGreen:1,
+        reqBlack:1,
+        addBlue:1,
+        addWhite:1,
+        addRed:1,
+        addGreen:1,
+        addBlack:1,
+        score:1
+      }
+    }
+    for(var i=0;i<10;i++){
+      Noble[i]={
+        reqBlue:1,
+        reqWhite:1,
+        reqRed:1,
+        reqGreen:1,
+        reqBlack:1,
+        score:1,
+      }
+    }
     //chat
     for (i = 1; i <= 40; i++) {
       this.load.image("level1_" + i, "image/Level1/" + i + ".png");
@@ -254,6 +313,7 @@ var gamestate = {
       rand[i] = "level1_" + randImage;
       aImageFiles.splice(randIndex, 1);
     }
+    
     //deck_level1-3
     this.load.image("level1_BG", "image/level1/BG_1.png");
     this.load.image("level2_BG", "image/level2/BG_2.png");
@@ -650,27 +710,27 @@ function cardlevel_1(card, x, y) {
   console.log(turn);
   var person = confirm("Are you sure in this card level 1?");
   if (person == true) {
-    card.destroy(card);
-    randIndex = Math.floor(Math.random() * aImageFiles.length);
-    if (aImageFiles.length == 0) {
-      aImageFiles.splice(randIndex, 0);
-    } else {
-      randImage = aImageFiles[randIndex];
-      game.load.image(
-        "level1_" + randImage,
-        "image/Level1/" + randImage + ".png"
-      );
-      rand[0] = "level1_" + randImage;
-      card = game.add.button(x, y, rand[0]);
-      card.events.onInputDown.add(function() {
-        cardlevel_1(card, x, y);
-      });
-      aImageFiles.splice(randIndex, 1);
-    }
-    turn += 1;
-    turn = turn % 4;
-    if (turn % 4 == 0) {
-      turn += 4;
+      card.destroy(card);
+      randIndex = Math.floor(Math.random() * aImageFiles.length);
+      if (aImageFiles.length == 0) {
+        aImageFiles.splice(randIndex, 0);
+      } else {
+        randImage = aImageFiles[randIndex];
+        game.load.image(
+          "level1_" + randImage,
+          "image/Level1/" + randImage + ".png"
+        );
+        rand[0] = "level1_" + randImage;
+        card = game.add.button(x, y, rand[0]);
+        card.events.onInputDown.add(function() {
+          cardlevel_1(card, x, y);
+        });
+        aImageFiles.splice(randIndex, 1);
+      }
+      turn += 1;
+      turn = turn % 4;
+      if (turn % 4 == 0) {
+        turn += 4;
     }
   }
 }
