@@ -8,6 +8,17 @@ coinNum[3] = 0;
 coinNum[4] = 0;
 var detail = [];
 var turn = 1;
+
+var send;
+var garlax2;
+var chat2;
+var chat_h;
+var scroller2;
+var text2=[];
+var message2 = [];
+var block2;
+var start_text=0;
+
 var InfoCard = [];
 var InfoPlayer = [];
 InfoPlayer[1] = {
@@ -185,6 +196,10 @@ var gamestate = {
     this.load.image("player3", "image/profile/noey.png");
     this.load.image("player4", "image/profile/pun.png");
     //level 1-3
+    game.load.image("galaxy", "assets/galaxy.jpg");
+    game.load.image("chat_head", "assets/chat_box.png");
+    game.load.image("chat", "assets/send.png");
+    //chat
     for (i = 1; i <= 40; i++) {
       this.load.image("level1_" + i, "image/Level1/" + i + ".png");
     }
@@ -206,6 +221,7 @@ var gamestate = {
     this.load.image("lilGold", "image/misc/Eflower.png");
     this.load.image("popup", "image/misc/popup.png");
     this.load.image("exitpopup", "image/misc/exit.png");
+    //this.load.image("exitpopup", "asset/464.png");
     //Noble
     for (i = 0; i < 4; i++) {
       var randIndex4 = Math.floor(Math.random() * aImageFiles4.length);
@@ -568,6 +584,64 @@ var gamestate = {
     });
     //reservedCard
     button[25] = game.add.button(8 * x + 25, 3 * y + 40, "lilGold");
+
+    //chat  input
+    chat2 = game.add.inputField(game.width * 0.001, game.height * 0.95, {
+      width: 200,
+      height: 20,
+      borderRadius: 6,
+      zomm: true,
+      placeHolder: "   Message......"
+    });
+    chat2.inputEnabled = true;
+    chat2.focusOnenter = true;
+    chat2.bringToTop();
+    //chat bg
+    galax2 = game.add.image(chat2.x, chat2.y - 205, "galaxy");
+    galax2.scale.setTo(300 / galax2.width, 200 / galax2.height);
+    galax2.alpha = 0.45;
+    send = game.add.button(
+      chat2.x + 200 + 50,
+      chat2.y + 10,
+      "chat",
+      ChatClick2,
+      this
+    );
+    //chat send button
+    send.inputEnabled = true;
+    send.anchor.setTo(0.5, 0.5);
+    send.scale.setTo(1, 30 / 29);
+    send.onInputOver.add(function() {
+      this.game.canvas.style.cursor = "pointer";
+      game.add
+        .tween(send.scale)
+        .to({ x: 100 / 80, y: 35 / 29 }, 400, Phaser.Easing.Back.Out, true, 0);
+    });
+    send.onInputOut.add(function() {
+      this.game.canvas.style.cursor = "default";
+      game.add
+        .tween(send.scale)
+        .to({ x: 80 / 80, y: 30 / 29 }, 200, Phaser.Easing.Back.In, true, 0);
+    });
+    //chat scroller
+    scroller2 = game.add.existing(
+      new ScrollableArea(chat2.x, chat2.y - 200, 300, 190)
+    );
+      //var backg = game.add.image(0,0,'bg');
+      //scroller.addChild(backg);
+    //chat head      click to hidden
+    chat_h = game.add.button(galax2.x, galax2.y, "chat_head", ChatDown2, this);
+    chat_h.inputEnabled = true;
+    chat_h.scale.setTo(300 / chat_h.width, 20 / chat_h.height);
+    chat_h.onInputOver.add(function() {
+      this.game.canvas.style.cursor = "pointer";
+      chat_h.alpha = 0.3;
+    });
+    chat_h.onInputOut.add(function() {
+      this.game.canvas.style.cursor = "default";
+      chat_h.alpha = 1;
+    });
+    scroller2.start(); // scroller show
   },
   render: function() {}
 };
@@ -960,4 +1034,33 @@ function showScore(w = 500, h = 500) {
 }
 function hideBox2() {
   this.scrBox.destroy();
+}
+function ChatClick2() {
+  if (chat2.value.length > 2) {
+    text2[start_text] = chat2.value;
+    message2[start_text] = game.make.text(10, start_text * 22 + 20, "Pro : " + chat2.value, {
+      font: "14px Arial",
+      fill: "#000000",
+      stroke: "#ffffff",
+      strokeThickness: 2
+    });
+    scroller2.addChild(message2[start_text]);
+    block2 = game.make.text(0, start_text * 22 + 35, "", { font: "18px Arial" });
+    scroller2.addChild(block2);
+    scroller2.scrollTo(0, block2.y, 10, false);
+    chat2.resetText();
+    start_text++;
+  }
+}
+function ChatDown2() {
+  scroller2.visible = !scroller2.visible;
+  galax.visible = !galax.visible;
+  chat.visible = !chat.visible;
+  send.visible = !send.visible;
+
+  if (!scroller2.visible) {
+    chat_h.y = chat.y;
+  } else {
+    chat_h.y = galax2.y;
+  }
 }
