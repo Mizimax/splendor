@@ -112,33 +112,7 @@ var lobbystate = {
            bmd.addToWorld();
        */
 
-    //button 1
-    button1 = game.add.button(
-      window.outerWidth * 0.9,
-      window.outerHeight - 150,
-      "anime",
-      actionOnClick,
-      this
-    );
-    button1.inputEnabled = true;
-    //console.log(button1);
-    var b1 = button1.width;
-    var b2 = button1.height;
-    button1.anchor.setTo(0.5, 0.5);
-    button1.scale.setTo(100 / b1, 100 / b2);
-    button1.onInputOver.add(function() {
-      this.game.canvas.style.cursor = "pointer";
-      game.add
-        .tween(button1.scale)
-        .to({ x: 300 / b1, y: 300 / b2 }, 400, Phaser.Easing.Back.Out, true, 0);
-    });
-    button1.onInputOut.add(function() {
-      this.game.canvas.style.cursor = "default";
-      game.add
-        .tween(button1.scale)
-        .to({ x: 100 / b1, y: 100 / b2 }, 400, Phaser.Easing.Back.Out, true, 0);
-    });
-
+    
     // profile modal
     modal.create(
       window.innerWidth * 0.5,
@@ -199,6 +173,34 @@ var lobbystate = {
         .tween(button[0].scale)
         .to({ x: 80 / 80, y: 30 / 29 }, 200, Phaser.Easing.Back.In, true, 0);
     });
+
+    //button 1
+    button1 = game.add.button(
+      window.outerWidth * 0.9,
+      window.outerHeight - 150,
+      "anime",
+      actionOnClick,
+      this
+    );
+    button1.inputEnabled = true;
+    //console.log(button1);
+    var b1 = button1.width;
+    var b2 = button1.height;
+    button1.anchor.setTo(0.5, 0.5);
+    button1.scale.setTo(100 / b1, 100 / b2);
+    button1.onInputOver.add(function() {
+      this.game.canvas.style.cursor = "pointer";
+      game.add
+        .tween(button1.scale)
+        .to({ x: 300 / b1, y: 300 / b2 }, 400, Phaser.Easing.Back.Out, true, 0);
+    });
+    button1.onInputOut.add(function() {
+      this.game.canvas.style.cursor = "default";
+      game.add
+        .tween(button1.scale)
+        .to({ x: 100 / b1, y: 100 / b2 }, 400, Phaser.Easing.Back.Out, true, 0);
+    });
+
 
     scroller = game.add.existing(
       new ScrollableArea(chat.x, chat.y - 200, 300, 190)
@@ -306,7 +308,7 @@ function out() {
     .to({ x: 0.6, y: 0.6 }, 200, Phaser.Easing.Back.In, true, 0);
 }
 function actionOnClick() {
-  console.log(button[0]);
+  game.state.start('game')
 }
 //button
 // button[1]
@@ -411,5 +413,4 @@ function profileClick() {
   );
   modal.show();
   game.world.bringToTop(modal.modalGroup);
-  button[2].inputEnabled = false;
 }
