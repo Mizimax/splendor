@@ -11,6 +11,7 @@ var turn = 1;
 var InfoCard = [];
 var InfoPlayer = [];
 InfoPlayer[1] = {
+  playerName : "Player1",
   blueCoin: 0,
   whiteCoin: 0,
   redCoin: 0,
@@ -24,6 +25,7 @@ InfoPlayer[1] = {
   cardgold: 0
 };
 InfoPlayer[2] = {
+  playerName : "Player2",
   blueCoin: 0,
   whiteCoin: 0,
   redCoin: 0,
@@ -37,6 +39,7 @@ InfoPlayer[2] = {
   cardgold: 0
 };
 InfoPlayer[3] = {
+  playerName : "Player3",
   blueCoin: 0,
   whiteCoin: 0,
   redCoin: 0,
@@ -50,6 +53,7 @@ InfoPlayer[3] = {
   cardgold: 0
 };
 InfoPlayer[4] = {
+  playerName : "Player4",
   blueCoin: 0,
   whiteCoin: 0,
   redCoin: 0,
@@ -195,6 +199,10 @@ var gamestate = {
     this.load.image("wrong", "image/wrong.png");
     //misc
     this.load.image("lilBlue", "image/misc/blue.png");
+    this.load.image("lilWhite", "image/misc/white.png");
+    this.load.image("lilRed", "image/misc/red.png");
+    this.load.image("lilGreen", "image/misc/green.png");
+    this.load.image("lilBlack", "image/misc/black.png");
     this.load.image("lilGold", "image/misc/Eflower.png");
     this.load.image("popup", "image/misc/popup.png");
     this.load.image("exitpopup", "image/misc/exit.png");
@@ -439,35 +447,25 @@ var gamestate = {
     button[24].inputEnabled = true;
     //playerInfo
     detail[0] = this.game.add.sprite(4 * x + 15, 3 * y, "coinBlue");
-    detail[0].width = 35;
-    detail[0].height = 35;
+    detail[0].scale.setTo(0.5);
     detail[1] = this.game.add.sprite(5 * x - 13, 3 * y, "coinWhite");
-    detail[1].width = 35;
-    detail[1].height = 35;
+    detail[1].scale.setTo(0.5);
     detail[2] = this.game.add.sprite(6 * x - 40, 3 * y, "coinRed");
-    detail[2].width = 35;
-    detail[2].height = 35;
+    detail[2].scale.setTo(0.5);
     detail[3] = this.game.add.sprite(7 * x - 70, 3 * y, "coinGreen");
-    detail[3].width = 35;
-    detail[3].height = 35;
+    detail[3].scale.setTo(0.5);
     detail[4] = this.game.add.sprite(8 * x - 95, 3 * y, "coinBlack");
-    detail[4].width = 35;
-    detail[4].height = 35;
-    detail[5] = this.game.add.sprite(4 * x + 15, 3 * y + 40, "lilBlue");
-    detail[5].width = 35;
-    detail[5].height = 35;
-    detail[6] = this.game.add.sprite(5 * x - 13, 3 * y + 40, "lilBlue");
-    detail[6].width = 35;
-    detail[6].height = 35;
-    detail[7] = this.game.add.sprite(6 * x - 40, 3 * y + 40, "lilBlue");
-    detail[7].width = 35;
-    detail[7].height = 35;
-    detail[8] = this.game.add.sprite(7 * x - 70, 3 * y + 40, "lilBlue");
-    detail[8].width = 35;
-    detail[8].height = 35;
-    detail[9] = this.game.add.sprite(8 * x - 95, 3 * y + 40, "lilBlue");
-    detail[9].width = 35;
-    detail[9].height = 35;
+    detail[4].scale.setTo(0.5);
+    detail[5] = this.game.add.sprite(4 * x + 20, 3 * y + 40, "lilBlue");
+    detail[5].scale.setTo(0.8);
+    detail[6] = this.game.add.sprite(5 * x - 8, 3 * y + 40, "lilBlue");
+    detail[6].scale.setTo(0.8);
+    detail[7] = this.game.add.sprite(6 * x - 35, 3 * y + 40, "lilBlue");
+    detail[7].scale.setTo(0.8);
+    detail[8] = this.game.add.sprite(7 * x - 65, 3 * y + 40, "lilBlue");
+    detail[8].scale.setTo(0.8);
+    detail[9] = this.game.add.sprite(8 * x - 90, 3 * y + 40, "lilBlue");
+    detail[9].scale.setTo(0.8);
     text[0] = game.add.text(8 * x + 50, 2 * y + 153, "Blue:   " + coinNum[0], {
       font: "10px Arial",
       fill: "#ffffff",
@@ -848,54 +846,44 @@ function showScore(w = 500, h = 500) {
   totalInScore[3] = InfoPlayer[3].blueCoin+InfoPlayer[3].whiteCoin+InfoPlayer[3].redCoin+InfoPlayer[3].greenCoin+InfoPlayer[3].blackCoin;
   totalInScore[4] = InfoPlayer[4].blueCoin+InfoPlayer[4].whiteCoin+InfoPlayer[4].redCoin+InfoPlayer[4].greenCoin+InfoPlayer[4].blackCoin;
   var scoreNum= [];
-  scoreNum[0]= game.add.text(0, 0, InfoPlayer[1].blueCoin);
-  scoreNum[1]= game.add.text(0, 0, InfoPlayer[1].whiteCoin);
-  scoreNum[2]= game.add.text(0, 0, InfoPlayer[1].redCoin);
-  scoreNum[3]= game.add.text(0, 0, InfoPlayer[1].greenCoin);
-  scoreNum[4]= game.add.text(0, 0, InfoPlayer[1].blackCoin);
-  scoreNum[5]= game.add.text(0, 0, InfoPlayer[2].blueCoin);
-  scoreNum[6]= game.add.text(0, 0, InfoPlayer[2].whiteCoin);
-  scoreNum[7]= game.add.text(0, 0, InfoPlayer[2].redCoin);
-  scoreNum[8]= game.add.text(0, 0, InfoPlayer[2].greenCoin);
-  scoreNum[9]= game.add.text(0, 0, InfoPlayer[2].blackCoin);
-  scoreNum[10]= game.add.text(0, 0, InfoPlayer[3].blueCoin);
-  scoreNum[11]= game.add.text(0, 0, InfoPlayer[3].whiteCoin);
-  scoreNum[12]= game.add.text(0, 0, InfoPlayer[3].redCoin);
-  scoreNum[13]= game.add.text(0, 0, InfoPlayer[3].greenCoin);
-  scoreNum[14]= game.add.text(0, 0, InfoPlayer[3].blackCoin);
-  scoreNum[15]= game.add.text(0, 0, InfoPlayer[4].blueCoin);
-  scoreNum[16]= game.add.text(0, 0, InfoPlayer[4].whiteCoin);
-  scoreNum[17]= game.add.text(0, 0, InfoPlayer[4].redCoin);
-  scoreNum[18]= game.add.text(0, 0, InfoPlayer[4].greenCoin);
-  scoreNum[19]= game.add.text(0, 0, InfoPlayer[4].blackCoin);
-  scoreNum[20]= game.add.text(0, 0, InfoPlayer[1].cardblue);
-  scoreNum[21]= game.add.text(0, 0, InfoPlayer[1].cardwhite);
-  scoreNum[22]= game.add.text(0, 0, InfoPlayer[1].cardred);
-  scoreNum[23]= game.add.text(0, 0, InfoPlayer[1].cardgreen);
-  scoreNum[24]= game.add.text(0, 0, InfoPlayer[1].cardblack);
-  scoreNum[25]= game.add.text(0, 0, InfoPlayer[2].cardblue);
-  scoreNum[26]= game.add.text(0, 0, InfoPlayer[2].cardwhite);
-  scoreNum[27]= game.add.text(0, 0, InfoPlayer[2].cardred);
-  scoreNum[28]= game.add.text(0, 0, InfoPlayer[2].cardgreen);
-  scoreNum[29]= game.add.text(0, 0, InfoPlayer[2].cardblack);
-  scoreNum[30]= game.add.text(0, 0, InfoPlayer[3].cardblue);
-  scoreNum[31]= game.add.text(0, 0, InfoPlayer[3].cardwhite);
-  scoreNum[32]= game.add.text(0, 0, InfoPlayer[3].cardred);
-  scoreNum[33]= game.add.text(0, 0, InfoPlayer[3].cardgreen);
-  scoreNum[34]= game.add.text(0, 0, InfoPlayer[3].cardblack);
-  scoreNum[35]= game.add.text(0, 0, InfoPlayer[4].cardblue);
-  scoreNum[36]= game.add.text(0, 0, InfoPlayer[4].cardwhite);
-  scoreNum[37]= game.add.text(0, 0, InfoPlayer[4].cardred);
-  scoreNum[38]= game.add.text(0, 0, InfoPlayer[4].cardgreen);
-  scoreNum[39]= game.add.text(0, 0, InfoPlayer[4].cardblack);
-  scoreNum[40]= game.add.text(0, 0, totalInScore[1]);
-  scoreNum[41]= game.add.text(0, 0, totalInScore[2]);
-  scoreNum[42]= game.add.text(0, 0, totalInScore[3]);
-  scoreNum[43]= game.add.text(0, 0, totalInScore[4]);
+  scoreNum[0]= game.add.text(0, 0, InfoPlayer[1].blueCoin+"\n\n"+InfoPlayer[2].blueCoin+"\n\n"+InfoPlayer[3].blueCoin+"\n\n"+InfoPlayer[4].blueCoin);
+  scoreNum[1]= game.add.text(0, 0, InfoPlayer[1].whiteCoin+"\n\n"+InfoPlayer[2].whiteCoin+"\n\n"+InfoPlayer[3].whiteCoin+"\n\n"+InfoPlayer[4].whiteCoin);
+  scoreNum[2]= game.add.text(0, 0, InfoPlayer[1].redCoin+"\n\n"+InfoPlayer[2].redCoin+"\n\n"+InfoPlayer[3].redCoin+"\n\n"+InfoPlayer[4].redCoin);
+  scoreNum[3]= game.add.text(0, 0, InfoPlayer[1].greenCoin+"\n\n"+InfoPlayer[2].greenCoin+"\n\n"+InfoPlayer[3].greenCoin+"\n\n"+InfoPlayer[4].greenCoin);
+  scoreNum[4]= game.add.text(0, 0, InfoPlayer[1].blackCoin+"\n\n"+InfoPlayer[2].blackCoin+"\n\n"+InfoPlayer[3].blackCoin+"\n\n"+InfoPlayer[4].blackCoin);
+  scoreNum[5]= game.add.text(0, 0, InfoPlayer[1].cardblue+"\n\n"+InfoPlayer[2].cardblue+"\n\n"+InfoPlayer[3].cardblue+"\n\n"+InfoPlayer[4].cardblue);
+  scoreNum[6]= game.add.text(0, 0, InfoPlayer[1].cardwhite+"\n\n"+InfoPlayer[2].cardwhite+"\n\n"+InfoPlayer[3].cardwhite+"\n\n"+InfoPlayer[4].cardwhite);
+  scoreNum[7]= game.add.text(0, 0, InfoPlayer[1].cardred+"\n\n"+InfoPlayer[2].cardred+"\n\n"+InfoPlayer[3].cardred+"\n\n"+InfoPlayer[4].cardred);
+  scoreNum[8]= game.add.text(0, 0, InfoPlayer[1].cardgreen+"\n\n"+InfoPlayer[2].cardgreen+"\n\n"+InfoPlayer[3].cardgreen+"\n\n"+InfoPlayer[4].cardgreen);
+  scoreNum[9]= game.add.text(0, 0, InfoPlayer[1].cardblack+"\n\n"+InfoPlayer[2].cardblack+"\n\n"+InfoPlayer[3].cardblack+"\n\n"+InfoPlayer[4].cardblack);
+  scoreNum[10]= game.add.text(0, 0, totalInScore[1]+"\n\n"+totalInScore[2]+"\n\n"+totalInScore[3]+"\n\n"+totalInScore[4]);
+  scoreNum[11]= game.add.text(0, 0, InfoPlayer[1].playerName+"\n\n"+InfoPlayer[2].playerName+"\n\n"+InfoPlayer[3].playerName+"\n\n"+InfoPlayer[4].playerName);
+  var detail2 =[];
+  detail2[0] = this.game.add.sprite(0,0, "coinBlue");
+  detail2[0].scale.setTo(0.4);
+  detail2[1] = this.game.add.sprite(0,0, "coinWhite");
+  detail2[1].scale.setTo(0.4);
+  detail2[2] = this.game.add.sprite(0,0, "coinRed");
+  detail2[2].scale.setTo(0.4);
+  detail2[3] = this.game.add.sprite(0,0, "coinGreen");
+  detail2[3].scale.setTo(0.4);
+  detail2[4] = this.game.add.sprite(0,0, "coinBlack");
+  detail2[4].scale.setTo(0.4);
+  detail2[5] = this.game.add.sprite(0,0, "lilBlue");
+  detail2[5].scale.setTo(0.7);
+  detail2[6] = this.game.add.sprite(0,0, "lilWhite");
+  detail2[6].scale.setTo(0.7);
+  detail2[7] = this.game.add.sprite(0,0, "lilRed");
+  detail2[7].scale.setTo(0.7);
+  detail2[8] = this.game.add.sprite(0,0, "lilGreen");
+  detail2[8].scale.setTo(0.7);
+  detail2[9] = this.game.add.sprite(0,0, "lilBlack");
+  detail2[9].scale.setTo(0.7);
   back2.width = w;
   back2.height = h;
   scrBox.add(back2);
   scrBox.add(closeButton2);
+  scrBox.add(scoreNum[0]);
   scrBox.add(scoreNum[1]);
   scrBox.add(scoreNum[2]);
   scrBox.add(scoreNum[3]);
@@ -906,133 +894,68 @@ function showScore(w = 500, h = 500) {
   scrBox.add(scoreNum[8]);
   scrBox.add(scoreNum[9]);
   scrBox.add(scoreNum[10]);
-  scrBox.add(scoreNum[11]);
-  scrBox.add(scoreNum[12]);
-  scrBox.add(scoreNum[13]);
-  scrBox.add(scoreNum[14]);
-  scrBox.add(scoreNum[15]);
-  scrBox.add(scoreNum[16]);
-  scrBox.add(scoreNum[17]);
-  scrBox.add(scoreNum[18]);
-  scrBox.add(scoreNum[19]);
-  scrBox.add(scoreNum[20]);
-  scrBox.add(scoreNum[21]);
-  scrBox.add(scoreNum[22]);
-  scrBox.add(scoreNum[23]);
-  scrBox.add(scoreNum[24]);
-  scrBox.add(scoreNum[25]);
-  scrBox.add(scoreNum[26]);
-  scrBox.add(scoreNum[27]);
-  scrBox.add(scoreNum[28]);
-  scrBox.add(scoreNum[29]);
-  scrBox.add(scoreNum[30]);
-  scrBox.add(scoreNum[31]);
-  scrBox.add(scoreNum[32]);
-  scrBox.add(scoreNum[33]);
-  scrBox.add(scoreNum[34]);
-  scrBox.add(scoreNum[35]);
-  scrBox.add(scoreNum[36]);
-  scrBox.add(scoreNum[37]);
-  scrBox.add(scoreNum[38]);
-  scrBox.add(scoreNum[39]);
-  scrBox.add(scoreNum[40]);
-  scrBox.add(scoreNum[41]);
-  scrBox.add(scoreNum[42]);
-  scrBox.add(scoreNum[43]);
-  closeButton2.x = back2.width / 2 - closeButton2.width / 2;
-  closeButton2.y = back2.height - closeButton2.height;
+  scrBox.add(scoreNum[11])
+  scrBox.add(detail2[0]);
+  scrBox.add(detail2[1]);
+  scrBox.add(detail2[2]);
+  scrBox.add(detail2[3]);
+  scrBox.add(detail2[4]);
+  scrBox.add(detail2[5]);
+  scrBox.add(detail2[6]);
+  scrBox.add(detail2[7]);
+  scrBox.add(detail2[8]);
+  scrBox.add(detail2[9]);
+  closeButton2.x = back2.width-70;
+  closeButton2.y = 10;
+  closeButton2.scale.setTo(0.3);
   closeButton2.inputEnabled = true;
   closeButton2.events.onInputDown.add(this.hideBox2, this);
   scrBox.x = game.width / 2 - scrBox.width / 2;
   scrBox.y = game.height / 2 - scrBox.height / 2;
-  scoreNum[0].x = back2.width / 2 - scoreNum[0].width / 2 +300;
-  scoreNum[0].y = back2.height / 2 - scoreNum[0].height / 2 +100;
-  scoreNum[1].x = back2.width / 2 - scoreNum[1].width / 2;
-  scoreNum[1].y = back2.height / 2 - scoreNum[1].height / 2 -100;
-  scoreNum[2].x = back2.width / 2 - scoreNum[2].width / 2;
-  scoreNum[2].y = back2.height / 2 - scoreNum[2].height / 2 -100;
-  scoreNum[3].x = back2.width / 2 - scoreNum[3].width / 2;
-  scoreNum[3].y = back2.height / 2 - scoreNum[3].height / 2 -100;
-  scoreNum[4].x = back2.width / 2 - scoreNum[4].width / 2;
-  scoreNum[4].y = back2.height / 2 - scoreNum[4].height / 2 -100;
-  scoreNum[5].x = back2.width / 2 - scoreNum[5].width / 2;
-  scoreNum[5].y = back2.height / 2 - scoreNum[5].height / 2 -100;
-  scoreNum[6].x = back2.width / 2 - scoreNum[6].width / 2;
-  scoreNum[6].y = back2.height / 2 - scoreNum[6].height / 2 -100;
-  scoreNum[7].x = back2.width / 2 - scoreNum[7].width / 2;
-  scoreNum[7].y = back2.height / 2 - scoreNum[7].height / 2 -100;
-  scoreNum[8].x = back2.width / 2 - scoreNum[8].width / 2;
-  scoreNum[8].y = back2.height / 2 - scoreNum[8].height / 2 -100;
-  scoreNum[9].x = back2.width / 2 - scoreNum[9].width / 2;
-  scoreNum[9].y = back2.height / 2 - scoreNum[9].height / 2 -100;
-  scoreNum[10].x = back2.width / 2 - scoreNum[10].width / 2;
-  scoreNum[10].y = back2.height / 2 - scoreNum[10].height / 2 -100;
-  scoreNum[11].x = back2.width / 2 - scoreNum[11].width / 2;
-  scoreNum[11].y = back2.height / 2 - scoreNum[11].height / 2 -100;
-  scoreNum[12].x = back2.width / 2 - scoreNum[12].width / 2;
-  scoreNum[12].y = back2.height / 2 - scoreNum[12].height / 2 -100;
-  scoreNum[13].x = back2.width / 2 - scoreNum[13].width / 2;
-  scoreNum[13].y = back2.height / 2 - scoreNum[13].height / 2 -100;
-  scoreNum[14].x = back2.width / 2 - scoreNum[14].width / 2;
-  scoreNum[14].y = back2.height / 2 - scoreNum[14].height / 2 -100;
-  scoreNum[15].x = back2.width / 2 - scoreNum[15].width / 2;
-  scoreNum[15].y = back2.height / 2 - scoreNum[15].height / 2 -100;
-  scoreNum[16].x = back2.width / 2 - scoreNum[16].width / 2;
-  scoreNum[16].y = back2.height / 2 - scoreNum[16].height / 2 -100;
-  scoreNum[17].x = back2.width / 2 - scoreNum[17].width / 2;
-  scoreNum[17].y = back2.height / 2 - scoreNum[17].height / 2 -100;
-  scoreNum[18].x = back2.width / 2 - scoreNum[18].width / 2;
-  scoreNum[18].y = back2.height / 2 - scoreNum[18].height / 2 -100;
-  scoreNum[19].x = back2.width / 2 - scoreNum[19].width / 2;
-  scoreNum[19].y = back2.height / 2 - scoreNum[19].height / 2 -100;
-  scoreNum[20].x = back2.width / 2 - scoreNum[20].width / 2;
-  scoreNum[20].y = back2.height / 2 - scoreNum[20].height / 2 -100;
-  scoreNum[21].x = back2.width / 2 - scoreNum[21].width / 2;
-  scoreNum[21].y = back2.height / 2 - scoreNum[21].height / 2 -100;
-  scoreNum[22].x = back2.width / 2 - scoreNum[22].width / 2;
-  scoreNum[22].y = back2.height / 2 - scoreNum[22].height / 2 -100;
-  scoreNum[23].x = back2.width / 2 - scoreNum[23].width / 2;
-  scoreNum[23].y = back2.height / 2 - scoreNum[23].height / 2 -100;
-  scoreNum[24].x = back2.width / 2 - scoreNum[24].width / 2;
-  scoreNum[24].y = back2.height / 2 - scoreNum[24].height / 2 -100;
-  scoreNum[25].x = back2.width / 2 - scoreNum[25].width / 2;
-  scoreNum[25].y = back2.height / 2 - scoreNum[25].height / 2 -100;
-  scoreNum[26].x = back2.width / 2 - scoreNum[26].width / 2;
-  scoreNum[26].y = back2.height / 2 - scoreNum[26].height / 2 -100;
-  scoreNum[27].x = back2.width / 2 - scoreNum[27].width / 2;
-  scoreNum[27].y = back2.height / 2 - scoreNum[27].height / 2 -100;
-  scoreNum[28].x = back2.width / 2 - scoreNum[28].width / 2;
-  scoreNum[28].y = back2.height / 2 - scoreNum[28].height / 2 -100;
-  scoreNum[29].x = back2.width / 2 - scoreNum[29].width / 2;
-  scoreNum[29].y = back2.height / 2 - scoreNum[29].height / 2 -100;
-  scoreNum[30].x = back2.width / 2 - scoreNum[30].width / 2;
-  scoreNum[30].y = back2.height / 2 - scoreNum[30].height / 2 -100;
-  scoreNum[31].x = back2.width / 2 - scoreNum[31].width / 2;
-  scoreNum[31].y = back2.height / 2 - scoreNum[31].height / 2 -100;
-  scoreNum[32].x = back2.width / 2 - scoreNum[32].width / 2;
-  scoreNum[32].y = back2.height / 2 - scoreNum[32].height / 2 -100;
-  scoreNum[33].x = back2.width / 2 - scoreNum[33].width / 2;
-  scoreNum[33].y = back2.height / 2 - scoreNum[33].height / 2 -100;
-  scoreNum[34].x = back2.width / 2 - scoreNum[34].width / 2;
-  scoreNum[34].y = back2.height / 2 - scoreNum[34].height / 2 -100;
-  scoreNum[35].x = back2.width / 2 - scoreNum[35].width / 2;
-  scoreNum[35].y = back2.height / 2 - scoreNum[35].height / 2 -100;
-  scoreNum[36].x = back2.width / 2 - scoreNum[36].width / 2;
-  scoreNum[36].y = back2.height / 2 - scoreNum[36].height / 2 -100;
-  scoreNum[37].x = back2.width / 2 - scoreNum[37].width / 2;
-  scoreNum[37].y = back2.height / 2 - scoreNum[37].height / 2 -100;
-  scoreNum[38].x = back2.width / 2 - scoreNum[38].width / 2;
-  scoreNum[38].y = back2.height / 2 - scoreNum[38].height / 2 -100;
-  scoreNum[39].x = back2.width / 2 - scoreNum[39].width / 2;
-  scoreNum[39].y = back2.height / 2 - scoreNum[39].height / 2 -100;
-  scoreNum[40].x = back2.width / 2 - scoreNum[40].width / 2;
-  scoreNum[40].y = back2.height / 2 - scoreNum[40].height / 2 -100;
-  scoreNum[41].x = back2.width / 2 - scoreNum[41].width / 2;
-  scoreNum[41].y = back2.height / 2 - scoreNum[41].height / 2 -100;
-  scoreNum[42].x = back2.width / 2 - scoreNum[42].width / 2;
-  scoreNum[42].y = back2.height / 2 - scoreNum[42].height / 2 -100;
-  scoreNum[43].x = back2.width / 2 - scoreNum[43].width / 2;
-  scoreNum[43].y = back2.height / 2 - scoreNum[43].height / 2 -100;
+  scoreNum[0].x = back2.width / 2 - scoreNum[0].width / 2 -175;
+  scoreNum[0].y = back2.height / 2 - scoreNum[0].height / 2 +10;
+  scoreNum[1].x = back2.width / 2 - scoreNum[1].width / 2-135;
+  scoreNum[1].y = back2.height / 2 - scoreNum[1].height / 2 +10;
+  scoreNum[2].x = back2.width / 2 - scoreNum[2].width / 2-95;
+  scoreNum[2].y = back2.height / 2 - scoreNum[2].height / 2  +10;
+  scoreNum[3].x = back2.width / 2 - scoreNum[3].width / 2-55;
+  scoreNum[3].y = back2.height / 2 - scoreNum[3].height / 2  +10;
+  scoreNum[4].x = back2.width / 2 - scoreNum[4].width / 2-15;
+  scoreNum[4].y = back2.height / 2 - scoreNum[4].height / 2  +10;
+  scoreNum[5].x = back2.width / 2 - scoreNum[5].width / 2+25;
+  scoreNum[5].y = back2.height / 2 - scoreNum[5].height / 2  +10;
+  scoreNum[6].x = back2.width / 2 - scoreNum[6].width / 2+65;
+  scoreNum[6].y = back2.height / 2 - scoreNum[6].height / 2  +10;
+  scoreNum[7].x = back2.width / 2 - scoreNum[7].width / 2+105;
+  scoreNum[7].y = back2.height / 2 - scoreNum[7].height / 2  +10;
+  scoreNum[8].x = back2.width / 2 - scoreNum[8].width / 2+145;
+  scoreNum[8].y = back2.height / 2 - scoreNum[8].height / 2  +10;
+  scoreNum[9].x = back2.width / 2 - scoreNum[9].width / 2+185;
+  scoreNum[9].y = back2.height / 2 - scoreNum[9].height / 2  +10;
+  scoreNum[10].x = back2.width / 2 - scoreNum[10].width / 2+225;
+  scoreNum[10].y = back2.height / 2 - scoreNum[10].height / 2  +10;
+  scoreNum[11].x = 20;
+  scoreNum[11].y = back2.height / 2 - scoreNum[10].height / 2  +10;
+  detail2[0].x =back2.width / 2 - scoreNum[0].width / 2 -182;
+  detail2[0].y =back2.height / 2 - scoreNum[0].height / 2 -30;
+  detail2[1].x =back2.width / 2 - scoreNum[1].width / 2-142;
+  detail2[1].y =back2.height / 2 - scoreNum[1].height / 2 -30;
+  detail2[2].x =back2.width / 2 - scoreNum[2].width / 2-102;
+  detail2[2].y =back2.height / 2 - scoreNum[2].height / 2 -30;
+  detail2[3].x =back2.width / 2 - scoreNum[3].width / 2-62;
+  detail2[3].y =back2.height / 2 - scoreNum[3].height / 2 -30;
+  detail2[4].x =back2.width / 2 - scoreNum[4].width / 2-22;
+  detail2[4].y =back2.height / 2 - scoreNum[4].height / 2 -30;
+  detail2[5].x =back2.width / 2 - scoreNum[5].width / 2+22;
+  detail2[5].y =back2.height / 2 - scoreNum[5].height / 2 -30;
+  detail2[6].x =back2.width / 2 - scoreNum[6].width / 2+62;
+  detail2[6].y =back2.height / 2 - scoreNum[6].height / 2 -30;
+  detail2[7].x =back2.width / 2 - scoreNum[7].width / 2+102;
+  detail2[7].y =back2.height / 2 - scoreNum[7].height / 2 -30;
+  detail2[8].x =back2.width / 2 - scoreNum[8].width / 2+142;
+  detail2[8].y =back2.height / 2 - scoreNum[8].height / 2 -30;
+  detail2[9].x =back2.width / 2 - scoreNum[9].width / 2+181;
+  detail2[9].y =back2.height / 2 - scoreNum[9].height / 2 -30;
   this.scrBox = scrBox;
 }
 function hideBox2() {
