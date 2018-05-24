@@ -399,7 +399,7 @@ function ChatDown() {
   if (!scroller.visible) {
     button[3].y = chat.y;
   } else {
-    button[3].y = chat.y - 220;
+    button[3].y = galax.y;
   }
 }
 function profileClick() {
