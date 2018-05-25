@@ -3,6 +3,15 @@ var server = {
   match_id: "",
   user_id: "",
   ready: false,
+  game: {
+    loadCard: function() {
+      socket.on("LOAD_CARD");
+    },
+    loadPlayerInfo: function() {
+      //สุ่มในนี้
+      socket.on("LOAD_PLAYER");
+    }
+  },
   room: {
     joinRoom: function(match_id) {
       socket.emit("ROOM_JOIN", { match_id: match_id });
@@ -20,6 +29,9 @@ var server = {
     playerReady: function() {
       socket.emit("PLAYER_READY", { ready: this.ready });
     },
+    playerStart: function() {
+      socket.emit("GAME_START");
+    },
     getPlayerReady: function() {
       socket.on("PLAYER_READY", function(data) {
         console.log(data);
@@ -34,9 +46,11 @@ var server = {
     getRoomMessage: function() {
       var self = this;
       socket.on("ROOM_MESSAGE", function(data) {
+        console.log(data);
         if (data.action === "JOIN_ROOM") {
           self.getPlayerReady();
           self.playerReady();
+          self.playerStart();
           if (data.status === "success") {
             console.log(data.message);
             this.match_id = data.match_id;
@@ -47,7 +61,6 @@ var server = {
           }
         } else {
         }
-        console.log(data);
       });
     }
   }

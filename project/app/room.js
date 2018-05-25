@@ -1,7 +1,7 @@
 const db = require("./mysql").connect();
 const socket = require("./io.connect").socket;
 
-const room = function(socket) {
+const room = function(socket, io) {
   // socket.on("GAME_START", async function(data) {
   //   try {
   //     let [resCreatePlayer] = await db.query(
@@ -172,13 +172,14 @@ const room = function(socket) {
 
   socket.on("ROOM_JOIN", async function(data) {
     // socket.broadcast.emit("chat", msg);
+
     try {
-      let [res] = await db.query("INSERT INTO match_player VALUES (?,?,?)", [
+      let [res] = await db.query("INSERT INTO match_player VALUES (?,?,?,0)", [
         data.match_id,
         socket.handshake.session.userdata.user_id,
         0
       ]);
-
+      console.log(res);
       if (res.affectedRows != 0) {
         socket.join(res[0].match_id);
         socket.room = res[0].match_id;
@@ -208,8 +209,80 @@ const room = function(socket) {
       }
     }
 
-    // socket.join('')
-    // so
+    socket.on("PLAYER_READY", async function(data) {
+      if (socket.room) {
+        let [resUpdateReady] = await db.query(
+          "UPDATE match_player SET ready = ? WHERE match_id = ? AND user_id = ?",
+          [!data.ready, socket.room, socket.handshake.session.userdata.user_id]
+        );
+        if (resUpdateReady.affectedRows != 0)
+          io.sockets.in(socket.room).emit("PLAYER_READY", {
+            match_id: socket.room,
+            user_id: socket.handshake.session.userdata.user_id,
+            ready: !data.ready
+          });
+      }
+    });
+
+    socket.on("GAME_START", async function() {
+      if (socket.room) {
+        try {
+          let [resPlayer] = await db.query(
+            "SELECT ready FROM match_player WHERE match_id = ?",
+            [socket.room]
+          );
+
+          let status = 0;
+          resPlayer.forEach(function(item) {
+            status += item.ready;
+          });
+          //if (status === 4) {
+          let [resSelect] = await db.query(
+            "SELECT c.card_id, c.card_image, c.card_level, c.card_score, ccc.color_name as card_color_name, ccc.color_code, cc.color_name, cr.amount FROM coin_requirement cr " +
+              "JOIN card c ON c.card_id = cr.card_id " +
+              "JOIN coin co ON co.coin_id = cr.coin_requirement " +
+              "JOIN coin_color cc ON cc.color_id = co.coin_color_id " +
+              "JOIN coin_color ccc ON ccc.color_id = c.coin_color_id",
+            [socket.room]
+          );
+          let result = [];
+          if (resSelect.length != 0) {
+            resSelect.forEach(function(item, index) {
+              // console.log(item["card_id"]);
+              result[item["card_id"] - 1] = {
+                ...result[item["card_id"] - 1],
+                card_id: item["card_id"],
+                color_code: item["color_code"],
+                card_level: item["card_level"],
+                card_score: item["card_score"],
+                card_image: item["card_image"],
+                ["add" + item["card_color_name"]]: 1,
+                ["req" + item["color_name"]]: item["amount"]
+              };
+            });
+            io.sockets.in(socket.room).emit("ROOM_MESSAGE", {
+              status: "success",
+              action: "LOAD_CARD",
+              cards: result
+            });
+            io.sockets.in(socket.room).emit("ROOM_MESSAGE", {
+              status: "success",
+              action: "GAME_START",
+              match_id: socket.room,
+              start: true
+            });
+          }
+
+          // } else
+          //   io.sockets.in(socket.room).emit("ROOM_MESSAGE", {
+          //     match_id: socket.room,
+          //     start: false
+          //   });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
   });
 };
 

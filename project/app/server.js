@@ -54,15 +54,7 @@ io.on("connection", async function(socket) {
   });
 
   chat(socket);
-  room(socket);
-
-  socket.on("PLAYER_READY", function(data) {
-    if (socket.room)
-      io.sockets.in(socket.room).emit("PLAYER_READY", {
-        user_id: socket.handshake.session.userdata.user_id,
-        ready: !data.ready
-      });
-  });
+  room(socket, io);
 
   socket.on("disconnect", function() {
     numUsers--;
