@@ -67,3 +67,29 @@ var modal = {
     if (this.hasOverlay) this.overlay.inputEnabled = false;
   }
 };
+
+function loading() {
+  modal.overlayClose = false;
+  modal.create(
+    window.innerWidth * 0,
+    window.innerHeight * 0,
+    false,
+    function() {
+      var x = game.world.centerX - window.innerWidth * 0.5 / 2;
+      var y = game.world.centerY - window.innerHeight * 0.66 / 2;
+      var loading = game.add.text(
+        game.world.centerX,
+        game.world.centerY,
+        "Authenticating...",
+        {
+          fill: "#fff",
+          font: "24pt Kanit"
+        }
+      );
+      loading.anchor.setTo(0.5);
+      modal.modalGroup.add(loading);
+    }
+  );
+  modal.show();
+  game.world.bringToTop(modal.modalGroup);
+}

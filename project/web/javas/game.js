@@ -88,6 +88,22 @@ InfoPlayer[4] = {
   cardwhite: 0,
   score: 0
 };
+var check = [];
+check[0] = 0;
+check[1] = 0;
+check[2] = 0;
+check[3] = 0;
+
+check[4] = 0;
+check[5] = 0;
+check[6] = 0;
+check[7] = 0;
+
+check[8] = 0;
+check[9] = 0;
+check[10] = 0;
+check[11] = 0;
+
 var aImageFiles = [
   "1",
   "2",
@@ -190,6 +206,124 @@ var rand2 = [];
 var rand3 = [];
 var rand4 = [];
 var count = 0;
+var cardadd = function() {
+  for (var i = 1; i <= 40; i++) {
+    InfoCardLv1[i] = {
+      reqBlue: 0,
+      reqWhite: 0,
+      reqRed: 0,
+      reqGreen: 0,
+      reqBlack: 0,
+      addBlue: 0,
+      addWhite: 0,
+      addRed: 0,
+      addGreen: 0,
+      addBlack: 0,
+      score: 0
+    };
+  }
+  for (var i = 1; i <= 30; i++) {
+    InfoCardLv2[i] = {
+      reqBlue: 0,
+      reqWhite: 0,
+      reqRed: 0,
+      reqGreen: 0,
+      reqBlack: 0,
+      addBlue: 0,
+      addWhite: 0,
+      addRed: 0,
+      addGreen: 0,
+      addBlack: 0,
+      score: 0
+    };
+  }
+  for (var i = 1; i <= 20; i++) {
+    InfoCardLv3[i] = {
+      reqBlue: 0,
+      reqWhite: 0,
+      reqRed: 0,
+      reqGreen: 0,
+      reqBlack: 0,
+      addBlue: 0,
+      addWhite: 0,
+      addRed: 0,
+      addGreen: 0,
+      addBlack: 0,
+      score: 0
+    };
+  }
+
+  for (var i = 1; i <= 40; i++) {
+    if (DBcards[i].reqBlue) {
+      InfoCardLv1[i].reqBlue = DBcards[i].reqBlue;
+    }
+    if (DBcards[i].reqWhite) {
+      InfoCardLv1[i].reqWhite = DBcards[i].reqWhite;
+    }
+    if (DBcards[i].reqRed) {
+      InfoCardLv1[i].reqRed = DBcards[i].reqRed;
+    }
+    if (DBcards[i].reqGreen) {
+      console.log(InfoCardLv1[i]);
+      InfoCardLv1[i].reqGreen = DBcards[i].reqGreen;
+    }
+    if (DBcards[i].reqBlack) {
+      InfoCardLv1[i].reqBlack = DBcards[i].reqBlack;
+    }
+    InfoCardLv1[i].addBlack = DBcards[i].addBlack;
+    InfoCardLv1[i].addBlue = DBcards[i].addBlue;
+    InfoCardLv1[i].addWhite = DBcards[i].addWhite;
+    InfoCardLv1[i].addGreen = DBcards[i].addGreen;
+    InfoCardLv1[i].addRed = DBcards[i].addRed;
+    InfoCardLv1[i].score = DBcards[i].card_score;
+  }
+  for (var i = 41; i <= 70; i++) {
+    if (DBcards[i].reqBlue) {
+      InfoCardLv2[i - 40].reqBlue = DBcards[i].reqBlue;
+    }
+    if (DBcards[i].reqWhite) {
+      InfoCardLv2[i - 40].reqWhite = DBcards[i].reqWhite;
+    }
+    if (DBcards[i].reqRed) {
+      InfoCardLv2[i - 40].reqRed = DBcards[i].reqRed;
+    }
+    if (DBcards[i].reqGreen) {
+      InfoCardLv2[i - 40].reqGreen = DBcards[i].reqGreen;
+    }
+    if (DBcards[i].reqBlack) {
+      InfoCardLv2[i - 40].reqBlack = DBcards[i].reqBlack;
+    }
+    InfoCardLv2[i - 40].addBlack = DBcards[i].addBlack;
+    InfoCardLv2[i - 40].addBlue = DBcards[i].addBlue;
+    InfoCardLv2[i - 40].addWhite = DBcards[i].addWhite;
+    InfoCardLv2[i - 40].addGreen = DBcards[i].addGreen;
+    InfoCardLv2[i - 40].addRed = DBcards[i].addRed;
+    InfoCardLv2[i - 40].score = DBcards[i].card_score;
+  }
+  for (var i = 71; i <= 90; i++) {
+    if (DBcards[i].reqBlue) {
+      InfoCardLv3[i - 70].reqBlue = DBcards[i].reqBlue;
+    }
+    if (DBcards[i].reqWhite) {
+      InfoCardLv3[i - 70].reqWhite = DBcards[i].reqWhite;
+    }
+    if (DBcards[i].reqRed) {
+      InfoCardLv3[i - 70].reqRed = DBcards[i].reqRed;
+    }
+    if (DBcards[i].reqGreen) {
+      InfoCardLv3[i - 70].reqGreen = DBcards[i].reqGreen;
+    }
+    if (DBcards[i].reqBlack) {
+      InfoCardLv3[i - 70].reqBlack = DBcards[i].reqBlack;
+    }
+    InfoCardLv3[i - 70].addBlack = DBcards[i].addBlack;
+    InfoCardLv3[i - 70].addBlue = DBcards[i].addBlue;
+    InfoCardLv3[i - 70].addWhite = DBcards[i].addWhite;
+    InfoCardLv3[i - 70].addGreen = DBcards[i].addGreen;
+    InfoCardLv3[i - 70].addRed = DBcards[i].addRed;
+    InfoCardLv3[i - 70].score = DBcards[i].card_score;
+  }
+};
 var gamestate = {
   preload: function() {
     this.load.image("BG", "image/BG_game_test.jpg");
@@ -210,52 +344,11 @@ var gamestate = {
     game.load.image("galaxy", "assets/galaxy.jpg");
     game.load.image("chat_head", "assets/chat_box.png");
     game.load.image("chat", "assets/send.png");
+
+    game.load.image("modal", "assets/464885029.jpg");
+    game.load.image("modal_bg", "assets/modal_bg.png");
     //cardVar
-    for (var i = 0; i < 40; i++) {
-      InfoCardLv1[i] = {
-        reqBlue: 1,
-        reqWhite: 1,
-        reqRed: 1,
-        reqGreen: 1,
-        reqBlack: 1,
-        addBlue: 1,
-        addWhite: 1,
-        addRed: 1,
-        addGreen: 1,
-        addBlack: 1,
-        score: 1
-      };
-    }
-    for (var i = 0; i < 30; i++) {
-      InfoCardLv2[i] = {
-        reqBlue: 1,
-        reqWhite: 1,
-        reqRed: 1,
-        reqGreen: 1,
-        reqBlack: 1,
-        addBlue: 1,
-        addWhite: 1,
-        addRed: 1,
-        addGreen: 1,
-        addBlack: 1,
-        score: 1
-      };
-    }
-    for (var i = 0; i < 20; i++) {
-      InfoCardLv3[i] = {
-        reqBlue: 1,
-        reqWhite: 1,
-        reqRed: 1,
-        reqGreen: 1,
-        reqBlack: 1,
-        addBlue: 1,
-        addWhite: 1,
-        addRed: 1,
-        addGreen: 1,
-        addBlack: 1,
-        score: 1
-      };
-    }
+
     for (var i = 0; i < 10; i++) {
       Noble[i] = {
         reqBlue: 1,
@@ -304,6 +397,7 @@ var gamestate = {
       var randIndex3 = Math.floor(Math.random() * aImageFiles3.length);
       var randImage3 = aImageFiles3[randIndex3];
       rand3[i] = "level3_" + randImage3;
+      check[i + 8] = randImage3;
       aImageFiles3.splice(randIndex3, 1);
       console.log(aImageFiles3);
     }
@@ -312,6 +406,7 @@ var gamestate = {
       var randIndex2 = Math.floor(Math.random() * aImageFiles2.length);
       var randImage2 = aImageFiles2[randIndex2];
       rand2[i] = "level2_" + randImage2;
+      check[i + 4] = randImage2;
       aImageFiles2.splice(randIndex2, 1);
     }
     //level1
@@ -320,6 +415,8 @@ var gamestate = {
       var randImage = aImageFiles[randIndex];
       rand[i] = "level1_" + randImage;
       aImageFiles.splice(randIndex, 1);
+      check[i] = randImage;
+      console.log(check);
     }
 
     //deck_level1-3
@@ -335,6 +432,19 @@ var gamestate = {
     this.load.image("coinWhite", "image/coin/Coin_white.png");
   },
   create: function() {
+    socket.emit("AUTH_ATTEMPT", "");
+    socket.on("AUTH", function(res) {
+      if (res.status === "success") {
+        this.user_id = res.user_id;
+        modal.hide();
+      } else {
+        window.location.href = "/";
+      }
+    });
+    server.room.getRoomMessage();
+    server.room.joinRoom(7);
+    server.room.playerStart();
+
     x = window.outerWidth / 12; //row
     y = window.outerHeight / 4; //col
 
@@ -370,66 +480,66 @@ var gamestate = {
     //level1
     button[0] = game.add.button(4 * x, 2 * y + 40, rand[0]);
     button[0].events.onInputDown.add(function() {
-      cardlevel_1(button[0], 4 * x, 2 * y + 40, 0);
+      cardlevel_1(button[0], 4 * x, 2 * y + 40, check[0], 0);
     });
     button[0].inputEnabled = true;
     button[1] = game.add.button(4 * x + 140, 2 * y + 40, rand[1]);
     button[1].events.onInputDown.add(function() {
-      cardlevel_1(button[1], 4 * x + 140, 2 * y + 40, 0);
+      cardlevel_1(button[1], 4 * x + 140, 2 * y + 40, check[1], 1);
     });
     button[1].inputEnabled = true;
     button[2] = game.add.button(4 * x + 280, 2 * y + 40, rand[2]);
     button[2].events.onInputDown.add(function() {
-      cardlevel_1(button[2], 4 * x + 280, 2 * y + 40, 0);
+      cardlevel_1(button[2], 4 * x + 280, 2 * y + 40, check[2], 2);
     });
     button[2].inputEnabled = true;
     button[3] = game.add.button(4 * x + 420, 2 * y + 40, rand[3]);
     button[3].events.onInputDown.add(function() {
-      cardlevel_1(button[3], 4 * x + 420, 2 * y + 40, 0);
+      cardlevel_1(button[3], 4 * x + 420, 2 * y + 40, check[3], 3);
     });
     button[3].inputEnabled = true;
 
     //level2
     button[4] = game.add.button(4 * x, 1.5 * y - 40, rand2[0]);
     button[4].events.onInputDown.add(function() {
-      cardlevel_2(button[4], 4 * x, 1.5 * y - 40, 0);
+      cardlevel_2(button[4], 4 * x, 1.5 * y - 40, check[4], 4);
     });
     button[4].inputEnabled = true;
     button[5] = game.add.button(4 * x + 140, 1.5 * y - 40, rand2[1]);
     button[5].events.onInputDown.add(function() {
-      cardlevel_2(button[5], 4 * x + 140, 1.5 * y - 40, 0);
+      cardlevel_2(button[5], 4 * x + 140, 1.5 * y - 40, check[5], 5);
     });
     button[5].inputEnabled = true;
     button[6] = game.add.button(4 * x + 280, 1.5 * y - 40, rand2[2]);
     button[6].events.onInputDown.add(function() {
-      cardlevel_2(button[6], 4 * x + 280, 1.5 * y - 40, 0);
+      cardlevel_2(button[6], 4 * x + 280, 1.5 * y - 40, check[6], 6);
     });
     button[6].inputEnabled = true;
     button[7] = game.add.button(4 * x + 420, 1.5 * y - 40, rand2[3]);
     button[7].events.onInputDown.add(function() {
-      cardlevel_2(button[7], 4 * x + 420, 1.5 * y - 40, 0);
+      cardlevel_2(button[7], 4 * x + 420, 1.5 * y - 40, check[7], 7);
     });
     button[7].inputEnabled = true;
 
     //level3
     button[8] = game.add.button(4 * x, 0.5 * y - 25, rand3[0]);
     button[8].events.onInputDown.add(function() {
-      cardlevel_3(button[8], 4 * x, 0.5 * y - 25, 0);
+      cardlevel_3(button[8], 4 * x, 0.5 * y - 25, check[8], 8);
     });
     button[8].inputEnabled = true;
     button[9] = game.add.button(4 * x + 140, 0.5 * y - 25, rand3[1]);
     button[9].events.onInputDown.add(function() {
-      cardlevel_3(button[9], 4 * x + 140, 0.5 * y - 25, 0);
+      cardlevel_3(button[9], 4 * x + 140, 0.5 * y - 25, check[9], 9);
     });
     button[9].inputEnabled = true;
     button[10] = game.add.button(4 * x + 280, 0.5 * y - 25, rand3[2]);
     button[10].events.onInputDown.add(function() {
-      cardlevel_3(button[10], 4 * x + 280, 0.5 * y - 25, 0);
+      cardlevel_3(button[10], 4 * x + 280, 0.5 * y - 25, check[10], 10);
     });
     button[10].inputEnabled = true;
     button[11] = game.add.button(4 * x + 420, 0.5 * y - 25, rand3[3]);
     button[11].events.onInputDown.add(function() {
-      cardlevel_3(button[11], 4 * x + 420, 0.5 * y - 25, 0);
+      cardlevel_3(button[11], 4 * x + 420, 0.5 * y - 25, check[11], 11);
     });
     button[11].inputEnabled = true;
     //coin
@@ -488,17 +598,6 @@ var gamestate = {
       click_coin("black");
     });
     button[16].inputEnabled = true;
-    /*    button[17] = game.add.button(
-      8 * x + 50,
-      2.5 * y - 25,
-      "coinGold",
-      click_coin,
-      this
-    );
-    button[17].events.onInputDown.add(function() {
-      click_coin("gold");
-    });
-    button[17].inputEnabled = true;*/
 
     //Noble
     button[18] = game.add.button(10 * x - 25, 0.5 * y + 25, rand4[0]);
@@ -592,7 +691,6 @@ var gamestate = {
       fill: "#ffffff",
       align: "center"
     });
-
     //PlayerInfo
     text[5] = game.add.text(
       4 * x + 55,
@@ -720,7 +818,6 @@ var gamestate = {
       fill: "#ffffff",
       align: "center"
     });
-
     //reservedCard
     button[26] = game.add.button(8 * x + 25, 3.5 * y + 30, "lilGold");
 
@@ -778,12 +875,18 @@ var gamestate = {
       chat_h.alpha = 1;
     });
     scroller2.start(); // scroller show
+    loading();
   },
   render: function() {}
 };
 
-function cardlevel_1(card, x, y, cardID) {
-  console.log(turn);
+function cardlevel_1(card, x, y, cardID, index) {
+  console.log(cardID);
+  console.log(InfoCardLv1[cardID].reqBlack);
+  console.log(InfoCardLv1[cardID].reqBlue);
+  console.log(InfoCardLv1[cardID].reqGreen);
+  console.log(InfoCardLv1[cardID].reqRed);
+  console.log(InfoCardLv1[cardID].reqWhite);
   var person = confirm("Are you sure in this card level 1?");
   if (person == true) {
     if (
@@ -815,11 +918,17 @@ function cardlevel_1(card, x, y, cardID) {
       InfoPlayer[1].redCoin -= unsign[2];
       InfoPlayer[1].greenCoin -= unsign[3];
       InfoPlayer[1].blackCoin -= unsign[4];
-      InfoPlayer[1].cardblue += InfoCardLv1[cardID].addBlue;
-      InfoPlayer[1].cardwhite += InfoCardLv1[cardID].addWhite;
-      InfoPlayer[1].cardred += InfoCardLv1[cardID].addRed;
-      InfoPlayer[1].cardgreen += InfoCardLv1[cardID].addGreen;
-      InfoPlayer[1].cardblack += InfoCardLv1[cardID].addBlack;
+      if (InfoCardLv1[cardID].addBlue) {
+        InfoPlayer[1].cardblue += InfoCardLv1[cardID].addBlue;
+      } else if (InfoCardLv1[cardID].addWhite) {
+        InfoPlayer[1].cardwhite += InfoCardLv1[cardID].addWhite;
+      } else if (InfoCardLv1[cardID].addRed) {
+        InfoPlayer[1].cardred += InfoCardLv1[cardID].addRed;
+      } else if (InfoCardLv1[cardID].addGreen) {
+        InfoPlayer[1].cardgreen += InfoCardLv1[cardID].addGreen;
+      } else if (InfoCardLv1[cardID].addBlack) {
+        InfoPlayer[1].cardblack += InfoCardLv1[cardID].addBlack;
+      }
       InfoPlayer[1].score += InfoCardLv1[cardID].score;
       text[5].setText(": " + InfoPlayer[1].blueCoin);
       text[6].setText(": " + InfoPlayer[1].whiteCoin);
@@ -843,11 +952,14 @@ function cardlevel_1(card, x, y, cardID) {
           "image/Level1/" + randImage + ".png"
         );
         rand[0] = "level1_" + randImage;
+        check[index] = randImage;
+        console.log(check[index]);
         card = game.add.button(x, y, rand[0]);
         card.events.onInputDown.add(function() {
-          cardlevel_1(card, x, y, 0);
+          cardlevel_1(card, x, y, check[index], index);
         });
         aImageFiles.splice(randIndex, 1);
+        console.log(aImageFiles);
       }
       turn += 1;
       turn = turn % 4;
@@ -861,11 +973,15 @@ function cardlevel_1(card, x, y, cardID) {
   }
   ohCancel();
 }
-function cardlevel_2(card, x, y, cardID) {
-  console.log(turn);
+function cardlevel_2(card, x, y, cardID, index) {
+  console.log(cardID);
+  console.log(InfoCardLv1[cardID].reqBlack);
+  console.log(InfoCardLv1[cardID].reqBlue);
+  console.log(InfoCardLv1[cardID].reqGreen);
+  console.log(InfoCardLv1[cardID].reqRed);
+  console.log(InfoCardLv1[cardID].reqWhite);
   var person = confirm("Are you sure in this card level 2?");
   if (person == true) {
-    console.log(cardID);
     if (
       InfoCardLv2[cardID].reqBlue <=
         InfoPlayer[1].blueCoin + InfoPlayer[1].cardblue &&
@@ -895,11 +1011,17 @@ function cardlevel_2(card, x, y, cardID) {
       InfoPlayer[1].redCoin -= unsign[2];
       InfoPlayer[1].greenCoin -= unsign[3];
       InfoPlayer[1].blackCoin -= unsign[4];
-      InfoPlayer[1].cardblue += InfoCardLv2[cardID].addBlue;
-      InfoPlayer[1].cardwhite += InfoCardLv2[cardID].addWhite;
-      InfoPlayer[1].cardred += InfoCardLv2[cardID].addRed;
-      InfoPlayer[1].cardgreen += InfoCardLv2[cardID].addGreen;
-      InfoPlayer[1].cardblack += InfoCardLv2[cardID].addBlack;
+      if (InfoCardLv2[cardID].addBlue) {
+        InfoPlayer[1].cardblue += InfoCardLv2[cardID].addBlue;
+      } else if (InfoCardLv2[cardID].addWhite) {
+        InfoPlayer[1].cardwhite += InfoCardLv2[cardID].addWhite;
+      } else if (InfoCardLv2[cardID].addRed) {
+        InfoPlayer[1].cardred += InfoCardLv2[cardID].addRed;
+      } else if (InfoCardLv2[cardID].addGreen) {
+        InfoPlayer[1].cardgreen += InfoCardLv2[cardID].addGreen;
+      } else if (InfoCardLv2[cardID].addBlack) {
+        InfoPlayer[1].cardblack += InfoCardLv2[cardID].addBlack;
+      }
       InfoPlayer[1].score += InfoCardLv2[cardID].score;
       text[5].setText(": " + InfoPlayer[1].blueCoin);
       text[6].setText(": " + InfoPlayer[1].whiteCoin);
@@ -923,11 +1045,14 @@ function cardlevel_2(card, x, y, cardID) {
           "image/Level2/" + randImage2 + ".png"
         );
         rand2[0] = "level2_" + randImage2;
+        check[index] = randImage2;
+        console.log(check[index]);
         card = game.add.button(x, y, rand2[0]);
         card.events.onInputDown.add(function() {
-          cardlevel_2(card, x, y, 0);
+          cardlevel_2(card, x, y, check[index], index);
         });
         aImageFiles2.splice(randIndex2, 1);
+        console.log(aImageFiles2);
       }
       turn += 1;
       turn = turn % 4;
@@ -941,8 +1066,13 @@ function cardlevel_2(card, x, y, cardID) {
   }
   ohCancel();
 }
-function cardlevel_3(card, x, y, cardID) {
-  console.log(turn);
+function cardlevel_3(card, x, y, cardID, index) {
+  console.log(cardID);
+  console.log(InfoCardLv1[cardID].reqBlack);
+  console.log(InfoCardLv1[cardID].reqBlue);
+  console.log(InfoCardLv1[cardID].reqGreen);
+  console.log(InfoCardLv1[cardID].reqRed);
+  console.log(InfoCardLv1[cardID].reqWhite);
   var person = confirm("Are you sure in this card level 3?");
   if (person == true) {
     if (
@@ -974,11 +1104,17 @@ function cardlevel_3(card, x, y, cardID) {
       InfoPlayer[1].redCoin -= unsign[2];
       InfoPlayer[1].greenCoin -= unsign[3];
       InfoPlayer[1].blackCoin -= unsign[4];
-      InfoPlayer[1].cardblue += InfoCardLv3[cardID].addBlue;
-      InfoPlayer[1].cardwhite += InfoCardLv3[cardID].addWhite;
-      InfoPlayer[1].cardred += InfoCardLv3[cardID].addRed;
-      InfoPlayer[1].cardgreen += InfoCardLv3[cardID].addGreen;
-      InfoPlayer[1].cardblack += InfoCardLv3[cardID].addBlack;
+      if (InfoCardLv3[cardID].addBlue) {
+        InfoPlayer[1].cardblue += InfoCardLv3[cardID].addBlue;
+      } else if (InfoCardLv3[cardID].addWhite) {
+        InfoPlayer[1].cardwhite += InfoCardLv3[cardID].addWhite;
+      } else if (InfoCardLv3[cardID].addRed) {
+        InfoPlayer[1].cardred += InfoCardLv3[cardID].addRed;
+      } else if (InfoCardLv3[cardID].addGreen) {
+        InfoPlayer[1].cardgreen += InfoCardLv3[cardID].addGreen;
+      } else if (InfoCardLv3[cardID].addBlack) {
+        InfoPlayer[1].cardblack += InfoCardLv3[cardID].addBlack;
+      }
       InfoPlayer[1].score += InfoCardLv3[cardID].score;
       text[5].setText(": " + InfoPlayer[1].blueCoin);
       text[6].setText(": " + InfoPlayer[1].whiteCoin);
@@ -1002,9 +1138,11 @@ function cardlevel_3(card, x, y, cardID) {
           "image/Level3/" + randImage3 + ".png"
         );
         rand3[0] = "level3_" + randImage3;
+        check[index] = randImage3;
+        console.log(check[index]);
         card = game.add.button(x, y, rand3[0]);
         card.events.onInputDown.add(function() {
-          cardlevel_3(card, x, y, 0);
+          cardlevel_3(card, x, y, check[index], index);
         });
         aImageFiles3.splice(randIndex3, 1);
         console.log(aImageFiles3);
@@ -1076,6 +1214,7 @@ function click_coin(color) {
     text[20].setText(coinLeft[4] + "/7");
   }
 }
+
 function OhRight() {
   /*  if (turn == 2) {
       InfoPlayer[1].inputEnabled = false;

@@ -1,3 +1,5 @@
+process.env.TZ = "Asia/Bangkok";
+
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -39,7 +41,8 @@ io.on("connection", async function(socket) {
       if (resCookieAuth.length != 0) {
         socket.emit("AUTH", {
           status: "success",
-          message: "Authentication Success"
+          message: "Authentication Success",
+          user_id: socket.handshake.session.userdata.user_id
         });
       }
     } else {
@@ -51,7 +54,7 @@ io.on("connection", async function(socket) {
   });
 
   chat(socket);
-  room(socket);
+  room(socket, io);
 
   socket.on("disconnect", function() {
     numUsers--;
