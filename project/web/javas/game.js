@@ -338,6 +338,15 @@ var gamestate = {
     this.load.image("coinWhite", "image/coin/Coin_white.png");
   },
   create: function() {
+    socket.emit("AUTH_ATTEMPT", "");
+    socket.on("AUTH", function(res) {
+      if (res.status === "success") {
+        this.user_id = res.user_id;
+        modal.hide();
+      } else {
+        window.location.href = "/";
+      }
+    });
     x = window.outerWidth / 12; //row
     y = window.outerHeight / 4; //col
 
@@ -845,9 +854,6 @@ function cardlevel_1(card, x, y, cardID) {
       InfoPlayer[1].cardgreen += InfoCardLv1[cardID].addGreen;
       InfoPlayer[1].cardblack += InfoCardLv1[cardID].addBlack;
       InfoPlayer[1].score += InfoCardLv1[cardID].score;
-<<<<<<< HEAD
-      updatePlayerInfo();
-=======
       text[5].setText(": " + InfoPlayer[1].blueCoin);
       text[6].setText(": " + InfoPlayer[1].whiteCoin);
       text[7].setText(": " + InfoPlayer[1].redCoin);
@@ -859,7 +865,6 @@ function cardlevel_1(card, x, y, cardID) {
       text[13].setText(": " + InfoPlayer[1].cardgreen);
       text[14].setText(": " + InfoPlayer[1].cardblack);
       //      text[23].setText(": " + InfoPlayer[1].goldCoin);
->>>>>>> ca08077b1e2cf63069b2fc555f15aeace9696083
       //randomCardPic
       card.destroy(card);
       randIndex = Math.floor(Math.random() * aImageFiles.length);
@@ -930,9 +935,6 @@ function cardlevel_2(card, x, y, cardID) {
       InfoPlayer[1].cardgreen += InfoCardLv2[cardID].addGreen;
       InfoPlayer[1].cardblack += InfoCardLv2[cardID].addBlack;
       InfoPlayer[1].score += InfoCardLv2[cardID].score;
-<<<<<<< HEAD
-      updatePlayerInfo();
-=======
       text[5].setText(": " + InfoPlayer[1].blueCoin);
       text[6].setText(": " + InfoPlayer[1].whiteCoin);
       text[7].setText(": " + InfoPlayer[1].redCoin);
@@ -944,7 +946,6 @@ function cardlevel_2(card, x, y, cardID) {
       text[13].setText(": " + InfoPlayer[1].cardgreen);
       text[14].setText(": " + InfoPlayer[1].cardblack);
       //      text[23].setText(": " + InfoPlayer[1].goldCoin);
->>>>>>> ca08077b1e2cf63069b2fc555f15aeace9696083
       //randomCardPic
       card.destroy(card);
       randIndex2 = Math.floor(Math.random() * aImageFiles2.length);
@@ -1014,9 +1015,6 @@ function cardlevel_3(card, x, y, cardID) {
       InfoPlayer[1].cardgreen += InfoCardLv3[cardID].addGreen;
       InfoPlayer[1].cardblack += InfoCardLv3[cardID].addBlack;
       InfoPlayer[1].score += InfoCardLv3[cardID].score;
-<<<<<<< HEAD
-      updatePlayerInfo();
-=======
       text[5].setText(": " + InfoPlayer[1].blueCoin);
       text[6].setText(": " + InfoPlayer[1].whiteCoin);
       text[7].setText(": " + InfoPlayer[1].redCoin);
@@ -1028,7 +1026,6 @@ function cardlevel_3(card, x, y, cardID) {
       text[13].setText(": " + InfoPlayer[1].cardgreen);
       text[14].setText(": " + InfoPlayer[1].cardblack);
       //      text[23].setText(": " + InfoPlayer[1].goldCoin);
->>>>>>> ca08077b1e2cf63069b2fc555f15aeace9696083
       //randomCardPic
       card.destroy(card);
       randIndex3 = Math.floor(Math.random() * aImageFiles3.length);
