@@ -37,11 +37,9 @@ var server = {
         console.log(data);
       });
     },
-    getDetail: function() {
+    getPlayerDetail: function() {
       //ดึงข้อมูล
-      socket.to(this.roomName).on("ROOM_DETAIL", function(data) {
-        console.log(data);
-      });
+      socket.emit("PLAYER_DETAIL");
     },
     getRoomMessage: function() {
       var self = this;
@@ -51,6 +49,8 @@ var server = {
           self.getPlayerReady();
           self.playerReady();
           self.playerStart();
+
+          self.getPlayerDetail();
           if (data.status === "success") {
             console.log(data.message);
             this.match_id = data.match_id;

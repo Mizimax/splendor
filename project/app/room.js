@@ -242,8 +242,7 @@ const room = function(socket, io) {
               "JOIN card c ON c.card_id = cr.card_id " +
               "JOIN coin co ON co.coin_id = cr.coin_requirement " +
               "JOIN coin_color cc ON cc.color_id = co.coin_color_id " +
-              "JOIN coin_color ccc ON ccc.color_id = c.coin_color_id",
-            [socket.room]
+              "JOIN coin_color ccc ON ccc.color_id = c.coin_color_id"
           );
           let result = [];
           if (resSelect.length != 0) {
@@ -282,6 +281,16 @@ const room = function(socket, io) {
           console.log(error);
         }
       }
+    });
+
+    socket.on("PLAYER_DETAIL", async function(data) {
+      let [resUser] = await db.query(
+        "SELECT user.user_id, user.user_display_name, pc.*, pcoin.* " +
+          "FROM player_card pc " +
+          "RIGHT JOIN user ON pc.user_id = user.user_id " +
+          "LEFT JOIN player_coin pcoin ON pcoin.user_id = user.user_id"
+      );
+      console.log(resUser);
     });
   });
 };
