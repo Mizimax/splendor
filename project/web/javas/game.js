@@ -309,6 +309,7 @@ var gamestate = {
       var randImage3 = aImageFiles3[randIndex3];
       rand3[i] = "level3_" + randImage3;
       aImageFiles3.splice(randIndex3, 1);
+     console.log(aImageFiles3);
     }
     //level2
     for (i = 0; i < 4; i++) {
@@ -991,6 +992,7 @@ function cardlevel_3(card, x, y,cardID) {
           cardlevel_3(card, x, y,0);
         });
         aImageFiles3.splice(randIndex3, 1);
+        console.log(aImageFiles3);
       }
       turn += 1;
       turn = turn % 4;
@@ -1190,6 +1192,14 @@ function ohCancel() {
   text[19].setText(coinLeft[3]+"/7");
   text[20].setText(coinLeft[4]+"/7");
   text[21].setText(coinLeft[5]+"/5");
+  total =
+        InfoPlayer[1].blueCoin +
+        InfoPlayer[1].whiteCoin +
+        InfoPlayer[1].redCoin +
+        InfoPlayer[1].greenCoin +
+        InfoPlayer[1].blackCoin+
+        InfoPlayer[1].goldCoin;
+      text[15].setText("Total " + total + "/10");
 }
 function summit() {
   var person = prompt("มันใจหรอ", "... summit ...");
