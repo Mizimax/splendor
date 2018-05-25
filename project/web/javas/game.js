@@ -45,11 +45,7 @@ InfoPlayer[1] = {
   cardgreen: 0,
   cardwhite: 0,
   goldCoin: 0,
-<<<<<<< HEAD
   score: 0
-=======
-  score:0,
->>>>>>> 0113636845dbbd4bf398ccad4b4dee1fcedabc0e
 };
 InfoPlayer[2] = {
   playerName: "Player2",
@@ -64,11 +60,7 @@ InfoPlayer[2] = {
   cardgreen: 0,
   cardwhite: 0,
   goldCoin: 0,
-<<<<<<< HEAD
   score: 0
-=======
-  score:0
->>>>>>> 0113636845dbbd4bf398ccad4b4dee1fcedabc0e
 };
 InfoPlayer[3] = {
   playerName: "Player3",
@@ -83,11 +75,7 @@ InfoPlayer[3] = {
   cardgreen: 0,
   cardwhite: 0,
   goldCoin: 0,
-<<<<<<< HEAD
   score: 0
-=======
-  score:0
->>>>>>> 0113636845dbbd4bf398ccad4b4dee1fcedabc0e
 };
 InfoPlayer[4] = {
   playerName: "Player4",
@@ -102,11 +90,7 @@ InfoPlayer[4] = {
   cardgreen: 0,
   cardwhite: 0,
   goldCoin: 0,
-<<<<<<< HEAD
   score: 0
-=======
-  score:0
->>>>>>> 0113636845dbbd4bf398ccad4b4dee1fcedabc0e
 };
 var aImageFiles = [
   "1",
@@ -592,12 +576,8 @@ var gamestate = {
     detail[8].scale.setTo(0.8);
     detail[9] = this.game.add.sprite(8 * x - 90, 3.5 * y + 30, "lilBlue");
     detail[9].scale.setTo(0.8);
-<<<<<<< HEAD
     detail[10] = this.game.add.sprite(8.5 * x - 35, 3.5 * y - 15, "coinGold");
     detail[10].scale.setTo(0.5);
-=======
-    //coinClickedCount
->>>>>>> 0113636845dbbd4bf398ccad4b4dee1fcedabc0e
     text[0] = game.add.text(8 * x + 50, 3 * y, "Blue:   " + coinNum[0], {
       font: "10px Arial",
       fill: "#ffffff",
@@ -760,6 +740,11 @@ var gamestate = {
       fill: "#ffffff",
       align: "center"
     });
+    text[23] = game.add.text(8 * x + 75, 3.5* y-10 , ": "+InfoPlayer[1].goldCoin, {
+      font: "25px Arial",
+      fill: "#ffffff",
+      align: "center"
+    });
     //reservedCard
     button[26] = game.add.button(8 * x + 25, 3.5 * y + 30, "lilGold");
 
@@ -870,6 +855,7 @@ function cardlevel_1(card, x, y, cardID) {
       text[12].setText(": " + InfoPlayer[1].cardred);
       text[13].setText(": " + InfoPlayer[1].cardgreen);
       text[14].setText(": " + InfoPlayer[1].cardblack);
+      text[23].setText(": "+ InfoPlayer[1].goldCoin);
       //randomCardPic
       card.destroy(card);
       randIndex = Math.floor(Math.random() * aImageFiles.length);
@@ -966,6 +952,7 @@ function cardlevel_2(card, x, y, cardID) {
       text[12].setText(": " + InfoPlayer[1].cardred);
       text[13].setText(": " + InfoPlayer[1].cardgreen);
       text[14].setText(": " + InfoPlayer[1].cardblack);
+      text[23].setText(": "+ InfoPlayer[1].goldCoin);
       //randomCardPic
       card.destroy(card);
       randIndex2 = Math.floor(Math.random() * aImageFiles2.length);
@@ -1045,6 +1032,7 @@ function cardlevel_3(card, x, y, cardID) {
       text[12].setText(": " + InfoPlayer[1].cardred);
       text[13].setText(": " + InfoPlayer[1].cardgreen);
       text[14].setText(": " + InfoPlayer[1].cardblack);
+      text[23].setText(": "+ InfoPlayer[1].goldCoin);
       //randomCardPic
       card.destroy(card);
       randIndex3 = Math.floor(Math.random() * aImageFiles3.length);
@@ -1221,6 +1209,7 @@ function updatePlayerInfo(){
   text[7].setText(": " + InfoPlayer[1].redCoin);
   text[8].setText(": " + InfoPlayer[1].greenCoin);
   text[9].setText(": " + InfoPlayer[1].blackCoin);
+  text[23].setText(": "+InfoPlayer[1].goldCoin);
   text[0].setText("Blue:   " + coinNum[0]);
       text[1].setText("White: " + coinNum[1]);
       text[2].setText("Red:    " + coinNum[2]);
