@@ -8,6 +8,7 @@ var problem = (  function(){
         url: "/problem",
         data: $('#ProblemForm').serialize(),
         success: function (res) {
+          
           alert("Send")
           console.log(res.result)
         },

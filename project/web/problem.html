@@ -83,9 +83,16 @@
         method: 'get',
         url: '/problem_info',
         success: function(res){
+            if(!res.login){
+              window.location.href = "/index.html";
+              alert("Please login");
+            }
+            else{
+            console.log(res.login);
             problem_type = res.problem.type;
             problem_Detail = res.problem.detail;
             output();
+            }
         },
         error: function(res){
             alert("error")            

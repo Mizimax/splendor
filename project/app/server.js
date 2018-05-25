@@ -134,7 +134,7 @@ app.post("/problem", async function(req, res) {
   let match = req.query.match;
   let data = req.body;
   //problem_type, problem_detail, description
-  //let user_id = req.session.userdata.user_id; //get user_id
+  let user_id = req.session.userdata.user_id; //get user_id
 /*
 
   // get type_id     ->  get  detail_id
@@ -161,6 +161,10 @@ app.post("/problem", async function(req, res) {
 app.get('/problem_info', async function(req, res){
   let [details] = await db.query("SELECT DISTINCT problem_detail FROM problem_detail");
   let [types] = await db.query("SELECT DISTINCT problem_type FROM problem_type");
+  var log;
+  var user_id;
+  if(!req.session.userdata) log = 0;
+  else{ let user_id = req.session.userdata.user_id; log = 1;}
   res.json(
     {
       problem :
@@ -168,11 +172,10 @@ app.get('/problem_info', async function(req, res){
         type:  types,
         detail: details
         },
-
-      
+      user: user_id,
+      login: log
     }
 );
 });
-
 io.use(cookieParser());
 io.use(sharedsession(session));
