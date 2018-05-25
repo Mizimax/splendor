@@ -17,8 +17,6 @@ var lobbystate = {
     game.load.image("ruby", "assets/ruby.png");
     game.load.image("emerald", "assets/emerald.png");
     game.load.image("bg", "assets/BG.jpg");
-    game.load.image("modal", "assets/464885029.jpg");
-    game.load.image("modal_bg", "assets/modal_bg.png");
     game.load.image("galaxy", "assets/galaxy.jpg");
     game.load.image("bg_profile", "assets/profile.png");
     game.load.image("anime", "assets/anime.png");
@@ -362,7 +360,7 @@ function ChatDown() {
   if (!scroller.visible) {
     button[3].y = chat.y;
   } else {
-    button[3].y = chat.y - 220;
+    button[3].y = galax.y;
   }
 }
 function profileClick() {

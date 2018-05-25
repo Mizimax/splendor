@@ -78,9 +78,6 @@ const room = function(socket, io) {
           if (resCreatePlayer.affectedRows != 0) {
             socket.join(resCreate.insertId);
             socket.room = resCreate.insertId;
-            socket.to(resCreate.insertId).on("PLAYER_READY", function(data) {
-              console.log(data);
-            });
             socket.emit("ROOM_MESSAGE", {
               status: "success",
               action: "JOIN_ROOM",
@@ -216,7 +213,9 @@ const room = function(socket, io) {
           [!data.ready, socket.room, socket.handshake.session.userdata.user_id]
         );
         if (resUpdateReady.affectedRows != 0)
-          io.sockets.in(socket.room).emit("PLAYER_READY", {
+          io.sockets.in(socket.room).emit("ROOM_MESSAGE", {
+            status: 'success',
+            action: 'PLAYER_READY',
             match_id: socket.room,
             user_id: socket.handshake.session.userdata.user_id,
             ready: !data.ready
@@ -248,8 +247,8 @@ const room = function(socket, io) {
           if (resSelect.length != 0) {
             resSelect.forEach(function(item, index) {
               // console.log(item["card_id"]);
-              result[item["card_id"] - 1] = {
-                ...result[item["card_id"] - 1],
+              result[item["card_id"]] = {
+                ...result[item["card_id"]],
                 card_id: item["card_id"],
                 color_code: item["color_code"],
                 card_level: item["card_level"],
