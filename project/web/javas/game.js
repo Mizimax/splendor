@@ -734,11 +734,16 @@ var gamestate = {
       fill: "#ffffff",
       align: "center"
     });
-    text[23] = game.add.text(8 * x + 75, 3.5* y-10 , ": "+InfoPlayer[1].goldCoin, {
-      font: "25px Arial",
-      fill: "#ffffff",
-      align: "center"
-    });
+    text[23] = game.add.text(
+      8 * x + 75,
+      3.5 * y - 10,
+      ": " + InfoPlayer[1].goldCoin,
+      {
+        font: "25px Arial",
+        fill: "#ffffff",
+        align: "center"
+      }
+    );
     //reservedCard
     button[26] = game.add.button(8 * x + 25, 3.5 * y + 30, "lilGold");
 
@@ -849,7 +854,7 @@ function cardlevel_1(card, x, y, cardID) {
       text[12].setText(": " + InfoPlayer[1].cardred);
       text[13].setText(": " + InfoPlayer[1].cardgreen);
       text[14].setText(": " + InfoPlayer[1].cardblack);
-      text[23].setText(": "+ InfoPlayer[1].goldCoin);
+      text[23].setText(": " + InfoPlayer[1].goldCoin);
       //randomCardPic
       card.destroy(card);
       randIndex = Math.floor(Math.random() * aImageFiles.length);
@@ -935,7 +940,7 @@ function cardlevel_2(card, x, y, cardID) {
       text[12].setText(": " + InfoPlayer[1].cardred);
       text[13].setText(": " + InfoPlayer[1].cardgreen);
       text[14].setText(": " + InfoPlayer[1].cardblack);
-      text[23].setText(": "+ InfoPlayer[1].goldCoin);
+      text[23].setText(": " + InfoPlayer[1].goldCoin);
       //randomCardPic
       card.destroy(card);
       randIndex2 = Math.floor(Math.random() * aImageFiles2.length);
@@ -1015,7 +1020,7 @@ function cardlevel_3(card, x, y, cardID) {
       text[12].setText(": " + InfoPlayer[1].cardred);
       text[13].setText(": " + InfoPlayer[1].cardgreen);
       text[14].setText(": " + InfoPlayer[1].cardblack);
-      text[23].setText(": "+ InfoPlayer[1].goldCoin);
+      text[23].setText(": " + InfoPlayer[1].goldCoin);
       //randomCardPic
       card.destroy(card);
       randIndex3 = Math.floor(Math.random() * aImageFiles3.length);
@@ -1093,7 +1098,7 @@ function click_coin(color) {
   } else if (color == "gold") {
     coinLeft[5] -= 1;
     coinNum[5] += 1;
-    text[5].setText("Gold   " + coinNum[5]);
+    //text[5].setText("Gold   " + coinNum[5]);
     text[21].setText(coinLeft[5] + "/5");
   }
 }
@@ -1185,13 +1190,13 @@ function OhRight() {
     testMessageBox("numbe");
     ohCancel();
   }
-<<<<<<< HEAD
   function updatePlayerInfo() {
     text[5].setText(": " + InfoPlayer[1].blueCoin);
     text[6].setText(": " + InfoPlayer[1].whiteCoin);
     text[7].setText(": " + InfoPlayer[1].redCoin);
     text[8].setText(": " + InfoPlayer[1].greenCoin);
     text[9].setText(": " + InfoPlayer[1].blackCoin);
+    text[23].setText(": " + InfoPlayer[1].goldCoin);
     text[0].setText("Blue:   " + coinNum[0]);
     text[1].setText("White: " + coinNum[1]);
     text[2].setText("Red:    " + coinNum[2]);
@@ -1206,29 +1211,6 @@ function OhRight() {
       InfoPlayer[1].goldCoin;
     text[15].setText("Total " + total + "/10");
   }
-=======
-function updatePlayerInfo(){
-  text[5].setText(": " + InfoPlayer[1].blueCoin);
-  text[6].setText(": " + InfoPlayer[1].whiteCoin);
-  text[7].setText(": " + InfoPlayer[1].redCoin);
-  text[8].setText(": " + InfoPlayer[1].greenCoin);
-  text[9].setText(": " + InfoPlayer[1].blackCoin);
-  text[23].setText(": "+InfoPlayer[1].goldCoin);
-  text[0].setText("Blue:   " + coinNum[0]);
-      text[1].setText("White: " + coinNum[1]);
-      text[2].setText("Red:    " + coinNum[2]);
-      text[3].setText("Green: " + coinNum[3]);
-      text[4].setText("Black:  " + coinNum[4]);
-      total =
-        InfoPlayer[1].blueCoin +
-        InfoPlayer[1].whiteCoin +
-        InfoPlayer[1].redCoin +
-        InfoPlayer[1].greenCoin +
-        InfoPlayer[1].blackCoin+
-        InfoPlayer[1].goldCoin;
-      text[15].setText("Total " + total + "/10");
-}
->>>>>>> 04bc2767d0d9b3ee32c95c9c99ce7c678b20b053
 }
 function ohCancel() {
   coinNum[0] = 0;
