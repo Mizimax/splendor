@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Problem Report</title>
+</head>
+<body>
+        <link rel="stylesheet" type="text/css" href="../style/fontawesome-all.min.css">
+        <link rel="stylesheet" type="text/css" href="../style/style.css">
+        <link rel="stylesheet" type="text/css" href="../style/bootstrap-grid.css">
+        <link href="https://fonts.googleapis.com/css?family=Kanit&amp;subset=thai" rel="stylesheet">
+
+    <style>
+    .boxregister p {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+}
+.boxregister input {
+  width: 160px;
+  margin-bottom: 5px;
+}
+.boxregister select{
+    width: 180px !important;
+    font-family: Kanit, serif;
+    border-radius: 8px;
+    
+}
+.boxregister table {
+    width: 180px;
+    font-size: 16px !important;
+}
+.boxregister textarea{
+    width: 180px;    
+    font-family: Kanit, serif;
+    font-size: 12px;
+    border-radius: 8px;
+}
+.boxregister input[type="text"],
+
+.boxregister input[type="submit"],
+.boxregister input[type="button"] {
+  width: 100px;
+  border: none;
+  outline: none;
+  height: 40px;
+  background-color: darkgoldenrod;
+  color: white;
+  font-family: Kanit, serif;
+  font-size: 18px;
+  border-radius: 8px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.boxregister input[type="submit"],
+
+.boxregister input[type="button"]:hover {
+  cursor: pointer;
+}
+.boxregister {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  width: 320px; /* 320px */
+  height: auto;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  position: absolute;
+  padding: 40px 30px;
+  border-radius: 15px;
+}
+    </style>
+<script src="../js/jquery-3.3.1.min.js"></script>
+<script type = "text/javascript" src = "js/problem.js"></script>
+
+
+<p id = "form"></p>
+<script>
+    var problem_type;
+    var problem_Detail;
+    $.ajax({
+        method: 'get',
+        url: '/problem_info',
+        success: function(res){
+            problem_type = res.problem.type;
+            problem_Detail = res.problem.detail;
+            output();
+        },
+        error: function(res){
+            alert("error")            
+        },
+        
+    });
+    function output(){
+            var out = "<div class = 'boxregister' align = 'left'>";
+            out += "<h2 align = 'center'>Problem Report</h2>";
+            out += '<form id= "ProblemForm"    onsubmit= "problem(); return false;">';
+            out += '<table style="width: 100%;">';
+            
+            var out_type = "<tr> <td>  ReportType  </td>";
+            out_type += '<td><select id="problem_type"  name="problem_type" type = "text" style="width: 80%;">';
+            out_type += "<option>ปัญหาภายในเกม</option>";
+            for(var i = 0; i<problem_type.length;i++)
+            out_type = out_type + "<option value=" +i +">" + problem_type[i].problem_type +"</option>";
+            out_type += "</select>  </td>  </tr>";
+
+            var out_detail = "<tr>   <td>ReportDetial </td>";
+            out_detail += '<td><select id="problem_Detail"  name="problem_Detail" type = "text" style="width: 80%;">';
+            out_detail += "<option>การสร้างห้อง</option>";
+            for(var i = 0; i<problem_Detail.length;i++)
+            out_detail = out_detail + "<option value=" + i +">" + problem_Detail[i].problem_detail +"</option>";
+            out_detail += "</select>  </td>  </tr>";
+
+            var rest =  "<tr>" +
+                        "<td>Description</td>" +
+                        '<td><textarea id="description" name="description" type = "text" rows="4" cols="50"></textarea></td>' +
+                        "</tr>" +
+                        "<tr> <td></td> " +
+                        ' <td><input type="submit" name = "submit" value="Report"> </td> ' +
+                        "</tr>  </table>  </form> </div>  </div>" ;
+            document.getElementById("form").innerHTML = out + out_type + out_detail + rest;
+        }
+
+</script>
+
+<!--
+<div class = 'boxregister' align = 'left'>
+        <h2 align = 'center'>Problem Report</h2>
+    <form id= "ProblemForm"    onsubmit= "problem(); return false;">
+    <table style="width: 100%;">
+        <tr>
+    <td>ReportType</td>
+    <td><select id="problem_type"  name="problem_type" type = "text" style="width: 80%;">
+        <option>ปัญหาภายในเกม</option>
+        <option value="TypeI">TypeI</option>
+        <option value="TypeII">TypeII</option>
+        <option value="TypeIII">TypeIII</option>
+      </select>  </td>
+      </tr>
+    <tr>
+    <td>ReportDetial</td>
+    <td><select id="problem_Detail"  name="problem_Detail" type = "text" style="width: 80%;">
+            <option>การสร้างห้อง</option>
+            <option value="1">TypeI</option>
+            <option value="2">TypeII</option>
+            <option value="3">TypeIII</option>
+          </select>   </td>
+        </tr>
+    <tr>
+    <td>Description</td>
+    <td><textarea id="description" name="description" type = "text" rows="4" cols="50"></textarea></td>
+    </tr>
+    <tr>
+    <td></td>
+    <td><input type="submit" name = "submit" value="Report"> </td>
+    </tr>
+    </table>
+    </form>
+    </div>
+</div> -->
+</body>
+</html>

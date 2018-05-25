@@ -129,6 +129,39 @@ app.post("/register", async function(req, res) {
     }
   }
 });
+//console.log("server");
+app.post("/problem", async function(req, res) {
+  //let match = req.query.match;
+  let data = req.body;
+  //problem_type, problem_detail, description
+  //let user_id = req.session.userdata.user_id;
+  //let [resInsert] = await db.query("INSERT INTO problem VALUES (1,?,?,?)",[user_id, match, data.description]);
+  //alert("Send complete");
+  res.json(
+    {
+      status: 'success',
+      action: 'PROBLEM_ADD',
+      message: 'Problem added'
+    }
+  );
+  
+});
+
+app.get('/problem_info', async function(req, res){
+  let [details] = await db.query("SELECT DISTINCT problem_detail FROM problem_detail");
+  let [types] = await db.query("SELECT DISTINCT problem_type FROM problem_type");
+  res.json(
+    {
+      problem :
+        {
+        type:  types,
+        detail: details
+        },
+
+      
+    }
+);
+});
 
 io.use(cookieParser());
 io.use(sharedsession(session));
