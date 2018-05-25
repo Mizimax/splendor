@@ -131,17 +131,28 @@ app.post("/register", async function(req, res) {
 });
 //console.log("server");
 app.post("/problem", async function(req, res) {
-  //let match = req.query.match;
+  let match = req.query.match;
   let data = req.body;
   //problem_type, problem_detail, description
-  //let user_id = req.session.userdata.user_id;
-  //let [resInsert] = await db.query("INSERT INTO problem VALUES (1,?,?,?)",[user_id, match, data.description]);
-  //alert("Send complete");
+  //let user_id = req.session.userdata.user_id; //get user_id
+/*
+
+  // get type_id     ->  get  detail_id
+  let [type_id] = await db.query("SELECT DISTINCT problem_type_id FORM problem_type WHERE problem_type = ?",[data.problem_type]);
+
+  let [detail_id] = await db.query(
+    "SELECT DISTINCT problem_detail_id FROM problem_detail WHERE problem_detail = ? AND problem_type_id = ?"
+  , [data.problem_detail, type_id]);
+
+
+  let [resInsert_descript] = await db.query("INSERT INTO problem (user_id, match_id, problem_description, problem_detail_id) VALUES (1,?,?,?)",[user_id, match, data.description, detail_id]);
+  //alert("Send complete");  */
   res.json(
     {
       status: 'success',
       action: 'PROBLEM_ADD',
-      message: 'Problem added'
+      message: 'Problem added',
+      result : data.description
     }
   );
   

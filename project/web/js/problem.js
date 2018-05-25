@@ -8,11 +8,11 @@ var problem = (  function(){
         url: "/problem",
         data: $('#ProblemForm').serialize(),
         success: function (res) {
-          alert("Send Problem")
+          alert("Send")
+          console.log(res.result)
         },
         error: function (res) {
           alert("Error")
         }
       })
-    console.log("problem_detail");
 });
