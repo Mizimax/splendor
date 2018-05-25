@@ -844,17 +844,7 @@ function cardlevel_1(card, x, y, cardID) {
       InfoPlayer[1].cardgreen += InfoCardLv1[cardID].addGreen;
       InfoPlayer[1].cardblack += InfoCardLv1[cardID].addBlack;
       InfoPlayer[1].score += InfoCardLv1[cardID].score;
-      text[5].setText(": " + InfoPlayer[1].blueCoin);
-      text[6].setText(": " + InfoPlayer[1].whiteCoin);
-      text[7].setText(": " + InfoPlayer[1].redCoin);
-      text[8].setText(": " + InfoPlayer[1].greenCoin);
-      text[9].setText(": " + InfoPlayer[1].blackCoin);
-      text[10].setText(": " + InfoPlayer[1].cardblue);
-      text[11].setText(": " + InfoPlayer[1].cardwhite);
-      text[12].setText(": " + InfoPlayer[1].cardred);
-      text[13].setText(": " + InfoPlayer[1].cardgreen);
-      text[14].setText(": " + InfoPlayer[1].cardblack);
-      text[23].setText(": " + InfoPlayer[1].goldCoin);
+      updatePlayerInfo();
       //randomCardPic
       card.destroy(card);
       randIndex = Math.floor(Math.random() * aImageFiles.length);
@@ -930,17 +920,7 @@ function cardlevel_2(card, x, y, cardID) {
       InfoPlayer[1].cardgreen += InfoCardLv2[cardID].addGreen;
       InfoPlayer[1].cardblack += InfoCardLv2[cardID].addBlack;
       InfoPlayer[1].score += InfoCardLv2[cardID].score;
-      text[5].setText(": " + InfoPlayer[1].blueCoin);
-      text[6].setText(": " + InfoPlayer[1].whiteCoin);
-      text[7].setText(": " + InfoPlayer[1].redCoin);
-      text[8].setText(": " + InfoPlayer[1].greenCoin);
-      text[9].setText(": " + InfoPlayer[1].blackCoin);
-      text[10].setText(": " + InfoPlayer[1].cardblue);
-      text[11].setText(": " + InfoPlayer[1].cardwhite);
-      text[12].setText(": " + InfoPlayer[1].cardred);
-      text[13].setText(": " + InfoPlayer[1].cardgreen);
-      text[14].setText(": " + InfoPlayer[1].cardblack);
-      text[23].setText(": " + InfoPlayer[1].goldCoin);
+      updatePlayerInfo();
       //randomCardPic
       card.destroy(card);
       randIndex2 = Math.floor(Math.random() * aImageFiles2.length);
@@ -1010,17 +990,7 @@ function cardlevel_3(card, x, y, cardID) {
       InfoPlayer[1].cardgreen += InfoCardLv3[cardID].addGreen;
       InfoPlayer[1].cardblack += InfoCardLv3[cardID].addBlack;
       InfoPlayer[1].score += InfoCardLv3[cardID].score;
-      text[5].setText(": " + InfoPlayer[1].blueCoin);
-      text[6].setText(": " + InfoPlayer[1].whiteCoin);
-      text[7].setText(": " + InfoPlayer[1].redCoin);
-      text[8].setText(": " + InfoPlayer[1].greenCoin);
-      text[9].setText(": " + InfoPlayer[1].blackCoin);
-      text[10].setText(": " + InfoPlayer[1].cardblue);
-      text[11].setText(": " + InfoPlayer[1].cardwhite);
-      text[12].setText(": " + InfoPlayer[1].cardred);
-      text[13].setText(": " + InfoPlayer[1].cardgreen);
-      text[14].setText(": " + InfoPlayer[1].cardblack);
-      text[23].setText(": " + InfoPlayer[1].goldCoin);
+      updatePlayerInfo();
       //randomCardPic
       card.destroy(card);
       randIndex3 = Math.floor(Math.random() * aImageFiles3.length);
