@@ -85,12 +85,19 @@ InfoPlayer[4] = {
   blackCoin: 0,
   cardblack: 0,
   cardblue: 0,
-  cardred: 0,
+  cardred: 0,   
   cardgreen: 0,
   cardwhite: 0,
   goldCoin: 0,
   score: 0
 };
+var check=[];
+check[1]=0;
+check[2]=0;
+check[3]=0;
+check[4]=0;
+var check2=["1","2","3","4"];
+var check3=["1","2","3","4"];
 var aImageFiles = [
   "1",
   "2",
@@ -193,6 +200,124 @@ var rand2 = [];
 var rand3 = [];
 var rand4 = [];
 var count = 0;
+var cardadd = function() {
+  for (var i = 1; i <= 40; i++) {
+    InfoCardLv1[i] = {
+      reqBlue: 0,
+      reqWhite: 0,
+      reqRed: 0,
+      reqGreen: 0,
+      reqBlack: 0,
+      addBlue: 0,
+      addWhite: 0,
+      addRed: 0,
+      addGreen: 0,
+      addBlack: 0,
+      score: 0
+    };
+  }
+  for (var i = 1; i <= 30; i++) {
+    InfoCardLv2[i] = {
+      reqBlue: 0,
+      reqWhite: 0,
+      reqRed: 0,
+      reqGreen: 0,
+      reqBlack: 0,
+      addBlue: 0,
+      addWhite: 0,
+      addRed: 0,
+      addGreen: 0,
+      addBlack: 0,
+      score: 0
+    };
+  }
+  for (var i = 1; i <= 20; i++) {
+    InfoCardLv3[i] = {
+      reqBlue: 0,
+      reqWhite: 0,
+      reqRed: 0,
+      reqGreen: 0,
+      reqBlack: 0,
+      addBlue: 0,
+      addWhite: 0,
+      addRed: 0,
+      addGreen: 0,
+      addBlack: 0,
+      score: 0
+    };
+  }
+   
+  for(var i =1; i<=40;i++){
+    if(DBcards[i].reqBlue){
+      InfoCardLv1[i].reqBlue=DBcards[i].reqBlue;
+    }
+    if(DBcards[i].reqWhite){
+      InfoCardLv1[i].reqWhite=DBcards[i].reqWhite;
+    }
+    if(DBcards[i].reqRed){
+      InfoCardLv1[i].reqRed=DBcards[i].reqRed;
+    }
+    if(DBcards[i].reqGreen){
+      console.log(InfoCardLv1[i]);
+      InfoCardLv1[i].reqGreen=DBcards[i].reqGreen;
+    }
+    if(DBcards[i].reqBlack){
+      InfoCardLv1[i].reqBlack=DBcards[i].reqBlack;
+    }
+    InfoCardLv1[i].addBlack=DBcards[i].addBlack;
+    InfoCardLv1[i].addBlue=DBcards[i].addBlue;
+    InfoCardLv1[i].addWhite=DBcards[i].addWhite;
+    InfoCardLv1[i].addGreen=DBcards[i].addGreen;
+    InfoCardLv1[i].addRed=DBcards[i].addRed;
+    InfoCardLv1[i].score=DBcards[i].card_score;
+  }
+  for(var i=41; i<=70;i++){
+    if(DBcards[i].reqBlue){
+      InfoCardLv2[i-40].reqBlue=DBcards[i].reqBlue;
+    }
+    if(DBcards[i].reqWhite){
+      InfoCardLv2[i-40].reqWhite=DBcards[i].reqWhite;
+    }
+    if(DBcards[i].reqRed){
+      InfoCardLv2[i-40].reqRed=DBcards[i].reqRed;
+    }
+    if(DBcards[i].reqGreen){
+      InfoCardLv2[i-40].reqGreen=DBcards[i].reqGreen;
+    }
+    if(DBcards[i].reqBlack){
+      InfoCardLv2[i-40].reqBlack=DBcards[i].reqBlack;
+    }
+    InfoCardLv2[i-40].addBlack=DBcards[i].addBlack;
+    InfoCardLv2[i-40].addBlue=DBcards[i].addBlue;
+    InfoCardLv2[i-40].addWhite=DBcards[i].addWhite;
+    InfoCardLv2[i-40].addGreen=DBcards[i].addGreen;
+    InfoCardLv2[i-40].addRed=DBcards[i].addRed;
+    InfoCardLv2[i-40].score=DBcards[i].card_score;
+  }
+  for(var i =71; i<=90;i++){
+    if(DBcards[i].reqBlue){
+      InfoCardLv3[i-70].reqBlue=DBcards[i].reqBlue;
+    }
+    if(DBcards[i].reqWhite){
+      InfoCardLv3[i-70].reqWhite=DBcards[i].reqWhite;
+    }
+    if(DBcards[i].reqRed){
+      InfoCardLv3[i-70].reqRed=DBcards[i].reqRed;
+    }
+    if(DBcards[i].reqGreen){
+      InfoCardLv3[i-70].reqGreen=DBcards[i].reqGreen;
+    }
+    if(DBcards[i].reqBlack){
+      InfoCardLv3[i-70].reqBlack=DBcards[i].reqBlack;
+    }
+    InfoCardLv3[i-70].addBlack=DBcards[i].addBlack;
+    InfoCardLv3[i-70].addBlue=DBcards[i].addBlue;
+    InfoCardLv3[i-70].addWhite=DBcards[i].addWhite;
+    InfoCardLv3[i-70].addGreen=DBcards[i].addGreen;
+    InfoCardLv3[i-70].addRed=DBcards[i].addRed;
+    InfoCardLv3[i-70].score=DBcards[i].card_score;
+  }
+}
 var gamestate = {
   preload: function() {
     this.load.image("BG", "image/BG_game_test.jpg");
@@ -213,52 +338,13 @@ var gamestate = {
     game.load.image("galaxy", "assets/galaxy.jpg");
     game.load.image("chat_head", "assets/chat_box.png");
     game.load.image("chat", "assets/send.png");
+
+    
+    game.load.image("modal", "assets/464885029.jpg");
+    game.load.image("modal_bg", "assets/modal_bg.png");
     //cardVar
-    for (var i = 0; i < 40; i++) {
-      InfoCardLv1[i] = {
-        reqBlue: 1,
-        reqWhite: 1,
-        reqRed: 1,
-        reqGreen: 1,
-        reqBlack: 1,
-        addBlue: 1,
-        addWhite: 1,
-        addRed: 1,
-        addGreen: 1,
-        addBlack: 1,
-        score: 1
-      };
-    }
-    for (var i = 0; i < 30; i++) {
-      InfoCardLv2[i] = {
-        reqBlue: 1,
-        reqWhite: 1,
-        reqRed: 1,
-        reqGreen: 1,
-        reqBlack: 1,
-        addBlue: 1,
-        addWhite: 1,
-        addRed: 1,
-        addGreen: 1,
-        addBlack: 1,
-        score: 1
-      };
-    }
-    for (var i = 0; i < 20; i++) {
-      InfoCardLv3[i] = {
-        reqBlue: 1,
-        reqWhite: 1,
-        reqRed: 1,
-        reqGreen: 1,
-        reqBlack: 1,
-        addBlue: 1,
-        addWhite: 1,
-        addRed: 1,
-        addGreen: 1,
-        addBlack: 1,
-        score: 1
-      };
-    }
+    
+   
     for (var i = 0; i < 10; i++) {
       Noble[i] = {
         reqBlue: 1,
@@ -323,6 +409,8 @@ var gamestate = {
       var randImage = aImageFiles[randIndex];
       rand[i] = "level1_" + randImage;
       aImageFiles.splice(randIndex, 1);
+      check[i+1]=randImage;
+      console.log(check);
     }
 
     //deck_level1-3
@@ -347,6 +435,10 @@ var gamestate = {
         window.location.href = "/";
       }
     });
+    server.room.getRoomMessage();
+    server.room.joinRoom(7);
+    server.room.playerStart();
+
     x = window.outerWidth / 12; //row
     y = window.outerHeight / 4; //col
 
@@ -382,7 +474,7 @@ var gamestate = {
     //level1
     button[0] = game.add.button(4 * x, 2 * y + 40, rand[0]);
     button[0].events.onInputDown.add(function() {
-      cardlevel_1(button[0], 4 * x, 2 * y + 40, 0);
+      cardlevel_1(button[0], 4 * x, 2 * y + 40, check[1]);
     });
     button[0].inputEnabled = true;
     button[1] = game.add.button(4 * x + 140, 2 * y + 40, rand[1]);
@@ -811,12 +903,18 @@ var gamestate = {
       chat_h.alpha = 1;
     });
     scroller2.start(); // scroller show
+    loading()
   },
   render: function() {}
 };
 
 function cardlevel_1(card, x, y, cardID) {
-  console.log(turn);
+  console.log(cardID);
+  console.log(InfoCardLv1[cardID].reqBlue);
+  console.log(InfoCardLv1[cardID].reqWhite);
+  console.log(InfoCardLv1[cardID].reqRed);
+  console.log(InfoCardLv1[cardID].reqGreen);
+  console.log(InfoCardLv1[cardID].reqBlack);
   var person = confirm("Are you sure in this card level 1?");
   if (person == true) {
     if (
@@ -848,11 +946,21 @@ function cardlevel_1(card, x, y, cardID) {
       InfoPlayer[1].redCoin -= unsign[2];
       InfoPlayer[1].greenCoin -= unsign[3];
       InfoPlayer[1].blackCoin -= unsign[4];
-      InfoPlayer[1].cardblue += InfoCardLv1[cardID].addBlue;
-      InfoPlayer[1].cardwhite += InfoCardLv1[cardID].addWhite;
-      InfoPlayer[1].cardred += InfoCardLv1[cardID].addRed;
-      InfoPlayer[1].cardgreen += InfoCardLv1[cardID].addGreen;
-      InfoPlayer[1].cardblack += InfoCardLv1[cardID].addBlack;
+      if(InfoCardLv1[cardID].addBlue){
+        InfoPlayer[1].cardblue += InfoCardLv1[cardID].addBlue;
+      }
+      else if(InfoCardLv1[cardID].addWhite){
+        InfoPlayer[1].cardwhite += InfoCardLv1[cardID].addWhite;
+      }
+      else if(InfoCardLv1[cardID].addRed){
+        InfoPlayer[1].cardred += InfoCardLv1[cardID].addRed;
+      }
+      else if(InfoCardLv1[cardID].addGreen){
+        InfoPlayer[1].cardgreen += InfoCardLv1[cardID].addGreen;
+      }
+      else if(InfoCardLv1[cardID].addBlack){
+        InfoPlayer[1].cardblack += InfoCardLv1[cardID].addBlack;
+      }
       InfoPlayer[1].score += InfoCardLv1[cardID].score;
       text[5].setText(": " + InfoPlayer[1].blueCoin);
       text[6].setText(": " + InfoPlayer[1].whiteCoin);
@@ -877,9 +985,11 @@ function cardlevel_1(card, x, y, cardID) {
           "image/Level1/" + randImage + ".png"
         );
         rand[0] = "level1_" + randImage;
+        check[2]=randImage;
+        console.log(check[2]);
         card = game.add.button(x, y, rand[0]);
         card.events.onInputDown.add(function() {
-          cardlevel_1(card, x, y, 0);
+          cardlevel_1(card, x, y, check[2]);
         });
         aImageFiles.splice(randIndex, 1);
       }
@@ -924,11 +1034,21 @@ function cardlevel_2(card, x, y, cardID) {
           unsign[j] = 0;
         }
       }
-      InfoPlayer[1].blueCoin -= unsign[0];
-      InfoPlayer[1].whiteCoin -= unsign[1];
-      InfoPlayer[1].redCoin -= unsign[2];
-      InfoPlayer[1].greenCoin -= unsign[3];
-      InfoPlayer[1].blackCoin -= unsign[4];
+      if(InfoCardLv2[cardID].addBlue){
+        InfoPlayer[1].cardblue += InfoCardLv2[cardID].addBlue;
+      }
+      else if(InfoCardLv2[cardID].addWhite){
+        InfoPlayer[1].cardwhite += InfoCardLv2[cardID].addWhite;
+      }
+      else if(InfoCardLv2[cardID].addRed){
+        InfoPlayer[1].cardred += InfoCardLv2[cardID].addRed;
+      }
+      else if(InfoCardLv2[cardID].addGreen){
+        InfoPlayer[1].cardgreen += InfoCardLv2[cardID].addGreen;
+      }
+      else if(InfoCardLv2[cardID].addBlack){
+        InfoPlayer[1].cardblack += InfoCardLv2[cardID].addBlack;
+      }
       InfoPlayer[1].cardblue += InfoCardLv2[cardID].addBlue;
       InfoPlayer[1].cardwhite += InfoCardLv2[cardID].addWhite;
       InfoPlayer[1].cardred += InfoCardLv2[cardID].addRed;
@@ -1004,11 +1124,21 @@ function cardlevel_3(card, x, y, cardID) {
           unsign[j] = 0;
         }
       }
-      InfoPlayer[1].blueCoin -= unsign[0];
-      InfoPlayer[1].whiteCoin -= unsign[1];
-      InfoPlayer[1].redCoin -= unsign[2];
-      InfoPlayer[1].greenCoin -= unsign[3];
-      InfoPlayer[1].blackCoin -= unsign[4];
+      if(InfoCardLv3[cardID].addBlue){
+        InfoPlayer[1].cardblue += InfoCardLv3[cardID].addBlue;
+      }
+      else if(InfoCardLv3[cardID].addWhite){
+        InfoPlayer[1].cardwhite += InfoCardLv3[cardID].addWhite;
+      }
+      else if(InfoCardLv3[cardID].addRed){
+        InfoPlayer[1].cardred += InfoCardLv3[cardID].addRed;
+      }
+      else if(InfoCardLv3[cardID].addGreen){
+        InfoPlayer[1].cardgreen += InfoCardLv3[cardID].addGreen;
+      }
+      else if(InfoCardLv3[cardID].addBlack){
+        InfoPlayer[1].cardblack += InfoCardLv3[cardID].addBlack;
+      }
       InfoPlayer[1].cardblue += InfoCardLv3[cardID].addBlue;
       InfoPlayer[1].cardwhite += InfoCardLv3[cardID].addWhite;
       InfoPlayer[1].cardred += InfoCardLv3[cardID].addRed;

@@ -32,11 +32,6 @@ var server = {
     playerStart: function() {
       socket.emit("GAME_START");
     },
-    getPlayerReady: function() {
-      socket.on("PLAYER_READY", function(data) {
-        console.log(data);
-      });
-    },
     getDetail: function() {
       //ดึงข้อมูล
       socket.to(this.roomName).on("ROOM_DETAIL", function(data) {
@@ -48,18 +43,17 @@ var server = {
       socket.on("ROOM_MESSAGE", function(data) {
         console.log(data);
         if (data.action === "JOIN_ROOM") {
-          self.getPlayerReady();
           self.playerReady();
           self.playerStart();
           if (data.status === "success") {
-            console.log(data.message);
             this.match_id = data.match_id;
             this.joined = true;
           } else {
-            alert(data.message);
             // window.location.href = "/";
           }
-        } else {
+        } else if(data.action === "LOAD_CARD") {
+          window.DBcards = data.cards;
+          cardadd();
         }
       });
     }
