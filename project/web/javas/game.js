@@ -22,13 +22,12 @@ var InfoCardLv1 = [];
 var InfoCardLv2 = [];
 var InfoCardLv3 = [];
 var Noble = [];
-var coinLeft =[];
-for (var i = 0; i<6;i++){
-  if (i<5){
-    coinLeft[i]=7;
-  }
-  else{
-    coinLeft[i]=5
+var coinLeft = [];
+for (var i = 0; i < 6; i++) {
+  if (i < 5) {
+    coinLeft[i] = 7;
+  } else {
+    coinLeft[i] = 5;
   }
 }
 var InfoPlayer = [];
@@ -45,11 +44,7 @@ InfoPlayer[1] = {
   cardgreen: 0,
   cardwhite: 0,
   goldCoin: 0,
-<<<<<<< HEAD
   score: 0
-=======
-  score:0,
->>>>>>> 0113636845dbbd4bf398ccad4b4dee1fcedabc0e
 };
 InfoPlayer[2] = {
   playerName: "Player2",
@@ -64,11 +59,7 @@ InfoPlayer[2] = {
   cardgreen: 0,
   cardwhite: 0,
   goldCoin: 0,
-<<<<<<< HEAD
   score: 0
-=======
-  score:0
->>>>>>> 0113636845dbbd4bf398ccad4b4dee1fcedabc0e
 };
 InfoPlayer[3] = {
   playerName: "Player3",
@@ -83,11 +74,7 @@ InfoPlayer[3] = {
   cardgreen: 0,
   cardwhite: 0,
   goldCoin: 0,
-<<<<<<< HEAD
   score: 0
-=======
-  score:0
->>>>>>> 0113636845dbbd4bf398ccad4b4dee1fcedabc0e
 };
 InfoPlayer[4] = {
   playerName: "Player4",
@@ -102,11 +89,7 @@ InfoPlayer[4] = {
   cardgreen: 0,
   cardwhite: 0,
   goldCoin: 0,
-<<<<<<< HEAD
   score: 0
-=======
-  score:0
->>>>>>> 0113636845dbbd4bf398ccad4b4dee1fcedabc0e
 };
 var aImageFiles = [
   "1",
@@ -325,7 +308,7 @@ var gamestate = {
       var randImage3 = aImageFiles3[randIndex3];
       rand3[i] = "level3_" + randImage3;
       aImageFiles3.splice(randIndex3, 1);
-     console.log(aImageFiles3);
+      console.log(aImageFiles3);
     }
     //level2
     for (i = 0; i < 4; i++) {
@@ -359,11 +342,6 @@ var gamestate = {
     y = window.outerHeight / 4; //col
 
     turn = turn % 4;
-    /* if(turn==1)
-    button[1].inputEnabled = true;
-    InfoPlayer[2].inputEnabled = false;
-    InfoPlayer[3].inputEnabled = false;
-    InfoPlayer[4].inputEnabled = false;*/
 
     this.BG = this.game.add.sprite(0, 0, "BG").scale.setTo(1.5);
 
@@ -528,27 +506,27 @@ var gamestate = {
     //Noble
     button[18] = game.add.button(10 * x - 25, 0.5 * y + 25, rand4[0]);
     button[18].events.onInputDown.add(function() {
-      click_Noble(button[18],0);
+      click_Noble(button[18], 0);
     });
     button[18].inputEnabled = true;
     button[19] = game.add.button(10 * x - 25, y + 75, rand4[1]);
     button[19].events.onInputDown.add(function() {
-      click_Noble(button[19],0);
+      click_Noble(button[19], 0);
     });
     button[19].inputEnabled = true;
     button[20] = game.add.button(10 * x - 25, 2 * y + 25, rand4[2]);
     button[20].events.onInputDown.add(function() {
-      click_Noble(button[20],0);
+      click_Noble(button[20], 0);
     });
     button[20].inputEnabled = true;
     button[21] = game.add.button(11 * x, y - 25, rand4[3]);
     button[21].events.onInputDown.add(function() {
-      click_Noble(button[21],0);
+      click_Noble(button[21], 0);
     });
     button[21].inputEnabled = true;
     button[22] = game.add.button(11 * x, 1.5 * y + 40, rand4[4]);
     button[22].events.onInputDown.add(function() {
-      click_Noble(button[22],0);
+      click_Noble(button[22], 0);
     });
     button[22].inputEnabled = true;
     //showscore
@@ -592,12 +570,8 @@ var gamestate = {
     detail[8].scale.setTo(0.8);
     detail[9] = this.game.add.sprite(8 * x - 90, 3.5 * y + 30, "lilBlue");
     detail[9].scale.setTo(0.8);
-<<<<<<< HEAD
     detail[10] = this.game.add.sprite(8.5 * x - 35, 3.5 * y - 15, "coinGold");
     detail[10].scale.setTo(0.5);
-=======
-    //coinClickedCount
->>>>>>> 0113636845dbbd4bf398ccad4b4dee1fcedabc0e
     text[0] = game.add.text(8 * x + 50, 3 * y, "Blue:   " + coinNum[0], {
       font: "10px Arial",
       fill: "#ffffff",
@@ -730,32 +704,32 @@ var gamestate = {
       align: "center"
     });
     // 7/7
-    text[16] = game.add.text(10 * x - 100, 0.5 * y, coinLeft[0]+"/7", {
+    text[16] = game.add.text(10 * x - 100, 0.5 * y, coinLeft[0] + "/7", {
       font: "25px Arial",
       fill: "#ffffff",
       align: "center"
     });
-    text[17] = game.add.text(10 * x - 100, y - 20, coinLeft[1]+"/7", {
+    text[17] = game.add.text(10 * x - 100, y - 20, coinLeft[1] + "/7", {
       font: "25px Arial",
       fill: "#ffffff",
       align: "center"
     });
-    text[18] = game.add.text(10 * x - 100, y + 60, coinLeft[2]+"/7", {
+    text[18] = game.add.text(10 * x - 100, y + 60, coinLeft[2] + "/7", {
       font: "25px Arial",
       fill: "#ffffff",
       align: "center"
     });
-    text[19] = game.add.text(10 * x - 100, 1.5 * y + 40, coinLeft[3]+"/7", {
+    text[19] = game.add.text(10 * x - 100, 1.5 * y + 40, coinLeft[3] + "/7", {
       font: "25px Arial",
       fill: "#ffffff",
       align: "center"
     });
-    text[20] = game.add.text(10 * x - 100, 2 * y + 15, coinLeft[4]+"/7", {
+    text[20] = game.add.text(10 * x - 100, 2 * y + 15, coinLeft[4] + "/7", {
       font: "25px Arial",
       fill: "#ffffff",
       align: "center"
     });
-    text[21] = game.add.text(10 * x - 100, 2.5 * y - 5, coinLeft[5]+"/5", {
+    text[21] = game.add.text(10 * x - 100, 2.5 * y - 5, coinLeft[5] + "/5", {
       font: "25px Arial",
       fill: "#ffffff",
       align: "center"
@@ -893,26 +867,15 @@ function cardlevel_1(card, x, y, cardID) {
       if (turn % 4 == 0) {
         turn += 4;
       }
-    } else {
-      //case not enough coin
-      testMessageBox("insufficient");
+      if (turn == 1) {
+        for (i = 0; i <= 22; i++) {
+          button[i].inputEnabled = true;
+        }
+      } else {
+        //case not enough coin
+        testMessageBox("insufficient");
+      }
     }
-    turn += 1;
-    turn = turn % 4;
-    if (turn == 0) {
-      turn += 4;
-    }
-    /*  if (turn == 1) {
-      InfoPlayer[1].inputEnabled = true;
-      InfoPlayer[2].inputEnabled = false;
-      InfoPlayer[3].inputEnabled = false;
-      InfoPlayer[4].inputEnabled = false;
-    } else if (turn == 2) {
-      InfoPlayer[1].inputEnabled = false;
-      InfoPlayer[2].inputEnabled = true;
-      InfoPlayer[3].inputEnabled = false;
-      InfoPlayer[4].inputEnabled = false;
-    }*/
   }
   ohCancel();
 }
@@ -1076,51 +1039,54 @@ function cardlevel_3(card, x, y, cardID) {
   }
   ohCancel();
 }
-function click_Noble(card,NobleID) {
+function click_Noble(card, NobleID) {
   var person = confirm("Are you sure in this card Noble?");
   if (person == true) {
-    if(InfoPlayer[1].cardblue>=Noble[NobleID].reqBlue&&InfoPlayer[1].cardwhite>=Noble[NobleID].reqWhite&&InfoPlayer[1].cardred>=Noble[NobleID].reqRed&&InfoPlayer[1].cardgreen>=Noble[NobleID].reqGreen&&InfoPlayer[1].cardblack>=Noble[NobleID].reqBlack){
-      InfoPlayer[1].score+=Noble[NobleID].score;
+    if (
+      InfoPlayer[1].cardblue >= Noble[NobleID].reqBlue &&
+      InfoPlayer[1].cardwhite >= Noble[NobleID].reqWhite &&
+      InfoPlayer[1].cardred >= Noble[NobleID].reqRed &&
+      InfoPlayer[1].cardgreen >= Noble[NobleID].reqGreen &&
+      InfoPlayer[1].cardblack >= Noble[NobleID].reqBlack
+    ) {
+      InfoPlayer[1].score += Noble[NobleID].score;
       card.destroy(card);
-    }
-    else{
+    } else {
       testMessageBox("noCard");
     }
-    
   }
 }
 function click_coin(color) {
   if (color == "blue") {
-    coinLeft[0]-=1;
+    coinLeft[0] -= 1;
     coinNum[0] += 1;
     text[0].setText("Blue:   " + coinNum[0]);
-    text[16].setText(coinLeft[0]+"/7");
+    text[16].setText(coinLeft[0] + "/7");
   } else if (color == "white") {
-    coinLeft[1]-=1;
+    coinLeft[1] -= 1;
     coinNum[1] += 1;
     text[1].setText("White: " + coinNum[1]);
-    text[17].setText(coinLeft[1]+"/7");
+    text[17].setText(coinLeft[1] + "/7");
   } else if (color == "red") {
-    coinLeft[2]-=1;
+    coinLeft[2] -= 1;
     coinNum[2] += 1;
     text[2].setText("Red:    " + coinNum[2]);
-    text[18].setText(coinLeft[2]+"/7");
+    text[18].setText(coinLeft[2] + "/7");
   } else if (color == "green") {
-    coinLeft[3]-=1;
+    coinLeft[3] -= 1;
     coinNum[3] += 1;
     text[3].setText("Green: " + coinNum[3]);
-    text[19].setText(coinLeft[3]+"/7");
+    text[19].setText(coinLeft[3] + "/7");
   } else if (color == "black") {
-    coinLeft[4]-=1;
+    coinLeft[4] -= 1;
     coinNum[4] += 1;
     text[4].setText("Black:  " + coinNum[4]);
-    text[20].setText(coinLeft[4]+"/7");
-  }
-  else if(color == "gold"){
-    coinLeft[5]-=1;
+    text[20].setText(coinLeft[4] + "/7");
+  } else if (color == "gold") {
+    coinLeft[5] -= 1;
     coinNum[5] += 1;
     text[5].setText("Gold   " + coinNum[5]);
-    text[21].setText(coinLeft[5]+"/5");
+    text[21].setText(coinLeft[5] + "/5");
   }
 }
 function OhRight() {
@@ -1139,19 +1105,16 @@ function OhRight() {
   ) {
     testMessageBox("toomuch");
     ohCancel();
-  }
-  else if(coinNum[5]>0){
-    if(coinNum[0]+coinNum[1]+coinNum[2]+coinNum[3]+coinNum[4]>0){
+  } else if (coinNum[5] > 0) {
+    if (coinNum[0] + coinNum[1] + coinNum[2] + coinNum[3] + coinNum[4] > 0) {
       testMessageBox("format");
       ohCancel();
-    }
-    else if(coinNum[5]!=1){
+    } else if (coinNum[5] != 1) {
       testMessageBox("Gold");
       ohCancel();
-    }
-    else{
+    } else {
       //pick gold coin
-      InfoPlayer[1].goldCoin+=coinNum[5];
+      InfoPlayer[1].goldCoin += coinNum[5];
       ohCancel();
       updatePlayerInfo();
       console.log(turn);
@@ -1161,8 +1124,7 @@ function OhRight() {
         turn += 4;
       }
     }
-  } 
-  else if (
+  } else if (
     coinNum[0] + coinNum[1] + coinNum[2] + coinNum[3] + coinNum[4] <=
     3
   ) {
@@ -1215,26 +1177,26 @@ function OhRight() {
     testMessageBox("numbe");
     ohCancel();
   }
-function updatePlayerInfo(){
-  text[5].setText(": " + InfoPlayer[1].blueCoin);
-  text[6].setText(": " + InfoPlayer[1].whiteCoin);
-  text[7].setText(": " + InfoPlayer[1].redCoin);
-  text[8].setText(": " + InfoPlayer[1].greenCoin);
-  text[9].setText(": " + InfoPlayer[1].blackCoin);
-  text[0].setText("Blue:   " + coinNum[0]);
-      text[1].setText("White: " + coinNum[1]);
-      text[2].setText("Red:    " + coinNum[2]);
-      text[3].setText("Green: " + coinNum[3]);
-      text[4].setText("Black:  " + coinNum[4]);
-      total =
-        InfoPlayer[1].blueCoin +
-        InfoPlayer[1].whiteCoin +
-        InfoPlayer[1].redCoin +
-        InfoPlayer[1].greenCoin +
-        InfoPlayer[1].blackCoin+
-        InfoPlayer[1].goldCoin;
-      text[15].setText("Total " + total + "/10");
-}
+  function updatePlayerInfo() {
+    text[5].setText(": " + InfoPlayer[1].blueCoin);
+    text[6].setText(": " + InfoPlayer[1].whiteCoin);
+    text[7].setText(": " + InfoPlayer[1].redCoin);
+    text[8].setText(": " + InfoPlayer[1].greenCoin);
+    text[9].setText(": " + InfoPlayer[1].blackCoin);
+    text[0].setText("Blue:   " + coinNum[0]);
+    text[1].setText("White: " + coinNum[1]);
+    text[2].setText("Red:    " + coinNum[2]);
+    text[3].setText("Green: " + coinNum[3]);
+    text[4].setText("Black:  " + coinNum[4]);
+    total =
+      InfoPlayer[1].blueCoin +
+      InfoPlayer[1].whiteCoin +
+      InfoPlayer[1].redCoin +
+      InfoPlayer[1].greenCoin +
+      InfoPlayer[1].blackCoin +
+      InfoPlayer[1].goldCoin;
+    text[15].setText("Total " + total + "/10");
+  }
 }
 function ohCancel() {
   coinNum[0] = 0;
@@ -1249,26 +1211,56 @@ function ohCancel() {
   text[4].setText("Black:  " + coinNum[4]);
   coinNum[5] = 0;
   text[22].setText("Gold:   " + coinNum[5]);
-  coinLeft[0]= 7-InfoPlayer[1].blueCoin-InfoPlayer[2].blueCoin-InfoPlayer[3].blueCoin-InfoPlayer[4].blueCoin;
-  coinLeft[1]= 7-InfoPlayer[1].whiteCoin-InfoPlayer[2].whiteCoin-InfoPlayer[3].whiteCoin-InfoPlayer[4].whiteCoin;
-  coinLeft[2]= 7-InfoPlayer[1].redCoin-InfoPlayer[2].redCoin-InfoPlayer[3].redCoin-InfoPlayer[4].redCoin;
-  coinLeft[3]= 7-InfoPlayer[1].greenCoin-InfoPlayer[2].greenCoin-InfoPlayer[3].greenCoin-InfoPlayer[4].greenCoin;
-  coinLeft[4]= 7-InfoPlayer[1].blackCoin-InfoPlayer[2].blackCoin-InfoPlayer[3].blackCoin-InfoPlayer[4].blackCoin;
-  coinLeft[5]= 5-InfoPlayer[1].goldCoin-InfoPlayer[2].goldCoin-InfoPlayer[3].goldCoin-InfoPlayer[4].goldCoin;
-  text[16].setText(coinLeft[0]+"/7");
-  text[17].setText(coinLeft[1]+"/7");
-  text[18].setText(coinLeft[2]+"/7");
-  text[19].setText(coinLeft[3]+"/7");
-  text[20].setText(coinLeft[4]+"/7");
-  text[21].setText(coinLeft[5]+"/5");
+  coinLeft[0] =
+    7 -
+    InfoPlayer[1].blueCoin -
+    InfoPlayer[2].blueCoin -
+    InfoPlayer[3].blueCoin -
+    InfoPlayer[4].blueCoin;
+  coinLeft[1] =
+    7 -
+    InfoPlayer[1].whiteCoin -
+    InfoPlayer[2].whiteCoin -
+    InfoPlayer[3].whiteCoin -
+    InfoPlayer[4].whiteCoin;
+  coinLeft[2] =
+    7 -
+    InfoPlayer[1].redCoin -
+    InfoPlayer[2].redCoin -
+    InfoPlayer[3].redCoin -
+    InfoPlayer[4].redCoin;
+  coinLeft[3] =
+    7 -
+    InfoPlayer[1].greenCoin -
+    InfoPlayer[2].greenCoin -
+    InfoPlayer[3].greenCoin -
+    InfoPlayer[4].greenCoin;
+  coinLeft[4] =
+    7 -
+    InfoPlayer[1].blackCoin -
+    InfoPlayer[2].blackCoin -
+    InfoPlayer[3].blackCoin -
+    InfoPlayer[4].blackCoin;
+  coinLeft[5] =
+    5 -
+    InfoPlayer[1].goldCoin -
+    InfoPlayer[2].goldCoin -
+    InfoPlayer[3].goldCoin -
+    InfoPlayer[4].goldCoin;
+  text[16].setText(coinLeft[0] + "/7");
+  text[17].setText(coinLeft[1] + "/7");
+  text[18].setText(coinLeft[2] + "/7");
+  text[19].setText(coinLeft[3] + "/7");
+  text[20].setText(coinLeft[4] + "/7");
+  text[21].setText(coinLeft[5] + "/5");
   total =
-        InfoPlayer[1].blueCoin +
-        InfoPlayer[1].whiteCoin +
-        InfoPlayer[1].redCoin +
-        InfoPlayer[1].greenCoin +
-        InfoPlayer[1].blackCoin+
-        InfoPlayer[1].goldCoin;
-      text[15].setText("Total " + total + "/10");
+    InfoPlayer[1].blueCoin +
+    InfoPlayer[1].whiteCoin +
+    InfoPlayer[1].redCoin +
+    InfoPlayer[1].greenCoin +
+    InfoPlayer[1].blackCoin +
+    InfoPlayer[1].goldCoin;
+  text[15].setText("Total " + total + "/10");
 }
 function summit() {
   var person = prompt("มันใจหรอ", "... summit ...");
@@ -1282,12 +1274,14 @@ function testMessageBox(type) {
     this.showMessageBox("You can't pick more than three coins!", 5 * x, 2 * y);
   } else if (type == "insufficient") {
     this.showMessageBox("You don't have enough coins!", 5 * x, 2 * y);
-  }
-  else if(type=="noCard"){
+  } else if (type == "noCard") {
     this.showMessageBox("You don't have enough cards!", 5 * x, 2 * y);
-  }
-  else if(type=="Gold"){
-    this.showMessageBox("You can't pick more than one gold coin!", 5 * x, 2 * y);
+  } else if (type == "Gold") {
+    this.showMessageBox(
+      "You can't pick more than one gold coin!",
+      5 * x,
+      2 * y
+    );
   }
 }
 function showMessageBox(text, w = 300, h = 300) {
