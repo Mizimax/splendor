@@ -8,7 +8,6 @@ coinNum[3] = 0;
 coinNum[4] = 0;
 var detail = [];
 var turn = 1;
-
 var send;
 var garlax2;
 var chat2;
@@ -50,7 +49,8 @@ InfoPlayer[2] = {
   cardred: 0,
   cardgreen: 0,
   cardwhite: 0,
-  cardgold: 0
+  cardgold: 0,
+  inputEnabled: true
 };
 InfoPlayer[3] = {
   playerName: "Player3",
@@ -64,7 +64,8 @@ InfoPlayer[3] = {
   cardred: 0,
   cardgreen: 0,
   cardwhite: 0,
-  cardgold: 0
+  cardgold: 0,
+  inputEnabled: true
 };
 InfoPlayer[4] = {
   playerName: "Player4",
@@ -78,7 +79,8 @@ InfoPlayer[4] = {
   cardred: 0,
   cardgreen: 0,
   cardwhite: 0,
-  cardgold: 0
+  cardgold: 0,
+  inputEnabled: true
 };
 var aImageFiles = [
   "1",
@@ -278,9 +280,8 @@ var gamestate = {
     this.load.image("lilGreen", "image/misc/green.png");
     this.load.image("lilBlack", "image/misc/black.png");
     this.load.image("lilGold", "image/misc/Eflower.png");
-    this.load.image("popup", "image/misc/popup.png");
+    this.load.image("popup", "image/misc/newpopup.png");
     this.load.image("exitpopup", "image/misc/exit.png");
-    //this.load.image("exitpopup", "asset/464.png");
     //Noble
     for (i = 0; i < 5; i++) {
       var randIndex4 = Math.floor(Math.random() * aImageFiles4.length);
@@ -334,7 +335,6 @@ var gamestate = {
     /*if (turn == 0) {
       turn += 4;
     }*/
-
     this.BG = this.game.add.sprite(0, 0, "BG").scale.setTo(1.5);
 
     this.player1 = this.game.add.sprite(0, 0.5 * y - 25, "player1");
@@ -362,7 +362,6 @@ var gamestate = {
       0.5 * y - 25,
       "level3_BG"
     );
-
     //level1
     button[0] = game.add.button(4 * x, 2 * y + 40, rand[0]);
     button[0].events.onInputDown.add(function() {
@@ -720,7 +719,7 @@ var gamestate = {
       align: "center"
     });
     //reservedCard
-    button[26] = game.add.button(8 * x + 25, 3 * y + 40, "lilGold");
+    button[26] = game.add.button(8 * x + 25, 3.5 * y + 30, "lilGold");
 
     //chat  input
     chat2 = game.add.inputField(game.width * 0.001, game.height * 0.95, {
@@ -764,9 +763,6 @@ var gamestate = {
     scroller2 = game.add.existing(
       new ScrollableArea(chat2.x, chat2.y - 200, 300, 190)
     );
-    //var backg = game.add.image(0,0,'bg');
-    //scroller.addChild(backg);
-    //chat head      click to hidden
     chat_h = game.add.button(galax2.x, galax2.y, "chat_head", ChatDown2, this);
     chat_h.inputEnabled = true;
     chat_h.scale.setTo(300 / chat_h.width, 20 / chat_h.height);
@@ -892,6 +888,9 @@ function click_coin(color) {
   }
 }
 function OhRight() {
+  if (turn == 2) {
+    InfoPlayer[1].inputEnabled = false;
+  }
   var total =
     InfoPlayer[turn].blueCoin +
     InfoPlayer[turn].whiteCoin +
@@ -1258,7 +1257,6 @@ function showScore(w = 500, h = 500) {
   scrBox.add(detail2[9]);
   closeButton2.x = back2.width - 70;
   closeButton2.y = 10;
-  closeButton2.scale.setTo(0.3);
   closeButton2.inputEnabled = true;
   closeButton2.events.onInputDown.add(this.hideBox2, this);
   scrBox.x = game.width / 2 - scrBox.width / 2;
