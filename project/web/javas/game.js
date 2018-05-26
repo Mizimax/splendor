@@ -154,13 +154,28 @@ var changeTurn = function(){
 
 }
 */
+/*var update = function(){
+  InfoPlayer[1].
+}*/
 var checkPlayerDetail = function(){
   InfoPlayer[1].playerName=DBplayer[1].user_display_name;
   InfoPlayer[2].playerName=DBplayer[2].user_display_name;
   InfoPlayer[3].playerName=DBplayer[3].user_display_name;
   InfoPlayer[4].playerName=DBplayer[4].user_display_name;
-  console.log(InfoPlayer[1].blueCoin);
-}/*
+  if(name==InfoPlayer[1].playerName){
+    localNum = 1;
+  }
+  else if(name==InfoPlayer[2].playerName){
+    localNum = 2;
+  }
+  else if(name==InfoPlayer[3].playerName){
+    localNum = 3;
+  }
+  else if(name==InfoPlayer[4].playerName){
+    localNum = 4;
+  }
+  console.log(localNum);
+}
 var cardadd = function() {
   for (var i = 1; i <= 40; i++) {
     InfoCardLv1[i] = {
@@ -277,7 +292,7 @@ var cardadd = function() {
     InfoCardLv3[i - 70].addRed = DBcards[i].addRed;
     InfoCardLv3[i - 70].score = DBcards[i].card_score;
   }
-};*/
+};
 /*
 
 */
@@ -1746,13 +1761,13 @@ function showScore(w = 500, h = 500) {
   scoreNum[11] = game.add.text(
     0,
     0,
-    InfoPlayer[1].playerName +
+    InfoPlayer[1].playerName.substring(0,5) +
       "\n\n" +
-      InfoPlayer[2].playerName +
+      InfoPlayer[2].playerName.substring(0,5) +
       "\n\n" +
-      InfoPlayer[3].playerName +
+      InfoPlayer[3].playerName.substring(0,5) +
       "\n\n" +
-      InfoPlayer[4].playerName
+      InfoPlayer[4].playerName.substring(0,5)
   );
   var detail2 = [];
   detail2[0] = this.game.add.sprite(0, 0, "coinBlue");
@@ -1926,25 +1941,3 @@ function hideBox3() {
   this.msgBox3.destroy();
   game.state.start("game");
 }
-/*function runturn() {
-  if (turn == 1) {
-    for (i = 0; i <= 22; i++) {
-      button[i].inputEnabled = false;
-      console.log(turn);
-    }
-  } else if (turn == 2)
-    for (i = 0; i <= 22; i++) {
-      button[i].inputEnabled = false;
-      console.log(turn);
-    }
-  else if (turn == 3)
-    for (i = 0; i <= 22; i++) {
-      button[i].inputEnabled = false;
-      console.log(turn);
-    }
-  else if (turn == 4)
-    for (i = 0; i <= 22; i++) {
-      button[i].inputEnabled = false;
-      console.log(turn);
-    }
-}*/

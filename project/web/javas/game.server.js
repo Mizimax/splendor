@@ -62,9 +62,11 @@ var server = {
           }
         } else if (data.action === "LOAD_CARD") {
           window.DBcards = data.cards;
-          //cardadd();
+          cardadd();
         } else if (data.action === "GAME_START") {
           // turn = data.turn;
+          turn = data.turn;
+          text[21].setText("Turn : " + turn);
           modal.hide();
         } else if (data.action === "PLAYER_DETAIL") {
           window.DBplayer = data.user;
@@ -75,11 +77,22 @@ var server = {
           
           turn = data.turn;
         } else if (data.action === "TAKE_COIN") {
-          console.log(data.coin);
-          console.log(data.card);
-          console.log(data.destroy);
-          console.log(InfoPlayer[1].blueCoin);
+          InfoPlayer[(turn%4)+1].blueCoin = data.coin.BlueCoin;
+          InfoPlayer[(turn%4)+1].whiteCoin = data.coin.WhiteCoin;
+          InfoPlayer[(turn%4)+1].redCoin = data.coin.RedCoin;
+          InfoPlayer[(turn%4)+1].greenCoin = data.coin.GreenCoin;
+          InfoPlayer[(turn%4)+1].blackCoin = data.coin.BlackCoin;
+          InfoPlayer[(turn%4)+1].cardblue = data.card.cardblue;
+          InfoPlayer[(turn%4)+1].cardwhite = data.card.cardwhite;
+          InfoPlayer[(turn%4)+1].cardred = data.card.cardred;
+          InfoPlayer[(turn%4)+1].cardgreen = data.card.cardgreen;
+          InfoPlayer[(turn%4)+1].cardblack = data.card.cardblack;
+          InfoPlayer[(turn%4)+1].score = data.score;
+          window.upDestroy = data.destroy;
+          window.upButton = data.button;
+          //update();
           turn = data.turn;
+          text[21].setText("Turn : " + turn);
 
         }
       });
