@@ -175,7 +175,6 @@ const room = function(socket, io) {
       "SELECT ready FROM match_player WHERE match_id = ?",
       [data.match_id]
     );
-    console.log(resReady);
     if (resReady.length < 4) {
       try {
         let [res] = await db.query(
@@ -183,7 +182,6 @@ const room = function(socket, io) {
           [data.match_id, socket.handshake.session.userdata.user_id, 0]
         );
         if (res.affectedRows != 0) {
-          console.log(data.match_id);
           socket.join(data.match_id);
           socket.room = data.match_id;
           socket.emit("ROOM_MESSAGE", {
@@ -201,7 +199,6 @@ const room = function(socket, io) {
           });
         }
       } catch (error) {
-        console.log(error);
         if (error.code === "ER_DUP_ENTRY") {
           socket.join(data.match_id);
           socket.room = data.match_id;
@@ -215,11 +212,27 @@ const room = function(socket, io) {
         }
       }
     } else {
-      socket.emit("ROOM_MESSAGE", {
-        status: "error",
-        action: "JOIN_ROOM",
-        message: "Room Full"
-      });
+      let [resReady] = await db.query(
+        "SELECT ready FROM match_player WHERE match_id = ? AND user_id = ?",
+        [data.match_id, socket.handshake.session.userdata.user_id]
+      );
+      if (resReady.length === 0) {
+        socket.emit("ROOM_MESSAGE", {
+          status: "error",
+          action: "JOIN_ROOM",
+          message: "Room Full"
+        });
+      } else {
+        socket.join(data.match_id);
+        socket.room = data.match_id;
+        socket.emit("ROOM_MESSAGE", {
+          status: "error",
+          action: "JOIN_ROOM",
+          message: "Already Join",
+          ready: resReady,
+          match_id: data.match_id
+        });
+      }
     }
   });
 
@@ -255,7 +268,7 @@ const room = function(socket, io) {
         resPlayer.forEach(function(item) {
           status += item.ready;
         });
-        if (status === 4) {
+        if (status >= 4) {
           let [resSelect] = await db.query(
             "SELECT c.card_id, c.card_image, c.card_level, c.card_score, ccc.color_name as card_color_name, ccc.color_code, cc.color_name, cr.amount FROM coin_requirement cr " +
               "JOIN card c ON c.card_id = cr.card_id " +
@@ -264,7 +277,6 @@ const room = function(socket, io) {
               "JOIN coin_color ccc ON ccc.color_id = c.coin_color_id"
           );
           let result = [];
-          console.log(resSelect);
           if (resSelect.length != 0) {
             resSelect.forEach(function(item, index) {
               // console.log(item["card_id"]);
@@ -334,8 +346,8 @@ const room = function(socket, io) {
   let detail = async function() {
     let [resUser] = await db.query(
       "SELECT user.user_id, user.user_display_name, user.user_image, mp.score FROM user " +
-        "JOIN match_player mp ON mp.user_id = user.user_id WHERE user.user_id = ? AND mp.match_id = ?",
-      [socket.handshake.session.userdata.user_id, socket.room]
+        "JOIN match_player mp ON mp.user_id = user.user_id WHERE mp.match_id = ?",
+      [socket.room]
     );
     let [resCard] = await db.query(
       "SELECT pc.user_id, cc.color_name, pc.amount " +
@@ -355,12 +367,15 @@ const room = function(socket, io) {
     );
     let rand,
       resultUser = [];
+    let arr = [1, 2, 3, 4];
     resUser.forEach(function(item, index) {
-      rand = Math.round(Math.random() * 4);
-      resultUser[rand] = {
-        ...resUser[index]
-      };
+      rand = Math.floor(Math.random() * arr.length);
+      resultUser[arr[rand]] = resUser[index];
+      arr.splice(rand, 1);
+
+      console.log(arr);
     });
+    console.log(resUser);
     console.log(resultUser);
     //สุ่ม Player ด้วย
     let resultCard = [];
@@ -388,7 +403,7 @@ const room = function(socket, io) {
       status: "success",
       action: "PLAYER_DETAIL",
       user: resultUser,
-      card: resCard,
+      card: resultCard,
       coin: resultCoin
     });
   };
