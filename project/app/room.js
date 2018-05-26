@@ -408,6 +408,17 @@ const room = function(socket, io) {
     });
   };
 
+  socket.on("RANDOM_CARD", function(data) {
+    if (socket.room) {
+      io.sockets.to(socket.room).emit("ROOM_MESSAGE", {
+        status: "success",
+        action: "RANDOM_CARD",
+        cardArr: data.cardArr,
+        image: data.image
+      });
+    }
+  });
+
   socket.on("TAKE_CARD", function(data) {});
 
   socket.on("TAKE_COIN", async function(data) {
