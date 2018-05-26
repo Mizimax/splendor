@@ -637,14 +637,14 @@ var gamestate = {
     });
     button[23].inputEnabled = true;
     //RightWrong
-    button[24] = game.add.button(8 * x + 95, 3 * y - 35, "right");
+    button[24] = game.add.button(8 * x + 95, 2.5 * y - 15, "right");
     button[24].width = 30;
     button[24].height = 30;
     button[24].events.onInputDown.add(function() {
       OhRight();
     });
     button[24].inputEnabled = true;
-    button[25] = game.add.button(8 * x + 50, 3 * y - 35, "wrong");
+    button[25] = game.add.button(8 * x + 50, 2.5 * y - 15, "wrong");
     button[25].width = 30;
     button[25].height = 30;
     button[25].events.onInputDown.add(function() {
@@ -673,28 +673,28 @@ var gamestate = {
     detail[9] = this.game.add.sprite(8 * x - 90, 3.5 * y + 30, "lilBlue");
     detail[9].scale.setTo(0.8);
 
-    text[0] = game.add.text(8 * x + 50, 3 * y, "Blue:   " + coinNum[0], {
-      font: "10px Arial",
+    text[0] = game.add.text(8 * x + 50, 2.5 * y+20, "Blue:   " + coinNum[0], {
+      font: "13px Arial",
       fill: "#ffffff",
       align: "center"
     });
-    text[1] = game.add.text(8 * x + 50, 3 * y + 11, "White: " + coinNum[1], {
-      font: "10px Arial",
+    text[1] = game.add.text(8 * x + 50, 2.5 * y+35, "White: " + coinNum[1], {
+      font: "13px Arial",
       fill: "#ffffff",
       align: "center"
     });
-    text[2] = game.add.text(8 * x + 50, 3 * y + 22, "Red:    " + coinNum[2], {
-      font: "10px Arial",
+    text[2] = game.add.text(8 * x + 50, 2.5 * y+50, "Red:    " + coinNum[2], {
+      font: "13px Arial",
       fill: "#ffffff",
       align: "center"
     });
-    text[3] = game.add.text(8 * x + 50, 3 * y + 33, "Green: " + coinNum[3], {
-      font: "10px Arial",
+    text[3] = game.add.text(8 * x + 50, 2.5 * y+65, "Green: " + coinNum[3], {
+      font: "13px Arial",
       fill: "#ffffff",
       align: "center"
     });
-    text[4] = game.add.text(8 * x + 50, 3 * y + 44, "Black:  " + coinNum[4], {
-      font: "10px Arial",
+    text[4] = game.add.text(8 * x + 50, 2.5 * y+80, "Black:  " + coinNum[4], {
+      font: "13px Arial",
       fill: "#ffffff",
       align: "center"
     });
