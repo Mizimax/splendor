@@ -131,7 +131,10 @@ app.post("/register", async function(req, res) {
 });
 //console.log("server");
 app.post("/problem", async function(req, res) {
-  let match = req.query.match;
+  var match;
+  if(!req.query.match)
+      match = 0;
+  else match = req.query.match;
   let data = req.body;
   //problem_type, problem_detail, description
   let user_id = req.session.userdata.user_id; //get user_id
@@ -143,21 +146,27 @@ app.post("/problem", async function(req, res) {
     "SELECT DISTINCT problem_type_id FROM problem_type WHERE problem_type = ?;",
     [data.problem_type]
   );
+  var t_id = type_id[0].problem_type_id;
 
   let [detail_id] = await db.query(
     "SELECT DISTINCT problem_detail_id FROM problem_detail WHERE problem_detail = ? AND problem_type_id = ?"
-  , [data.problem_Detail, type_id]);
+  , [data.problem_Detail, type_id[0].problem_type_id]);
 
-
-  let [resInsert_descript] = await db.query("INSERT INTO problem (user_id, match_id, problem_description, problem_detail_id) VALUES (1,?,?,?)",[user_id, match, data.description, detail_id]);
+  await db.query("SET GLOBAL FOREIGN_KEY_CHECKS=0;");
+  let [resInsert_descript] = await db.query("INSERT INTO problem (user_id, match_id, problem_description, problem_detail_id) VALUES (?,?,?,?)",[user_id, match, data.description, detail_id[0].problem_detail_id]);
+  await db.query("SET GLOBAL FOREIGN_KEY_CHECKS=1;");
+ 
   //alert("Send complete");
+
   res.json(
     {
       status: 'success',
       action: 'PROBLEM_ADD',
       message: 'Problem added',
       result : data,
-      user: user_id
+      user: user_id,
+      match : match,
+      type_id : t_id
     }
   );
   
