@@ -434,8 +434,8 @@ var gamestate = {
     //profile
     this.load.image("player1", "image/profile/music.png");
     this.load.image("player2", "image/profile/satchan.png");
-    this.load.image("player3", "image/profile/noey.png");
-    this.load.image("player4", "image/profile/pun.png");
+    this.load.image("player3", "image/profile/pun.png");
+    this.load.image("player4", "image/profile/cher.png");
     //level 1-3
     game.load.image("galaxy", "assets/galaxy.jpg");
     game.load.image("chat_head", "assets/chat_box.png");
@@ -637,8 +637,8 @@ var gamestate = {
       }
     });
     server.room.getRoomMessage();
-    server.room.joinRoom(850);
-    //server.room.createRoom('147', '123', 4);
+    //server.room.joinRoom(850);
+    server.room.createRoom("147", "123", 4);
     //jardet 1234
     //testza 1234
     //123456 123456
