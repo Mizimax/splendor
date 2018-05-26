@@ -27,4 +27,4 @@ Phaser.Device.whenReady(function() {
 game.state.add("lobby", lobbystate);
 game.state.add("game", gamestate);
 game.state.add("room", roomheadache);
-game.state.start("lobby");
+game.state.start("game");

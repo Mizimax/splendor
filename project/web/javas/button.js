@@ -17,12 +17,11 @@ var lobbystate = {
     game.load.image("ruby", "assets/ruby.png");
     game.load.image("emerald", "assets/emerald.png");
     game.load.image("bg", "assets/BG.jpg");
-    game.load.image("modal", "assets/464885029.jpg");
-    game.load.image("modal_bg", "assets/modal_bg.png");
     game.load.image("galaxy", "assets/galaxy.jpg");
     game.load.image("bg_profile", "assets/profile.png");
     game.load.image("anime", "assets/anime.png");
     game.load.image("player", "assets/Erika_Karata-p1.jpg");
+    game.load.image("profileButt","assets/profileButton.png");
     game.add.plugin(PhaserInput.Plugin);
   },
   create: function() {
@@ -239,6 +238,13 @@ var lobbystate = {
         .tween(button[2].scale)
         .to({ x: 0.3, y: 0.3 }, 400, Phaser.Easing.Back.In, true, 0);
     });
+
+    //profile Button
+    var proButton = game.add.button(500,35,"profileButt",)
+    proButton.inputEnabled= true;
+    proButton.events.onInputDown.add(function() {
+      ohProfile();
+    });
   },
   update: function() {
     if (game.input.keyboard.isDown(Phaser.Keyboard.ENTER)) {
@@ -376,4 +382,7 @@ function profileClick() {
   );
   modal.show();
   game.world.bringToTop(modal.modalGroup);
+}
+function ohProfile(){
+  
 }
