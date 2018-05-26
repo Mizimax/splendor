@@ -1,3 +1,5 @@
+process.env.TZ = "Asia/Bangkok";
+
 const express = require("express");
 const app = express();
 const cors = require("cors");
