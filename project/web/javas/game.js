@@ -352,14 +352,14 @@ var gamestate = {
     game.load.image("modal_bg", "assets/modal_bg.png");
     //cardVar
 
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 5; i++) {
       Noble[i] = {
-        reqBlue: 1,
-        reqWhite: 1,
-        reqRed: 1,
-        reqGreen: 1,
-        reqBlack: 1,
-        score: 1
+        reqBlue: 0,
+        reqWhite: 0,
+        reqRed: 0,
+        reqGreen: 0,
+        reqBlack: 0,
+        score: 0
       };
     }
     //chat
@@ -388,6 +388,61 @@ var gamestate = {
     for (i = 0; i < 5; i++) {
       var randIndex4 = Math.floor(Math.random() * aImageFiles4.length);
       var randImage4 = aImageFiles4[randIndex4];
+      if(randImage4==0){
+        Noble[i].reqBlack = 4;
+        Noble[i].reqWhite = 4;
+        Noble[i].score = 3;
+      }
+      else if(randImage4==2){
+        Noble[i].reqRed = 4;
+        Noble[i].reqGreen = 4;
+        Noble[i].score = 3;
+      }
+      else if(randImage4==3){
+        Noble[i].reqBlack = 4;
+        Noble[i].reqqRed = 4;
+        Noble[i].score = 3;
+      }
+      else if(randImage4==4){
+        Noble[i].reqBlue = 4;
+        Noble[i].reqWhite = 4;
+        Noble[i].score = 3;
+      }
+      else if(randImage4==5){
+        Noble[i].reqBlack = 3;
+        Noble[i].reqRed = 3;
+        Noble[i].reqWhite = 3;
+        Noble[i].score = 3;
+      }
+      else if(randImage4==6){
+        Noble[i].reqGreen = 3;
+        Noble[i].reqRed = 3;
+        Noble[i].reqBlue = 3;
+        Noble[i].score = 3;
+      }
+      else if(randImage4==7){
+        Noble[i].reqBlack = 3;
+        Noble[i].reqRed = 3;
+        Noble[i].reqGreen = 3;
+        Noble[i].score = 3;
+      }
+      else if(randImage4==8){
+        Noble[i].reqBlue = 4;
+        Noble[i].reqGreen = 4;
+        Noble[i].score = 3;
+      }
+      else if(randImage4==9){
+        Noble[i].reqBlue = 3;
+        Noble[i].reqWhite = 3;
+        Noble[i].reqGreen = 3;
+        Noble[i].score = 3;
+      }
+      else if(randImage4==10){
+        Noble[i].reqBlack = 3;
+        Noble[i].reqBlue = 3;
+        Noble[i].reqWhite = 3;
+        Noble[i].score = 3;
+      }
       this.load.image(
         "level4_" + randImage4,
         "image/Level4/" + randImage4 + ".png"
@@ -607,22 +662,22 @@ var gamestate = {
     button[18].inputEnabled = true;
     button[19] = game.add.button(10 * x - 25, y + 75, rand4[1]);
     button[19].events.onInputDown.add(function() {
-      click_Noble(button[19], 0);
+      click_Noble(button[19], 1);
     });
     button[19].inputEnabled = true;
     button[20] = game.add.button(10 * x - 25, 2 * y + 25, rand4[2]);
     button[20].events.onInputDown.add(function() {
-      click_Noble(button[20], 0);
+      click_Noble(button[20], 2);
     });
     button[20].inputEnabled = true;
     button[21] = game.add.button(11 * x, y - 25, rand4[3]);
     button[21].events.onInputDown.add(function() {
-      click_Noble(button[21], 0);
+      click_Noble(button[21], 3);
     });
     button[21].inputEnabled = true;
     button[22] = game.add.button(11 * x, 1.5 * y + 40, rand4[4]);
     button[22].events.onInputDown.add(function() {
-      click_Noble(button[22], 0);
+      click_Noble(button[22], 4);
     });
     button[22].inputEnabled = true;
     //showscore
