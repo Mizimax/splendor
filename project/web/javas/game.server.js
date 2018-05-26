@@ -4,8 +4,22 @@ var server = {
   user_id: "",
   ready: false,
   game: {
-    takeCoin: function(coinArr) {
-      socket.emit("TAKE_COIN", { coinArr: coinArr });
+    takeCoin: function(coinArr, card, destroy, button, score) {
+      console.log(coinArr);
+      socket.emit("TAKE_COIN", {
+        coinArr: coinArr,
+        cardValue: [
+          card.cardblack,
+          card.cardblue,
+          card.cardgreen,
+          card.cardred,
+          card.cardwhite
+        ],
+        card: card,
+        destroy: destroy,
+        button: button,
+        score: score
+      });
     }
   },
   room: {
@@ -48,9 +62,9 @@ var server = {
           }
         } else if (data.action === "LOAD_CARD") {
           window.DBcards = data.cards;
-          cardadd();
+          //cardadd();
         } else if (data.action === "GAME_START") {
-          turn = data.turn;
+          // turn = data.turn;
           modal.hide();
         } else if (data.action === "PLAYER_DETAIL") {
           window.DBplayer = data.user;
@@ -60,6 +74,9 @@ var server = {
           
           turn = data.turn;
         } else if (data.action === "TAKE_COIN") {
+          console.log(data.coin);
+          console.log(data.card);
+          console.log(data.destroy);
           console.log(InfoPlayer[1].blueCoin);
           turn = data.turn;
 

@@ -159,7 +159,7 @@ var checkPlayerDetail = function(){
   InfoPlayer[3].playerName=DBplayer[3].user_display_name;
   InfoPlayer[4].playerName=DBplayer[4].user_display_name;
   console.log(InfoPlayer[1].blueCoin);
-}
+}/*
 var cardadd = function() {
   for (var i = 1; i <= 40; i++) {
     InfoCardLv1[i] = {
@@ -276,7 +276,7 @@ var cardadd = function() {
     InfoCardLv3[i - 70].addRed = DBcards[i].addRed;
     InfoCardLv3[i - 70].score = DBcards[i].card_score;
   }
-};
+};*/
 /*
 
 */
@@ -875,7 +875,6 @@ var gamestate = {
       fill: "#ffffff",
       align: "center"
     });
-    endTurn();
     text[21] = game.add.text(0, 0, "Turn : " + turn, {
       font: "25px Arial",
       fill: "#ffffff",
@@ -1025,6 +1024,7 @@ function cardlevel_1(card, x, y, cardID, index) {
         console.log(aImageFiles);
       }
       text[21].setText("Turn : " + turn);
+      console.log(1);
       endTurn();
       if (InfoPlayer[1].score >= 15) {
         showFinalBox(
@@ -1140,7 +1140,7 @@ function cardlevel_2(card, x, y, cardID, index) {
         aImageFiles2.splice(randIndex2, 1);
         console.log(aImageFiles2);
       }
-      text[21].setText("Turn : " + turn);
+      text[21].setText("Turn : " + turn);console.log(2);
       endTurn();
       if (InfoPlayer[1].score >= 15) {
         showFinalBox(
@@ -1256,7 +1256,7 @@ function cardlevel_3(card, x, y, cardID, index) {
         aImageFiles3.splice(randIndex3, 1);
         console.log(aImageFiles3);
       }
-      text[21].setText("Turn : " + turn);
+      text[21].setText("Turn : " + turn);console.log(3);
       endTurn();
       if (InfoPlayer[1].score >= 15) {
         showFinalBox(
@@ -1301,7 +1301,7 @@ function click_Noble(card, NobleID) {
       InfoPlayer[1].cardblack >= Noble[NobleID].reqBlack
     ) {
       InfoPlayer[1].score += Noble[NobleID].score;
-      card.destroy();
+      card.destroy();console.log(4);
       endTurn();
     } else {
       testMessageBox("noCard");
@@ -1386,8 +1386,8 @@ function OhRight() {
       InfoPlayer[1].blackCoin += coinNum[4];
       ohCancel();
       updatePlayerInfo();
+      console.log(5);
       endTurn();
-      console.log(turn);
       text[21].setText("Turn : " + turn);
       
       //runturn(turn);
@@ -1431,8 +1431,7 @@ function OhRight() {
       InfoPlayer[1].blackCoin += coinNum[4];
       ohCancel();
       updatePlayerInfo();
-      console.log(turn);
-      text[21].setText("Turn : " + turn);
+      text[21].setText("Turn : " + turn);console.log(6);
       endTurn();
       if (InfoPlayer[1].score >= 15) {
         showFinalBox(
@@ -1488,17 +1487,28 @@ function OhRight() {
     //     + InfoPlayer[1].goldCoin;
     text[15].setText("Total " + total + "/10");
   }
-  endTurn();
 }
 function endTurn(){
-  server.game.takeCoin([
-    null,
-    InfoPlayer[1].blueCoin,
-    InfoPlayer[1].whiteCoin,
-    InfoPlayer[1].redCoin,
-    InfoPlayer[1].greenCoin,
-    InfoPlayer[1].blackCoin
-  ]);
+  server.game.takeCoin(
+    [
+      null,
+      InfoPlayer[1].blackCoin,
+      InfoPlayer[1].blueCoin,
+      InfoPlayer[1].greenCoin,
+      InfoPlayer[1].redCoin,
+      InfoPlayer[1].whiteCoin
+    ],
+    {
+      cardblack: InfoPlayer[1].cardblack,
+      cardblue: InfoPlayer[1].cardblue,
+      cardgreen: InfoPlayer[1].cardgreen,
+      cardred: InfoPlayer[1].cardred,
+      cardwhite: InfoPlayer[1].cardwhite
+    },
+    0,
+    0,
+    InfoPlayer[1].score
+  );
 }
 function ohCancel() {
   coinNum[0] = 0;
