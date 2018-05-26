@@ -183,14 +183,15 @@ const room = function(socket, io) {
           [data.match_id, socket.handshake.session.userdata.user_id, 0]
         );
         if (res.affectedRows != 0) {
-          socket.join(resinsertId);
-          socket.room = res.insertId;
+          console.log(data.match_id);
+          socket.join(data.match_id);
+          socket.room = data.match_id;
           socket.emit("ROOM_MESSAGE", {
             status: "success",
             action: "JOIN_ROOM",
-            message: "Join room " + res.insertId,
+            message: "Join room " + data.match_id,
             ready: resReady,
-            match_id: res.insertId
+            match_id: data.match_id
           });
         } else {
           socket.emit("ROOM_MESSAGE", {
