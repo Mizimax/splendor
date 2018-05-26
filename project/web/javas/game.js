@@ -388,7 +388,7 @@ var gamestate = {
     for (i = 0; i < 5; i++) {
       var randIndex4 = Math.floor(Math.random() * aImageFiles4.length);
       var randImage4 = aImageFiles4[randIndex4];
-      if(randImage4==0){
+      if(randImage4==1){
         Noble[i].reqBlack = 4;
         Noble[i].reqWhite = 4;
         Noble[i].score = 3;
@@ -450,6 +450,7 @@ var gamestate = {
       rand4[i] = "level4_" + randImage4;
       aImageFiles4.splice(randIndex4, 1);
     }
+    console.log(Noble);
     //level3
     for (i = 0; i < 4; i++) {
       var randIndex3 = Math.floor(Math.random() * aImageFiles3.length);
@@ -1353,12 +1354,13 @@ function OhRight() {
   /*  if (turn == 2) {
       InfoPlayer[1].inputEnabled = false;
     }*/
+    console.log(InfoPlayer);
   var total =
-    InfoPlayer[turn].blueCoin +
-    InfoPlayer[turn].whiteCoin +
-    InfoPlayer[turn].redCoin +
-    InfoPlayer[turn].greenCoin +
-    InfoPlayer[turn].blackCoin;
+    InfoPlayer[1].blueCoin +
+    InfoPlayer[1].whiteCoin +
+    InfoPlayer[1].redCoin +
+    InfoPlayer[1].greenCoin +
+    InfoPlayer[1].blackCoin;
   if (
     total + coinNum[0] + coinNum[1] + coinNum[2] + coinNum[3] + coinNum[4] >
     10
