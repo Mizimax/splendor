@@ -303,40 +303,51 @@ const room = function(socket, io) {
           if (resSelect.length != 0) {
             resSelect.forEach(function(item, index) {
               // console.log(item["card_id"]);
-              if (item["card_id"] <= 40) {
-                result["level1"][arr[0][item["card_id"]]] = {
-                  ...result[item["card_id"]],
-                  card_id: item["card_id"],
-                  color_code: item["color_code"],
-                  card_level: item["card_level"],
-                  card_score: item["card_score"],
-                  card_image: item["card_image"],
-                  ["add" + item["card_color_name"]]: 1,
-                  ["req" + item["color_name"]]: item["amount"]
-                };
-              } else if (item["card_id"] > 40 && item["card_id"] <= 70) {
-                result["level2"][arr[1][item["card_id"]]] = {
-                  ...result[item["card_id"]],
-                  card_id: item["card_id"],
-                  color_code: item["color_code"],
-                  card_level: item["card_level"],
-                  card_score: item["card_score"],
-                  card_image: item["card_image"],
-                  ["add" + item["card_color_name"]]: 1,
-                  ["req" + item["color_name"]]: item["amount"]
-                };
-              } else if (item["card_id"] > 70 && item["card_id"] <= 90) {
-                result["level3"][arr[2][item["card_id"]]] = {
-                  ...result[item["card_id"]],
-                  card_id: item["card_id"],
-                  color_code: item["color_code"],
-                  card_level: item["card_level"],
-                  card_score: item["card_score"],
-                  card_image: item["card_image"],
-                  ["add" + item["card_color_name"]]: 1,
-                  ["req" + item["color_name"]]: item["amount"]
-                };
-              }
+              result[item["card_id"]] = {
+                ...result[item["card_id"]],
+                card_id: item["card_id"],
+                color_code: item["color_code"],
+                card_level: item["card_level"],
+                card_score: item["card_score"],
+                card_image: item["card_image"],
+                ["add" + item["card_color_name"]]: 1,
+                ["req" + item["color_name"]]: item["amount"]
+              };
+
+              // if (item["card_id"] <= 40) {
+              //   result["level1"][arr[0][item["card_id"]]] = {
+              //     ...result[item["card_id"]],
+              //     card_id: item["card_id"],
+              //     color_code: item["color_code"],
+              //     card_level: item["card_level"],
+              //     card_score: item["card_score"],
+              //     card_image: item["card_image"],
+              //     ["add" + item["card_color_name"]]: 1,
+              //     ["req" + item["color_name"]]: item["amount"]
+              //   };
+              // } else if (item["card_id"] > 40 && item["card_id"] <= 70) {
+              //   result["level2"][arr[1][item["card_id"]]] = {
+              //     ...result[item["card_id"]],
+              //     card_id: item["card_id"],
+              //     color_code: item["color_code"],
+              //     card_level: item["card_level"],
+              //     card_score: item["card_score"],
+              //     card_image: item["card_image"],
+              //     ["add" + item["card_color_name"]]: 1,
+              //     ["req" + item["color_name"]]: item["amount"]
+              //   };
+              // } else if (item["card_id"] > 70 && item["card_id"] <= 90) {
+              //   result["level3"][arr[2][item["card_id"]]] = {
+              //     ...result[item["card_id"]],
+              //     card_id: item["card_id"],
+              //     color_code: item["color_code"],
+              //     card_level: item["card_level"],
+              //     card_score: item["card_score"],
+              //     card_image: item["card_image"],
+              //     ["add" + item["card_color_name"]]: 1,
+              //     ["req" + item["color_name"]]: item["amount"]
+              //   };
+              // }
             });
             console.log(result);
             try {
@@ -352,7 +363,8 @@ const room = function(socket, io) {
                 socket.emit("ROOM_MESSAGE", {
                   status: "success",
                   action: "LOAD_CARD",
-                  cards: result
+                  cards: result,
+                  random: arr
                 });
                 io.sockets.to(socket.room).emit("ROOM_MESSAGE", {
                   status: "success",
@@ -400,8 +412,7 @@ const room = function(socket, io) {
     let [resCard] = await db.query(
       "SELECT pc.user_id, cc.color_name, pc.amount " +
         "FROM player_card pc " +
-        "JOIN card ON card.card_id = pc.card_id " +
-        "JOIN coin_color cc ON cc.color_id = card.coin_color_id " +
+        "JOIN coin_color cc ON cc.color_id = pc.color_id " +
         "WHERE pc.match_id = ? AND pc.user_id = ?",
       [socket.room, socket.handshake.session.userdata.user_id]
     );
