@@ -34,7 +34,7 @@ io.on("connection", async function(socket) {
     let resCookieAuth = [];
     if (socket.handshake.session.userdata) {
       [resCookieAuth] = await db.query(
-        "SELECT * FROM users WHERE RememberToken = ?",
+        "SELECT * FROM user WHERE RememberToken = ?",
         [socket.handshake.sessionID]
       );
       if (resCookieAuth.length != 0) {
@@ -71,7 +71,7 @@ app.use(bodyParser.json());
 
 app.post("/login", async function(req, res) {
   let data = req.body;
-  let [results] = await db.query("SELECT * FROM users WHERE UserName = ?", [
+  let [results] = await db.query("SELECT * FROM user WHERE UserName = ?", [
     data.username
   ]);
   if (results.length === 1) {
@@ -83,7 +83,7 @@ app.post("/login", async function(req, res) {
       req.session.save();
       //create cookie จำไว้ใน remember_token ด้วย
       let [resUpdate] = await db.query(
-        "UPDATE users SET RememberToken = ? WHERE UserID = ?",
+        "UPDATE user SET RememberToken = ? WHERE UserID = ?",
         [req.sessionID, response.UserID]
       );
       if (resUpdate.affectedRows === 1) {
@@ -113,7 +113,7 @@ app.post("/register", async function(req, res) {
   data.password = hash;
   try {
     let [resReg] = await db.query(
-      "INSERT INTO users(UserName, UserPassword, UserEmail, UserDisplayName) VALUES (?,?,?,?)",
+      "INSERT INTO user(UserName, UserPassword, UserEmail, UserDisplayName) VALUES (?,?,?,?)",
       [data.username, data.password, data.email, data.displayname]
     );
     if (resReg.affectedRows > 0) {
