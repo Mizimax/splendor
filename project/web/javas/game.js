@@ -513,7 +513,7 @@ var gamestate = {
       }
     });
     server.room.getRoomMessage();
-    server.room.joinRoom(472);
+    server.room.joinRoom(849);
     server.room.playerStart();
     /*
       server.room.geteRoomMessage();
