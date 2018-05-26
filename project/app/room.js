@@ -277,10 +277,6 @@ const room = function(socket, io) {
               "JOIN coin_color ccc ON ccc.color_id = c.coin_color_id"
           );
 
-          let result = [];
-          result["level1"] = [];
-          result["level2"] = [];
-          result["level3"] = [];
           let arr = [];
           let i = 1;
           let rand = [];
@@ -299,7 +295,7 @@ const room = function(socket, io) {
             if (!arr[2]) arr[2] = [];
             arr[2][i - 70] = rand[i - 70];
           }
-          console.log(arr);
+
           if (resSelect.length != 0) {
             resSelect.forEach(function(item, index) {
               // console.log(item["card_id"]);
@@ -349,7 +345,6 @@ const room = function(socket, io) {
               //   };
               // }
             });
-            console.log(result);
             try {
               let [resUpdateMatch] = await db.query(
                 "UPDATE game_match SET match_status = 'PLAYING' WHERE host_id = ? AND match_id = ?",
@@ -502,6 +497,7 @@ const room = function(socket, io) {
             ]
           );
         }
+        console.log("55");
         data.coinArr.forEach(async function(item, index) {
           if (item != null) {
             let [resCoin] = await db.query(
@@ -544,8 +540,7 @@ const room = function(socket, io) {
               i,
               data.cardValue[i],
               socket.room,
-              socket.handshake.session.userdata.user_id,
-              
+              socket.handshake.session.userdata.user_id
             ]
           );
         }
