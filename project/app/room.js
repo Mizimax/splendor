@@ -295,7 +295,7 @@ const room = function(socket, io) {
             if (!arr[2]) arr[2] = [];
             arr[2][i - 70] = rand[i - 70];
           }
-          let result = []
+          let result = [];
           if (resSelect.length != 0) {
             resSelect.forEach(function(item, index) {
               // console.log(item["card_id"]);
@@ -484,20 +484,20 @@ const room = function(socket, io) {
         "SELECT match_turn FROM game_match WHERE match_id = ?",
         [socket.room]
       );
-      let i;
       if (resGetTurn[0].match_turn === 1) {
+        let i;
         for (i = 1; i <= 5; i++) {
           let [resCard] = await db.query(
             "INSERT INTO player_card VALUES (?,?,?,?)",
             [
-              i,
+              1,
               socket.room,
               socket.handshake.session.userdata.user_id,
-              data.cardValue[i]
+              data.cardValue[1]
             ]
           );
         }
-        console.log("55");
+        console.log(resCard);
         data.coinArr.forEach(async function(item, index) {
           if (item != null) {
             let [resCoin] = await db.query(
