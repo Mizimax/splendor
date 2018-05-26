@@ -635,8 +635,12 @@ var gamestate = {
       }
     });
     server.room.getRoomMessage();
-    server.room.joinRoom(850);
-    // server.room.createRoom('sadad', '555', 4);
+    //server.room.joinRoom(850);
+    server.room.createRoom('147', '123', 4);
+    //jardet 1234
+    //testza 1234
+    //123456 123456
+    // 147 258 369 741 123
     server.room.playerStart();
     /*
       server.room.geteRoomMessage();
