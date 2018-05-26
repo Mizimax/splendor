@@ -490,10 +490,10 @@ const room = function(socket, io) {
           let [resCard] = await db.query(
             "INSERT INTO player_card VALUES (?,?,?,?)",
             [
-              1,
+              i,
               socket.room,
               socket.handshake.session.userdata.user_id,
-              data.cardValue[1]
+              data.cardValue[i]
             ]
           );
         }
