@@ -8,6 +8,7 @@ coinNum[3] = 0;
 coinNum[4] = 0;
 var detail = [];
 var turn = 1;
+var turnCount=1;
 var send;
 var garlax2;
 var chat2;
@@ -824,7 +825,11 @@ var gamestate = {
       fill: "#ffffff",
       align: "center"
     });
-    
+    text[21] = game.add.text(0,0, "Turn : "+turnCount, {
+      font: "25px Arial",
+      fill: "#ffffff",
+      align: "center"
+    });
     //reservedCard
     button[26] = game.add.button(8 * x + 25, 3.5 * y + 30, "lilGold");
 
@@ -973,6 +978,8 @@ function cardlevel_1(card, x, y, cardID,index) {
         console.log(aImageFiles)
       }
       turn += 1;
+      turnCount+=1;
+      text[21].setText("Turn : "+turnCount);
       turn = turn % 4;
       if (turn % 4 == 0) {
         turn += 4;
@@ -1071,6 +1078,8 @@ function cardlevel_2(card, x, y, cardID,index) {
         console.log(aImageFiles2)
       }
       turn += 1;
+      turnCount+=1;
+      text[21].setText("Turn : "+turnCount);
       turn = turn % 4;
       if (turn % 4 == 0) {
         turn += 4;
@@ -1169,6 +1178,8 @@ function cardlevel_3(card, x, y, cardID,index) {
         console.log(aImageFiles3)
       }
       turn += 1;
+      turnCount+=1;
+      text[21].setText("Turn : "+turnCount);
       turn = turn % 4;
       if (turn % 4 == 0) {
         turn += 4;
@@ -1266,6 +1277,8 @@ function OhRight() {
       updatePlayerInfo();
       console.log(turn);
       turn += 1;
+      turnCount+=1;
+      text[21].setText("Turn : "+turnCount);
       turn = turn % 4;
       if (turn % 4 == 0) {
         turn += 4;
@@ -1287,6 +1300,8 @@ function OhRight() {
       updatePlayerInfo();
       console.log(turn);
       turn += 1;
+      turnCount+=1;
+      text[21].setText("Turn : "+turnCount);
       turn = turn % 4;
       if (turn % 4 == 0) {
         turn += 4;
