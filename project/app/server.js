@@ -135,24 +135,29 @@ app.post("/problem", async function(req, res) {
   let data = req.body;
   //problem_type, problem_detail, description
   let user_id = req.session.userdata.user_id; //get user_id
-/*
 
-  // get type_id     ->  get  detail_id
-  let [type_id] = await db.query("SELECT DISTINCT problem_type_id FORM problem_type WHERE problem_type = ?",[data.problem_type]);
+
+  // get type_id     ->  get  detail_id 
+  
+  let [type_id] = await db.query(
+    "SELECT DISTINCT problem_type_id FROM problem_type WHERE problem_type = ?;",
+    [data.problem_type]
+  );
 
   let [detail_id] = await db.query(
     "SELECT DISTINCT problem_detail_id FROM problem_detail WHERE problem_detail = ? AND problem_type_id = ?"
-  , [data.problem_detail, type_id]);
+  , [data.problem_Detail, type_id]);
 
 
   let [resInsert_descript] = await db.query("INSERT INTO problem (user_id, match_id, problem_description, problem_detail_id) VALUES (1,?,?,?)",[user_id, match, data.description, detail_id]);
-  //alert("Send complete");  */
+  //alert("Send complete");
   res.json(
     {
       status: 'success',
       action: 'PROBLEM_ADD',
       message: 'Problem added',
-      result : data.description
+      result : data,
+      user: user_id
     }
   );
   

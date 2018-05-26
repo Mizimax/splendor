@@ -8,9 +8,8 @@ var problem = (  function(){
         url: "/problem",
         data: $('#ProblemForm').serialize(),
         success: function (res) {
-          
           alert("Send")
-          console.log(res.result)
+          console.log(res)
         },
         error: function (res) {
           alert("Error")

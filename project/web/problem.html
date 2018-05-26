@@ -106,17 +106,17 @@
             out += '<table style="width: 100%;">';
             
             var out_type = "<tr> <td>  ReportType  </td>";
-            out_type += '<td><select id="problem_type"  name="problem_type" type = "text" style="width: 80%;">';
+            out_type += '<td><select id="problem_type"  name="problem_type" type = "VARCHAR(20)" style="width: 80%;">';
             out_type += "<option>ปัญหาภายในเกม</option>";
             for(var i = 0; i<problem_type.length;i++)
-            out_type = out_type + "<option value=" +i +">" + problem_type[i].problem_type +"</option>";
+            out_type = out_type + "<option value=" + problem_type[i].problem_type +">" + problem_type[i].problem_type +"</option>";
             out_type += "</select>  </td>  </tr>";
 
             var out_detail = "<tr>   <td>ReportDetial </td>";
             out_detail += '<td><select id="problem_Detail"  name="problem_Detail" type = "text" style="width: 80%;">';
             out_detail += "<option>การสร้างห้อง</option>";
             for(var i = 0; i<problem_Detail.length;i++)
-            out_detail = out_detail + "<option value=" + i +">" + problem_Detail[i].problem_detail +"</option>";
+            out_detail = out_detail + "<option value=" + problem_Detail[i].problem_detail +">" + problem_Detail[i].problem_detail +"</option>";
             out_detail += "</select>  </td>  </tr>";
 
             var rest =  "<tr>" +
