@@ -9,6 +9,7 @@ coinNum[4] = 0;
 var localNum =  0;
 var detail = [];
 var turn = 1;
+var modedTurn=0;
 var send;
 var garlax2;
 var chat2;
@@ -175,6 +176,127 @@ var checkPlayerDetail = function(){
     localNum = 4;
   }
   console.log(localNum);
+  text[0] = game.add.text(8 * x + 50, 2.5 * y + 20, "Blue:   " + coinNum[0], {
+    font: "13px Arial",
+    fill: "#ffffff",
+    align: "center"
+  });
+  text[1] = game.add.text(8 * x + 50, 2.5 * y + 35, "White: " + coinNum[1], {
+    font: "13px Arial",
+    fill: "#ffffff",
+    align: "center"
+  });
+  text[2] = game.add.text(8 * x + 50, 2.5 * y + 50, "Red:    " + coinNum[2], {
+    font: "13px Arial",
+    fill: "#ffffff",
+    align: "center"
+  });
+  text[3] = game.add.text(8 * x + 50, 2.5 * y + 65, "Green: " + coinNum[3], {
+    font: "13px Arial",
+    fill: "#ffffff",
+    align: "center"
+  });
+  text[4] = game.add.text(8 * x + 50, 2.5 * y + 80, "Black:  " + coinNum[4], {
+    font: "13px Arial",
+    fill: "#ffffff",
+    align: "center"
+  });
+  //PlayerInfo
+  text[5] = game.add.text(
+    4 * x + 55,
+    3.5 * y - 15,
+    ": " + InfoPlayer[localNum].blueCoin,
+    {
+      font: "30px Arial",
+      fill: "#ff00ff",
+      align: "center"
+    }
+  );
+  text[6] = game.add.text(
+    5 * x + 27,
+    3.5 * y - 15,
+    ": " + InfoPlayer[localNum].whiteCoin,
+    {
+      font: "30px Arial",
+      fill: "#ff00ff",
+      align: "center"
+    }
+  );
+  text[7] = game.add.text(6 * x, 3.5 * y - 15, ": " + InfoPlayer[localNum].redCoin, {
+    font: "30px Arial",
+    fill: "#ff00ff",
+    align: "center"
+  });
+  text[8] = game.add.text(
+    7 * x - 30,
+    3.5 * y - 15,
+    ": " + InfoPlayer[localNum].greenCoin,
+    {
+      font: "30px Arial",
+      fill: "#ff00ff",
+      align: "center"
+    }
+  );
+  text[9] = game.add.text(
+    8 * x - 55,
+    3.5 * y - 15,
+    ": " + InfoPlayer[localNum].blackCoin,
+    {
+      font: "30px Arial",
+      fill: "#ff00ff",
+      align: "center"
+    }
+  );
+  text[10] = game.add.text(
+    4 * x + 55,
+    3.5 * y + 25,
+    ": " + InfoPlayer[localNum].cardblue,
+    {
+      font: "30px Arial",
+      fill: "#ff00ff",
+      align: "center"
+    }
+  );
+  text[11] = game.add.text(
+    5 * x + 27,
+    3.5 * y + 25,
+    ": " + InfoPlayer[localNum].cardwhite,
+    {
+      font: "30px Arial",
+      fill: "#ff00ff",
+      align: "center"
+    }
+  );
+  text[12] = game.add.text(
+    6 * x,
+    3.5 * y + 25,
+    ": " + InfoPlayer[localNum].cardred,
+    {
+      font: "30px Arial",
+      fill: "#ff00ff",
+      align: "center"
+    }
+  );
+  text[13] = game.add.text(
+    7 * x - 30,
+    3.5 * y + 25,
+    ": " + InfoPlayer[localNum].cardgreen,
+    {
+      font: "30px Arial",
+      fill: "#ff00ff",
+      align: "center"
+    }
+  );
+  text[14] = game.add.text(
+    8 * x - 55,
+    3.5 * y + 25,
+    ": " + InfoPlayer[localNum].cardblack,
+    {
+      font: "30px Arial",
+      fill: "#ff00ff",
+      align: "center"
+    }
+  );
 }
 var cardadd = function() {
   for (var i = 1; i <= 40; i++) {
@@ -513,7 +635,12 @@ var gamestate = {
       }
     });
     server.room.getRoomMessage();
-    server.room.joinRoom(849);
+    //server.room.joinRoom(850);
+    server.room.createRoom('147', '123', 4);
+    //jardet 1234
+    //testza 1234
+    //123456 123456
+    // 147 258 369 741 123
     server.room.playerStart();
     /*
       server.room.geteRoomMessage();
@@ -738,128 +865,6 @@ var gamestate = {
     detail[8].scale.setTo(0.8);
     detail[9] = this.game.add.sprite(8 * x - 90, 3.5 * y + 30, "lilBlue");
     detail[9].scale.setTo(0.8);
-
-    text[0] = game.add.text(8 * x + 50, 2.5 * y + 20, "Blue:   " + coinNum[0], {
-      font: "13px Arial",
-      fill: "#ffffff",
-      align: "center"
-    });
-    text[1] = game.add.text(8 * x + 50, 2.5 * y + 35, "White: " + coinNum[1], {
-      font: "13px Arial",
-      fill: "#ffffff",
-      align: "center"
-    });
-    text[2] = game.add.text(8 * x + 50, 2.5 * y + 50, "Red:    " + coinNum[2], {
-      font: "13px Arial",
-      fill: "#ffffff",
-      align: "center"
-    });
-    text[3] = game.add.text(8 * x + 50, 2.5 * y + 65, "Green: " + coinNum[3], {
-      font: "13px Arial",
-      fill: "#ffffff",
-      align: "center"
-    });
-    text[4] = game.add.text(8 * x + 50, 2.5 * y + 80, "Black:  " + coinNum[4], {
-      font: "13px Arial",
-      fill: "#ffffff",
-      align: "center"
-    });
-    //PlayerInfo
-    text[5] = game.add.text(
-      4 * x + 55,
-      3.5 * y - 15,
-      ": " + InfoPlayer[1].blueCoin,
-      {
-        font: "30px Arial",
-        fill: "#ff00ff",
-        align: "center"
-      }
-    );
-    text[6] = game.add.text(
-      5 * x + 27,
-      3.5 * y - 15,
-      ": " + InfoPlayer[1].whiteCoin,
-      {
-        font: "30px Arial",
-        fill: "#ff00ff",
-        align: "center"
-      }
-    );
-    text[7] = game.add.text(6 * x, 3.5 * y - 15, ": " + InfoPlayer[1].redCoin, {
-      font: "30px Arial",
-      fill: "#ff00ff",
-      align: "center"
-    });
-    text[8] = game.add.text(
-      7 * x - 30,
-      3.5 * y - 15,
-      ": " + InfoPlayer[1].greenCoin,
-      {
-        font: "30px Arial",
-        fill: "#ff00ff",
-        align: "center"
-      }
-    );
-    text[9] = game.add.text(
-      8 * x - 55,
-      3.5 * y - 15,
-      ": " + InfoPlayer[1].blackCoin,
-      {
-        font: "30px Arial",
-        fill: "#ff00ff",
-        align: "center"
-      }
-    );
-    text[10] = game.add.text(
-      4 * x + 55,
-      3.5 * y + 25,
-      ": " + InfoPlayer[1].cardblue,
-      {
-        font: "30px Arial",
-        fill: "#ff00ff",
-        align: "center"
-      }
-    );
-    text[11] = game.add.text(
-      5 * x + 27,
-      3.5 * y + 25,
-      ": " + InfoPlayer[1].cardwhite,
-      {
-        font: "30px Arial",
-        fill: "#ff00ff",
-        align: "center"
-      }
-    );
-    text[12] = game.add.text(
-      6 * x,
-      3.5 * y + 25,
-      ": " + InfoPlayer[1].cardred,
-      {
-        font: "30px Arial",
-        fill: "#ff00ff",
-        align: "center"
-      }
-    );
-    text[13] = game.add.text(
-      7 * x - 30,
-      3.5 * y + 25,
-      ": " + InfoPlayer[1].cardgreen,
-      {
-        font: "30px Arial",
-        fill: "#ff00ff",
-        align: "center"
-      }
-    );
-    text[14] = game.add.text(
-      8 * x - 55,
-      3.5 * y + 25,
-      ": " + InfoPlayer[1].cardblack,
-      {
-        font: "30px Arial",
-        fill: "#ff00ff",
-        align: "center"
-      }
-    );
     text[15] = game.add.text(8 * x + 80, 3.5 * y + 40, "Total 0/10", {
       font: "25px Arial",
       fill: "#ffffff",
@@ -969,55 +974,55 @@ function cardlevel_1(card, x, y, cardID, index) {
   if (person == true) {
     if (
       InfoCardLv1[cardID].reqBlue <=
-        InfoPlayer[1].blueCoin + InfoPlayer[1].cardblue &&
+        InfoPlayer[localNum].blueCoin + InfoPlayer[localNum].cardblue &&
       InfoCardLv1[cardID].reqWhite <=
-        InfoPlayer[1].whiteCoin + InfoPlayer[1].cardwhite &&
+        InfoPlayer[localNum].whiteCoin + InfoPlayer[localNum].cardwhite &&
       InfoCardLv1[cardID].reqRed <=
-        InfoPlayer[1].redCoin + InfoPlayer[1].cardred &&
+        InfoPlayer[localNum].redCoin + InfoPlayer[localNum].cardred &&
       InfoCardLv1[cardID].reqGreen <=
-        InfoPlayer[1].greenCoin + InfoPlayer[1].cardgreen &&
+        InfoPlayer[localNum].greenCoin + InfoPlayer[localNum].cardgreen &&
       InfoCardLv1[cardID].reqBlack <=
-        InfoPlayer[1].blackCoin + InfoPlayer[1].cardblack
+        InfoPlayer[localNum].blackCoin + InfoPlayer[localNum].cardblack
     ) {
       //updateInfo
       var unsign = [];
-      unsign[0] = InfoCardLv1[cardID].reqBlue - InfoPlayer[1].cardblue;
-      unsign[1] = InfoCardLv1[cardID].reqWhite - InfoPlayer[1].cardwhite;
-      unsign[2] = InfoCardLv1[cardID].reqRed - InfoPlayer[1].cardred;
-      unsign[3] = InfoCardLv1[cardID].reqGreen - InfoPlayer[1].cardgreen;
-      unsign[4] = InfoCardLv1[cardID].reqBlack - InfoPlayer[1].cardblack;
+      unsign[0] = InfoCardLv1[cardID].reqBlue - InfoPlayer[localNum].cardblue;
+      unsign[1] = InfoCardLv1[cardID].reqWhite - InfoPlayer[localNum].cardwhite;
+      unsign[2] = InfoCardLv1[cardID].reqRed - InfoPlayer[localNum].cardred;
+      unsign[3] = InfoCardLv1[cardID].reqGreen - InfoPlayer[localNum].cardgreen;
+      unsign[4] = InfoCardLv1[cardID].reqBlack - InfoPlayer[localNum].cardblack;
       for (var j = 0; j < 5; j++) {
         if (unsign[j] < 0) {
           unsign[j] = 0;
         }
       }
-      InfoPlayer[1].blueCoin -= unsign[0];
-      InfoPlayer[1].whiteCoin -= unsign[1];
-      InfoPlayer[1].redCoin -= unsign[2];
-      InfoPlayer[1].greenCoin -= unsign[3];
-      InfoPlayer[1].blackCoin -= unsign[4];
+      InfoPlayer[localNum].blueCoin -= unsign[0];
+      InfoPlayer[localNum].whiteCoin -= unsign[1];
+      InfoPlayer[localNum].redCoin -= unsign[2];
+      InfoPlayer[localNum].greenCoin -= unsign[3];
+      InfoPlayer[localNum].blackCoin -= unsign[4];
       if (InfoCardLv1[cardID].addBlue) {
-        InfoPlayer[1].cardblue += InfoCardLv1[cardID].addBlue;
+        InfoPlayer[localNum].cardblue += InfoCardLv1[cardID].addBlue;
       } else if (InfoCardLv1[cardID].addWhite) {
-        InfoPlayer[1].cardwhite += InfoCardLv1[cardID].addWhite;
+        InfoPlayer[localNum].cardwhite += InfoCardLv1[cardID].addWhite;
       } else if (InfoCardLv1[cardID].addRed) {
-        InfoPlayer[1].cardred += InfoCardLv1[cardID].addRed;
+        InfoPlayer[localNum].cardred += InfoCardLv1[cardID].addRed;
       } else if (InfoCardLv1[cardID].addGreen) {
-        InfoPlayer[1].cardgreen += InfoCardLv1[cardID].addGreen;
+        InfoPlayer[localNum].cardgreen += InfoCardLv1[cardID].addGreen;
       } else if (InfoCardLv1[cardID].addBlack) {
-        InfoPlayer[1].cardblack += InfoCardLv1[cardID].addBlack;
+        InfoPlayer[localNum].cardblack += InfoCardLv1[cardID].addBlack;
       }
-      InfoPlayer[1].score += InfoCardLv1[cardID].score;
-      text[5].setText(": " + InfoPlayer[1].blueCoin);
-      text[6].setText(": " + InfoPlayer[1].whiteCoin);
-      text[7].setText(": " + InfoPlayer[1].redCoin);
-      text[8].setText(": " + InfoPlayer[1].greenCoin);
-      text[9].setText(": " + InfoPlayer[1].blackCoin);
-      text[10].setText(": " + InfoPlayer[1].cardblue);
-      text[11].setText(": " + InfoPlayer[1].cardwhite);
-      text[12].setText(": " + InfoPlayer[1].cardred);
-      text[13].setText(": " + InfoPlayer[1].cardgreen);
-      text[14].setText(": " + InfoPlayer[1].cardblack);
+      InfoPlayer[localNum].score += InfoCardLv1[cardID].score;
+      text[5].setText(": " + InfoPlayer[localNum].blueCoin);
+      text[6].setText(": " + InfoPlayer[localNum].whiteCoin);
+      text[7].setText(": " + InfoPlayer[localNum].redCoin);
+      text[8].setText(": " + InfoPlayer[localNum].greenCoin);
+      text[9].setText(": " + InfoPlayer[localNum].blackCoin);
+      text[10].setText(": " + InfoPlayer[localNum].cardblue);
+      text[11].setText(": " + InfoPlayer[localNum].cardwhite);
+      text[12].setText(": " + InfoPlayer[localNum].cardred);
+      text[13].setText(": " + InfoPlayer[localNum].cardgreen);
+      text[14].setText(": " + InfoPlayer[localNum].cardblack);
 
     card.destroy();
       randIndex = Math.floor(Math.random() * aImageFiles.length);
@@ -1085,56 +1090,55 @@ function cardlevel_2(card, x, y, cardID, index) {
   if (person == true) {
     if (
       InfoCardLv2[cardID].reqBlue <=
-        InfoPlayer[1].blueCoin + InfoPlayer[1].cardblue &&
+        InfoPlayer[localNum].blueCoin + InfoPlayer[localNum].cardblue &&
       InfoCardLv2[cardID].reqWhite <=
-        InfoPlayer[1].whiteCoin + InfoPlayer[1].cardwhite &&
+        InfoPlayer[localNum].whiteCoin + InfoPlayer[localNum].cardwhite &&
       InfoCardLv2[cardID].reqRed <=
-        InfoPlayer[1].redCoin + InfoPlayer[1].cardred &&
+        InfoPlayer[localNum].redCoin + InfoPlayer[localNum].cardred &&
       InfoCardLv2[cardID].reqGreen <=
-        InfoPlayer[1].greenCoin + InfoPlayer[1].cardgreen &&
+        InfoPlayer[localNum].greenCoin + InfoPlayer[localNum].cardgreen &&
       InfoCardLv2[cardID].reqBlack <=
-        InfoPlayer[1].blackCoin + InfoPlayer[1].cardblack
+        InfoPlayer[localNum].blackCoin + InfoPlayer[localNum].cardblack
     ) {
       //updateInfo
       var unsign = [];
-      unsign[0] = InfoCardLv2[cardID].reqBlue - InfoPlayer[1].cardblue;
-      unsign[1] = InfoCardLv2[cardID].reqWhite - InfoPlayer[1].cardwhite;
-      unsign[2] = InfoCardLv2[cardID].reqRed - InfoPlayer[1].cardred;
-      unsign[3] = InfoCardLv2[cardID].reqGreen - InfoPlayer[1].cardgreen;
-      unsign[4] = InfoCardLv2[cardID].reqBlack - InfoPlayer[1].cardblack;
+      unsign[0] = InfoCardLv2[cardID].reqBlue - InfoPlayer[localNum].cardblue;
+      unsign[1] = InfoCardLv2[cardID].reqWhite - InfoPlayer[localNum].cardwhite;
+      unsign[2] = InfoCardLv2[cardID].reqRed - InfoPlayer[localNum].cardred;
+      unsign[3] = InfoCardLv2[cardID].reqGreen - InfoPlayer[localNum].cardgreen;
+      unsign[4] = InfoCardLv2[cardID].reqBlack - InfoPlayer[localNum].cardblack;
       for (var j = 0; j < 5; j++) {
         if (unsign[j] < 0) {
           unsign[j] = 0;
         }
       }
-      InfoPlayer[1].blueCoin -= unsign[0];
-      InfoPlayer[1].whiteCoin -= unsign[1];
-      InfoPlayer[1].redCoin -= unsign[2];
-      InfoPlayer[1].greenCoin -= unsign[3];
-      InfoPlayer[1].blackCoin -= unsign[4];
+      InfoPlayer[localNum].blueCoin -= unsign[0];
+      InfoPlayer[localNum].whiteCoin -= unsign[1];
+      InfoPlayer[localNum].redCoin -= unsign[2];
+      InfoPlayer[localNum].greenCoin -= unsign[3];
+      InfoPlayer[localNum].blackCoin -= unsign[4];
       if (InfoCardLv2[cardID].addBlue) {
-        InfoPlayer[1].cardblue += InfoCardLv2[cardID].addBlue;
+        InfoPlayer[localNum].cardblue += InfoCardLv2[cardID].addBlue;
       } else if (InfoCardLv2[cardID].addWhite) {
-        InfoPlayer[1].cardwhite += InfoCardLv2[cardID].addWhite;
+        InfoPlayer[localNum].cardwhite += InfoCardLv2[cardID].addWhite;
       } else if (InfoCardLv2[cardID].addRed) {
-        InfoPlayer[1].cardred += InfoCardLv2[cardID].addRed;
+        InfoPlayer[localNum].cardred += InfoCardLv2[cardID].addRed;
       } else if (InfoCardLv2[cardID].addGreen) {
-        InfoPlayer[1].cardgreen += InfoCardLv2[cardID].addGreen;
+        InfoPlayer[localNum].cardgreen += InfoCardLv2[cardID].addGreen;
       } else if (InfoCardLv2[cardID].addBlack) {
-        InfoPlayer[1].cardblack += InfoCardLv2[cardID].addBlack;
+        InfoPlayer[localNum].cardblack += InfoCardLv2[cardID].addBlack;
       }
-      InfoPlayer[1].score += InfoCardLv2[cardID].score;
-      text[5].setText(": " + InfoPlayer[1].blueCoin);
-      text[6].setText(": " + InfoPlayer[1].whiteCoin);
-      text[7].setText(": " + InfoPlayer[1].redCoin);
-      text[8].setText(": " + InfoPlayer[1].greenCoin);
-      text[9].setText(": " + InfoPlayer[1].blackCoin);
-      text[10].setText(": " + InfoPlayer[1].cardblue);
-      text[11].setText(": " + InfoPlayer[1].cardwhite);
-      text[12].setText(": " + InfoPlayer[1].cardred);
-      text[13].setText(": " + InfoPlayer[1].cardgreen);
-      text[14].setText(": " + InfoPlayer[1].cardblack);
-      //      text[23].setText(": " + InfoPlayer[1].goldCoin);
+      InfoPlayer[localNum].score += InfoCardLv2[cardID].score;
+      text[5].setText(": " + InfoPlayer[localNum].blueCoin);
+      text[6].setText(": " + InfoPlayer[localNum].whiteCoin);
+      text[7].setText(": " + InfoPlayer[localNum].redCoin);
+      text[8].setText(": " + InfoPlayer[localNum].greenCoin);
+      text[9].setText(": " + InfoPlayer[localNum].blackCoin);
+      text[10].setText(": " + InfoPlayer[localNum].cardblue);
+      text[11].setText(": " + InfoPlayer[localNum].cardwhite);
+      text[12].setText(": " + InfoPlayer[localNum].cardred);
+      text[13].setText(": " + InfoPlayer[localNum].cardgreen);
+      text[14].setText(": " + InfoPlayer[localNum].cardblack);
       //randomCardPic
       card.destroy();
       randIndex2 = Math.floor(Math.random() * aImageFiles2.length);
@@ -1201,56 +1205,55 @@ function cardlevel_3(card, x, y, cardID, index) {
   if (person == true) {
     if (
       InfoCardLv3[cardID].reqBlue <=
-        InfoPlayer[1].blueCoin + InfoPlayer[1].cardblue &&
+        InfoPlayer[localNum].blueCoin + InfoPlayer[localNum].cardblue &&
       InfoCardLv3[cardID].reqWhite <=
-        InfoPlayer[1].whiteCoin + InfoPlayer[1].cardwhite &&
+        InfoPlayer[localNum].whiteCoin + InfoPlayer[localNum].cardwhite &&
       InfoCardLv3[cardID].reqRed <=
-        InfoPlayer[1].redCoin + InfoPlayer[1].cardred &&
+        InfoPlayer[localNum].redCoin + InfoPlayer[localNum].cardred &&
       InfoCardLv3[cardID].reqGreen <=
-        InfoPlayer[1].greenCoin + InfoPlayer[1].cardgreen &&
+        InfoPlayer[localNum].greenCoin + InfoPlayer[localNum].cardgreen &&
       InfoCardLv3[cardID].reqBlack <=
-        InfoPlayer[1].blackCoin + InfoPlayer[1].cardblack
+        InfoPlayer[localNum].blackCoin + InfoPlayer[localNum].cardblack
     ) {
       //updateInfo
       var unsign = [];
-      unsign[0] = InfoCardLv3[cardID].reqBlue - InfoPlayer[1].cardblue;
-      unsign[1] = InfoCardLv3[cardID].reqWhite - InfoPlayer[1].cardwhite;
-      unsign[2] = InfoCardLv3[cardID].reqRed - InfoPlayer[1].cardred;
-      unsign[3] = InfoCardLv3[cardID].reqGreen - InfoPlayer[1].cardgreen;
-      unsign[4] = InfoCardLv3[cardID].reqBlack - InfoPlayer[1].cardblack;
+      unsign[0] = InfoCardLv3[cardID].reqBlue - InfoPlayer[localNum].cardblue;
+      unsign[1] = InfoCardLv3[cardID].reqWhite - InfoPlayer[localNum].cardwhite;
+      unsign[2] = InfoCardLv3[cardID].reqRed - InfoPlayer[localNum].cardred;
+      unsign[3] = InfoCardLv3[cardID].reqGreen - InfoPlayer[localNum].cardgreen;
+      unsign[4] = InfoCardLv3[cardID].reqBlack - InfoPlayer[localNum].cardblack;
       for (var j = 0; j < 5; j++) {
         if (unsign[j] < 0) {
           unsign[j] = 0;
         }
       }
-      InfoPlayer[1].blueCoin -= unsign[0];
-      InfoPlayer[1].whiteCoin -= unsign[1];
-      InfoPlayer[1].redCoin -= unsign[2];
-      InfoPlayer[1].greenCoin -= unsign[3];
-      InfoPlayer[1].blackCoin -= unsign[4];
+      InfoPlayer[localNum].blueCoin -= unsign[0];
+      InfoPlayer[localNum].whiteCoin -= unsign[1];
+      InfoPlayer[localNum].redCoin -= unsign[2];
+      InfoPlayer[localNum].greenCoin -= unsign[3];
+      InfoPlayer[localNum].blackCoin -= unsign[4];
       if (InfoCardLv3[cardID].addBlue) {
-        InfoPlayer[1].cardblue += InfoCardLv3[cardID].addBlue;
+        InfoPlayer[localNum].cardblue += InfoCardLv3[cardID].addBlue;
       } else if (InfoCardLv3[cardID].addWhite) {
-        InfoPlayer[1].cardwhite += InfoCardLv3[cardID].addWhite;
+        InfoPlayer[localNum].cardwhite += InfoCardLv3[cardID].addWhite;
       } else if (InfoCardLv3[cardID].addRed) {
-        InfoPlayer[1].cardred += InfoCardLv3[cardID].addRed;
+        InfoPlayer[localNum].cardred += InfoCardLv3[cardID].addRed;
       } else if (InfoCardLv3[cardID].addGreen) {
-        InfoPlayer[1].cardgreen += InfoCardLv3[cardID].addGreen;
+        InfoPlayer[localNum].cardgreen += InfoCardLv3[cardID].addGreen;
       } else if (InfoCardLv3[cardID].addBlack) {
-        InfoPlayer[1].cardblack += InfoCardLv3[cardID].addBlack;
+        InfoPlayer[localNum].cardblack += InfoCardLv3[cardID].addBlack;
       }
-      InfoPlayer[1].score += InfoCardLv3[cardID].score;
-      text[5].setText(": " + InfoPlayer[1].blueCoin);
-      text[6].setText(": " + InfoPlayer[1].whiteCoin);
-      text[7].setText(": " + InfoPlayer[1].redCoin);
-      text[8].setText(": " + InfoPlayer[1].greenCoin);
-      text[9].setText(": " + InfoPlayer[1].blackCoin);
-      text[10].setText(": " + InfoPlayer[1].cardblue);
-      text[11].setText(": " + InfoPlayer[1].cardwhite);
-      text[12].setText(": " + InfoPlayer[1].cardred);
-      text[13].setText(": " + InfoPlayer[1].cardgreen);
-      text[14].setText(": " + InfoPlayer[1].cardblack);
-      //      text[23].setText(": " + InfoPlayer[1].goldCoin);
+      InfoPlayer[localNum].score += InfoCardLv3[cardID].score;
+      text[5].setText(": " + InfoPlayer[localNum].blueCoin);
+      text[6].setText(": " + InfoPlayer[localNum].whiteCoin);
+      text[7].setText(": " + InfoPlayer[localNum].redCoin);
+      text[8].setText(": " + InfoPlayer[localNum].greenCoin);
+      text[9].setText(": " + InfoPlayer[localNum].blackCoin);
+      text[10].setText(": " + InfoPlayer[localNum].cardblue);
+      text[11].setText(": " + InfoPlayer[localNum].cardwhite);
+      text[12].setText(": " + InfoPlayer[localNum].cardred);
+      text[13].setText(": " + InfoPlayer[localNum].cardgreen);
+      text[14].setText(": " + InfoPlayer[localNum].cardblack);
       //randomCardPic
       card.destroy();
       randIndex3 = Math.floor(Math.random() * aImageFiles3.length);
@@ -1310,13 +1313,13 @@ function click_Noble(card, NobleID) {
   var person = confirm("Are you sure in this card Noble?");
   if (person == true) {
     if (
-      InfoPlayer[1].cardblue >= Noble[NobleID].reqBlue &&
-      InfoPlayer[1].cardwhite >= Noble[NobleID].reqWhite &&
-      InfoPlayer[1].cardred >= Noble[NobleID].reqRed &&
-      InfoPlayer[1].cardgreen >= Noble[NobleID].reqGreen &&
-      InfoPlayer[1].cardblack >= Noble[NobleID].reqBlack
+      InfoPlayer[localNum].cardblue >= Noble[NobleID].reqBlue &&
+      InfoPlayer[localNum].cardwhite >= Noble[NobleID].reqWhite &&
+      InfoPlayer[localNum].cardred >= Noble[NobleID].reqRed &&
+      InfoPlayer[localNum].cardgreen >= Noble[NobleID].reqGreen &&
+      InfoPlayer[localNum].cardblack >= Noble[NobleID].reqBlack
     ) {
-      InfoPlayer[1].score += Noble[NobleID].score;
+      InfoPlayer[localNum].score += Noble[NobleID].score;
       card.destroy();console.log(4);
       endTurn();
     } else {
@@ -1369,11 +1372,11 @@ function OhRight() {
     }*/
   console.log(InfoPlayer);
   var total =
-    InfoPlayer[1].blueCoin +
-    InfoPlayer[1].whiteCoin +
-    InfoPlayer[1].redCoin +
-    InfoPlayer[1].greenCoin +
-    InfoPlayer[1].blackCoin;
+    InfoPlayer[localNum].blueCoin +
+    InfoPlayer[localNum].whiteCoin +
+    InfoPlayer[localNum].redCoin +
+    InfoPlayer[localNum].greenCoin +
+    InfoPlayer[localNum].blackCoin;
   if (
     total + coinNum[0] + coinNum[1] + coinNum[2] + coinNum[3] + coinNum[4] >
     10
@@ -1395,11 +1398,11 @@ function OhRight() {
       coinNum[3] <= 1 &&
       coinNum[4] <= 1
     ) {
-      InfoPlayer[1].blueCoin += coinNum[0];
-      InfoPlayer[1].whiteCoin += coinNum[1];
-      InfoPlayer[1].redCoin += coinNum[2];
-      InfoPlayer[1].greenCoin += coinNum[3];
-      InfoPlayer[1].blackCoin += coinNum[4];
+      InfoPlayer[localNum].blueCoin += coinNum[0];
+      InfoPlayer[localNum].whiteCoin += coinNum[1];
+      InfoPlayer[localNum].redCoin += coinNum[2];
+      InfoPlayer[localNum].greenCoin += coinNum[3];
+      InfoPlayer[localNum].blackCoin += coinNum[4];
       ohCancel();
       updatePlayerInfo();
       console.log(5);
@@ -1440,11 +1443,11 @@ function OhRight() {
         coinNum[3] == 2 ||
         coinNum[4] == 2)
     ) {
-      InfoPlayer[1].blueCoin += coinNum[0];
-      InfoPlayer[1].whiteCoin += coinNum[1];
-      InfoPlayer[1].redCoin += coinNum[2];
-      InfoPlayer[1].greenCoin += coinNum[3];
-      InfoPlayer[1].blackCoin += coinNum[4];
+      InfoPlayer[localNum].blueCoin += coinNum[0];
+      InfoPlayer[localNum].whiteCoin += coinNum[1];
+      InfoPlayer[localNum].redCoin += coinNum[2];
+      InfoPlayer[localNum].greenCoin += coinNum[3];
+      InfoPlayer[localNum].blackCoin += coinNum[4];
       ohCancel();
       updatePlayerInfo();
       text[21].setText("Turn : " + turn);console.log(6);
@@ -1483,24 +1486,22 @@ function OhRight() {
     ohCancel();
   }
   function updatePlayerInfo() {
-    text[5].setText(": " + InfoPlayer[1].blueCoin);
-    text[6].setText(": " + InfoPlayer[1].whiteCoin);
-    text[7].setText(": " + InfoPlayer[1].redCoin);
-    text[8].setText(": " + InfoPlayer[1].greenCoin);
-    text[9].setText(": " + InfoPlayer[1].blackCoin);
-    //    text[23].setText(": " + InfoPlayer[1].goldCoin);
+    text[5].setText(": " + InfoPlayer[localNum].blueCoin);
+    text[6].setText(": " + InfoPlayer[localNum].whiteCoin);
+    text[7].setText(": " + InfoPlayer[localNum].redCoin);
+    text[8].setText(": " + InfoPlayer[localNum].greenCoin);
+    text[9].setText(": " + InfoPlayer[localNum].blackCoin);
     text[0].setText("Blue:   " + coinNum[0]);
     text[1].setText("White: " + coinNum[1]);
     text[2].setText("Red:    " + coinNum[2]);
     text[3].setText("Green: " + coinNum[3]);
     text[4].setText("Black:  " + coinNum[4]);
     total =
-      InfoPlayer[1].blueCoin +
-      InfoPlayer[1].whiteCoin +
-      InfoPlayer[1].redCoin +
-      InfoPlayer[1].greenCoin +
-      InfoPlayer[1].blackCoin;
-    //     + InfoPlayer[1].goldCoin;
+      InfoPlayer[localNum].blueCoin +
+      InfoPlayer[localNum].whiteCoin +
+      InfoPlayer[localNum].redCoin +
+      InfoPlayer[localNum].greenCoin +
+      InfoPlayer[localNum].blackCoin;
     text[15].setText("Total " + total + "/10");
   }
 }
@@ -1508,22 +1509,22 @@ function endTurn(){
   server.game.takeCoin(
     [
       null,
-      InfoPlayer[1].blackCoin,
-      InfoPlayer[1].blueCoin,
-      InfoPlayer[1].greenCoin,
-      InfoPlayer[1].redCoin,
-      InfoPlayer[1].whiteCoin
+      InfoPlayer[localNum].blackCoin,
+      InfoPlayer[localNum].blueCoin,
+      InfoPlayer[localNum].greenCoin,
+      InfoPlayer[localNum].redCoin,
+      InfoPlayer[localNum].whiteCoin
     ],
     {
-      cardblack: InfoPlayer[1].cardblack,
-      cardblue: InfoPlayer[1].cardblue,
-      cardgreen: InfoPlayer[1].cardgreen,
-      cardred: InfoPlayer[1].cardred,
-      cardwhite: InfoPlayer[1].cardwhite
+      cardblack: InfoPlayer[localNum].cardblack,
+      cardblue: InfoPlayer[localNum].cardblue,
+      cardgreen: InfoPlayer[localNum].cardgreen,
+      cardred: InfoPlayer[localNum].cardred,
+      cardwhite: InfoPlayer[localNum].cardwhite
     },
     0,
     0,
-    InfoPlayer[1].score
+    InfoPlayer[localNum].score
   );
 }
 function ohCancel() {
@@ -1576,11 +1577,11 @@ function ohCancel() {
   text[20].setText(coinLeft[4] + "/7");
 
   total =
-    InfoPlayer[1].blueCoin +
-    InfoPlayer[1].whiteCoin +
-    InfoPlayer[1].redCoin +
-    InfoPlayer[1].greenCoin +
-    InfoPlayer[1].blackCoin;
+    InfoPlayer[localNum].blueCoin +
+    InfoPlayer[localNum].whiteCoin +
+    InfoPlayer[localNum].redCoin +
+    InfoPlayer[localNum].greenCoin +
+    InfoPlayer[localNum].blackCoin;
 
   text[15].setText("Total " + total + "/10");
 }
