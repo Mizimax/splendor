@@ -1442,14 +1442,25 @@ function OhRight() {
     //     + InfoPlayer[1].goldCoin;
     text[15].setText("Total " + total + "/10");
   }
-  server.game.takeCoin([
-    null,
-    InfoPlayer[1].blueCoin,
-    InfoPlayer[1].whiteCoin,
-    InfoPlayer[1].redCoin,
-    InfoPlayer[1].greenCoin,
-    InfoPlayer[1].blackCoin
-  ]);
+  server.game.takeCoin(
+    [
+      null,
+      InfoPlayer[1].blueCoin,
+      InfoPlayer[1].whiteCoin,
+      InfoPlayer[1].redCoin,
+      InfoPlayer[1].greenCoin,
+      InfoPlayer[1].blackCoin
+    ],
+    {
+      cardblack: InfoPlayer[1].cardblack,
+      cardblue: InfoPlayer[1].cardblue,
+      cardgreen: InfoPlayer[1].cardgreen,
+      cardred: InfoPlayer[1].cardred,
+      cardwhite: InfoPlayer[1].cardwhite
+    },
+    0,
+    0
+  );
 }
 function ohCancel() {
   coinNum[0] = 0;
