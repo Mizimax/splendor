@@ -341,8 +341,8 @@ var gamestate = {
     //profile
     this.load.image("player1", "image/profile/music.png");
     this.load.image("player2", "image/profile/satchan.png");
-    this.load.image("player3", "image/profile/noey.png");
-    this.load.image("player4", "image/profile/pun.png");
+    this.load.image("player3", "image/profile/pun.png");
+    this.load.image("player4", "image/profile/cher.png");
     //level 1-3
     game.load.image("galaxy", "assets/galaxy.jpg");
     game.load.image("chat_head", "assets/chat_box.png");
@@ -1926,25 +1926,29 @@ function hideBox3() {
   this.msgBox3.destroy();
   game.state.start("game");
 }
-/*function runturn() {
+function runturn() {
   if (turn == 1) {
     for (i = 0; i <= 22; i++) {
       button[i].inputEnabled = false;
+      button[i].input.mouse.enabled = false;
       console.log(turn);
     }
   } else if (turn == 2)
     for (i = 0; i <= 22; i++) {
       button[i].inputEnabled = false;
+      button[i].input.mouse.enabled = false;
       console.log(turn);
     }
   else if (turn == 3)
     for (i = 0; i <= 22; i++) {
       button[i].inputEnabled = false;
+      button[i].input.mouse.enabled = false;
       console.log(turn);
     }
   else if (turn == 4)
     for (i = 0; i <= 22; i++) {
       button[i].inputEnabled = false;
+      button[i].input.mouse.enabled = false;
       console.log(turn);
     }
-}*/
+}
