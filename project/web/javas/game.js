@@ -6,7 +6,6 @@ coinNum[1] = 0;
 coinNum[2] = 0;
 coinNum[3] = 0;
 coinNum[4] = 0;
-coinNum[5] = 0;
 var detail = [];
 var turn = 1;
 var send;
@@ -442,7 +441,7 @@ var gamestate = {
       }
     });
     server.room.getRoomMessage();
-    server.room.joinRoom(7);
+    server.room.joinRoom(472);
     server.room.playerStart();
 
     x = window.outerWidth / 12; //row
@@ -975,11 +974,11 @@ function cardlevel_1(card, x, y, cardID, index) {
 }
 function cardlevel_2(card, x, y, cardID, index) {
   console.log(cardID);
-  console.log(InfoCardLv1[cardID].reqBlack);
-  console.log(InfoCardLv1[cardID].reqBlue);
-  console.log(InfoCardLv1[cardID].reqGreen);
-  console.log(InfoCardLv1[cardID].reqRed);
-  console.log(InfoCardLv1[cardID].reqWhite);
+  console.log(InfoCardLv2[cardID].reqBlack);
+  console.log(InfoCardLv2[cardID].reqBlue);
+  console.log(InfoCardLv2[cardID].reqGreen);
+  console.log(InfoCardLv2[cardID].reqRed);
+  console.log(InfoCardLv2[cardID].reqWhite);
   var person = confirm("Are you sure in this card level 2?");
   if (person == true) {
     if (
@@ -1068,11 +1067,11 @@ function cardlevel_2(card, x, y, cardID, index) {
 }
 function cardlevel_3(card, x, y, cardID, index) {
   console.log(cardID);
-  console.log(InfoCardLv1[cardID].reqBlack);
-  console.log(InfoCardLv1[cardID].reqBlue);
-  console.log(InfoCardLv1[cardID].reqGreen);
-  console.log(InfoCardLv1[cardID].reqRed);
-  console.log(InfoCardLv1[cardID].reqWhite);
+  console.log(InfoCardLv3[cardID].reqBlack);
+  console.log(InfoCardLv3[cardID].reqBlue);
+  console.log(InfoCardLv3[cardID].reqGreen);
+  console.log(InfoCardLv3[cardID].reqRed);
+  console.log(InfoCardLv3[cardID].reqWhite);
   var person = confirm("Are you sure in this card level 3?");
   if (person == true) {
     if (
