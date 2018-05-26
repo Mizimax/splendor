@@ -224,6 +224,8 @@ var cardadd = function() {
       addBlack: 0,
       score: 0
     };
+    console.log(InfoCardLv1[i].reqBlue);
+    
   }
   for (var i = 1; i <= 30; i++) {
     InfoCardLv2[i] = {
@@ -447,7 +449,7 @@ var gamestate = {
       }
     });
     server.room.getRoomMessage();
-    server.room.joinRoom(7);
+    server.room.joinRoom(472);
     server.room.playerStart();
 
     x = window.outerWidth / 12; //row
@@ -889,7 +891,7 @@ var gamestate = {
 
 function cardlevel_1(card, x, y, cardID,index) {
   console.log(cardID);
-  console.log(InfoCardLv1[cardID]);
+  console.log(InfoCardLv1[cardID].reqBlack);
   console.log(InfoCardLv1[cardID].reqBlue);
   console.log(InfoCardLv1[cardID].reqGreen);
   console.log(InfoCardLv1[cardID].reqRed);
