@@ -39,7 +39,6 @@ var server = {
         if (data.action === "JOIN_ROOM") {
           self.playerReady();
           self.playerStart();
-
           self.getPlayerDetail();
           if (data.status === "success") {
             this.match_id = data.match_id;
@@ -54,12 +53,16 @@ var server = {
           turn = data.turn;
           modal.hide();
         } else if (data.action === "PLAYER_DETAIL") {
-          window.DBplayer = data.user
+          window.DBplayer = data.user;
+          checkPlayerDetail();
         }
          else if (data.action === "TAKE_CARD") {
+          
           turn = data.turn;
         } else if (data.action === "TAKE_COIN") {
+          console.log(InfoPlayer[1].blueCoin);
           turn = data.turn;
+
         }
       });
     }
