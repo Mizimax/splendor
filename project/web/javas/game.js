@@ -965,6 +965,18 @@ function cardlevel_1(card, x, y, cardID, index) {
       if (turn % 4 == 0) {
         turn += 4;
       }
+      if (InfoPlayer[1].score >= 15 ){
+        showFinalBox("The Winner is Player 1 : "+InfoPlayer[1].score+" Point.", 5 * x, 2 * y);
+      }   
+      else if (InfoPlayer[2].score >= 15 ){
+        showFinalBox("The Winner is Player 2 : "+InfoPlayer[2].score+" Point.", 5 * x, 2 * y);
+      }
+      else if (InfoPlayer[3].score >= 15 ){
+        showFinalBox("The Winner is Player 3 : "+InfoPlayer[3].score+" Point.", 5 * x, 2 * y);
+      }
+      else if (InfoPlayer[4].score >= 15 ){
+        showFinalBox("The Winner is Player 4 : "+InfoPlayer[4].score+" Point.", 5 * x, 2 * y);
+      }
     } else {
       //case not enough coin
       testMessageBox("insufficient");
@@ -1058,6 +1070,18 @@ function cardlevel_2(card, x, y, cardID, index) {
       if (turn % 4 == 0) {
         turn += 4;
       }
+      if (InfoPlayer[1].score >= 15 ){
+        showFinalBox("The Winner is Player 1 : "+InfoPlayer[1].score+" Point.", 5 * x, 2 * y);
+      }   
+      else if (InfoPlayer[2].score >= 15 ){
+        showFinalBox("The Winner is Player 2 : "+InfoPlayer[2].score+" Point.", 5 * x, 2 * y);
+      }
+      else if (InfoPlayer[3].score >= 15 ){
+        showFinalBox("The Winner is Player 3 : "+InfoPlayer[3].score+" Point.", 5 * x, 2 * y);
+      }
+      else if (InfoPlayer[4].score >= 15 ){
+        showFinalBox("The Winner is Player 4 : "+InfoPlayer[4].score+" Point.", 5 * x, 2 * y);
+      }
     } else {
       //case not enough coin
       testMessageBox("insufficient");
@@ -1150,6 +1174,18 @@ function cardlevel_3(card, x, y, cardID, index) {
       turn = turn % 4;
       if (turn % 4 == 0) {
         turn += 4;
+      }
+      if (InfoPlayer[1].score >= 15 ){
+        showFinalBox("The Winner is Player 1 : "+InfoPlayer[1].score+" Point.", 5 * x, 2 * y);
+      }   
+      else if (InfoPlayer[2].score >= 15 ){
+        showFinalBox("The Winner is Player 2 : "+InfoPlayer[2].score+" Point.", 5 * x, 2 * y);
+      }
+      else if (InfoPlayer[3].score >= 15 ){
+        showFinalBox("The Winner is Player 3 : "+InfoPlayer[3].score+" Point.", 5 * x, 2 * y);
+      }
+      else if (InfoPlayer[4].score >= 15 ){
+        showFinalBox("The Winner is Player 4 : "+InfoPlayer[4].score+" Point.", 5 * x, 2 * y);
       }
     } else {
       //case not enough coin
@@ -1258,6 +1294,18 @@ function OhRight() {
       if (turn % 4 == 0) {
         turn += 4;
       }
+      if (InfoPlayer[1].score >= 15 ){
+        showFinalBox("The Winner is Player 1 : "+InfoPlayer[1].score+" Point.", 5 * x, 2 * y);
+      }   
+      else if (InfoPlayer[2].score >= 15 ){
+        showFinalBox("The Winner is Player 2 : "+InfoPlayer[2].score+" Point.", 5 * x, 2 * y);
+      }
+      else if (InfoPlayer[3].score >= 15 ){
+        showFinalBox("The Winner is Player 3 : "+InfoPlayer[3].score+" Point.", 5 * x, 2 * y);
+      }
+      else if (InfoPlayer[4].score >= 15 ){
+        showFinalBox("The Winner is Player 4 : "+InfoPlayer[4].score+" Point.", 5 * x, 2 * y);
+      }
     } else if (
       coinNum[0] + coinNum[1] + coinNum[2] + coinNum[3] + coinNum[4] < 3 &&
       (coinNum[0] == 2 ||
@@ -1278,6 +1326,18 @@ function OhRight() {
       turn = turn % 4;
       if (turn % 4 == 0) {
         turn += 4;
+      }
+      if (InfoPlayer[1].score >= 15 ){
+        showFinalBox("The Winner is Player 1 : "+InfoPlayer[1].score+" Point.", 5 * x, 2 * y);
+      }   
+      else if (InfoPlayer[2].score >= 15 ){
+        showFinalBox("The Winner is Player 2 : "+InfoPlayer[2].score+" Point.", 5 * x, 2 * y);
+      }
+      else if (InfoPlayer[3].score >= 15 ){
+        showFinalBox("The Winner is Player 3 : "+InfoPlayer[3].score+" Point.", 5 * x, 2 * y);
+      }
+      else if (InfoPlayer[4].score >= 15 ){
+        showFinalBox("The Winner is Player 4 : "+InfoPlayer[4].score+" Point.", 5 * x, 2 * y);
       }
     } else {
       testMessageBox("format");
@@ -1687,4 +1747,33 @@ function ChatDown2() {
   } else {
     chat_h.y = galax2.y;
   }
+}
+function showFinalBox(text, w = 300, h = 300) {
+  if (this.msgBox3) {
+    this.msgBox3.destroy();
+  }
+  var msgBox3 = game.add.group();
+  var back = game.add.sprite(0, 0, "popup");
+  var closeButton = game.add.sprite(0, 0, "exitpopup");
+  var text1 = game.add.text(0, 0, text);
+  text1.wordWrap = true;
+  text1.wordWrapWidth = w * 0.9;
+  back.width = w;
+  back.height = h;
+  msgBox3.add(back);
+  msgBox3.add(closeButton);
+  msgBox3.add(text1);
+  closeButton.x = back.width / 2 - closeButton.width / 2;
+  closeButton.y = back.height - closeButton.height;
+  closeButton.inputEnabled = true;
+  closeButton.events.onInputDown.add(this.hideBox3, this);
+  msgBox3.x = game.width / 2 - msgBox3.width / 2;
+  msgBox3.y = game.height / 2 - msgBox3.height / 2;
+  text1.x = back.width / 2 - text1.width / 2;
+  text1.y = back.height / 2 - text1.height / 2 - 100;
+  this.msgBox3 = msgBox3;
+}
+function hideBox3() {
+  this.msgBox3.destroy();
+  game.state.start("game");
 }
