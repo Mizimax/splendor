@@ -4,21 +4,8 @@ var server = {
   user_id: "",
   ready: false,
   game: {
-    takeCoin: function(coinArr, card, destroy, button, score) {
-      socket.emit("TAKE_COIN", {
-        coinArr: coinArr,
-        cardValue: [
-          card.cardblack,
-          card.cardblue,
-          card.cardgreen,
-          card.cardred,
-          card.cardwhite
-        ],
-        card: card,
-        destroy: destroy,
-        button: button,
-        score: score
-      });
+    takeCoin: function(coinArr) {
+      socket.emit("TAKE_COIN", { coinArr: coinArr });
     }
   },
   room: {
@@ -52,7 +39,6 @@ var server = {
         if (data.action === "JOIN_ROOM") {
           self.playerReady();
           self.playerStart();
-
           self.getPlayerDetail();
           if (data.status === "success") {
             this.match_id = data.match_id;
@@ -64,12 +50,19 @@ var server = {
           window.DBcards = data.cards;
           cardadd();
         } else if (data.action === "GAME_START") {
-          // turn = data.turn;
+          turn = data.turn;
           modal.hide();
-        } else if (data.action === "TAKE_CARD") {
-          // turn = data.turn;
+        } else if (data.action === "PLAYER_DETAIL") {
+          window.DBplayer = data.user;
+          checkPlayerDetail();
+        }
+         else if (data.action === "TAKE_CARD") {
+          
+          turn = data.turn;
         } else if (data.action === "TAKE_COIN") {
-          // turn = data.turn;
+          console.log(InfoPlayer[1].blueCoin);
+          turn = data.turn;
+
         }
       });
     }

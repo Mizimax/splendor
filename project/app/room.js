@@ -539,12 +539,13 @@ const room = function(socket, io) {
       } else {
         for (i = 1; i <= 5; i++) {
           let [resCard] = await db.query(
-            "UPDATE player_card SET color_id = ?, match_id = ?, user_id = ?, amount = ?)",
+            "UPDATE player_card SET color_id = ?, amount = ? WHERE match_id = ? AND user_id = ?",
             [
               i,
+              data.cardValue[i],
               socket.room,
               socket.handshake.session.userdata.user_id,
-              data.cardValue[i]
+              
             ]
           );
         }
@@ -563,14 +564,20 @@ const room = function(socket, io) {
               io.sockets.in(socket.room).emit("ROOM_MESSAGE", {
                 status: "success",
                 action: "TAKE_COIN",
+                user_id: socket.handshake.session.userdata.user_id,
                 turn: resGetTurn[0].match_turn + 1,
                 playerTurn: (resGetTurn[0].match_turn + 1) % 4, //ยังไม่สุ่ม
-                [resCoinName[0].color_name + "Coin"]: data.coinArr[1],
-                [resCoinName[1].color_name + "Coin"]: data.coinArr[2],
-                [resCoinName[2].color_name + "Coin"]: data.coinArr[3],
-                [resCoinName[3].color_name + "Coin"]: data.coinArr[4],
-                [resCoinName[4].color_name + "Coin"]: data.coinArr[5],
-                user_id: socket.handshake.session.userdata.user_id
+                button: data.button,
+                destroy: data.destroy,
+                score: data.score,
+                card: data.card,
+                coin: {
+                  [resCoinName[0].color_name + "Coin"]: data.coinArr[1],
+                  [resCoinName[1].color_name + "Coin"]: data.coinArr[2],
+                  [resCoinName[2].color_name + "Coin"]: data.coinArr[3],
+                  [resCoinName[3].color_name + "Coin"]: data.coinArr[4],
+                  [resCoinName[4].color_name + "Coin"]: data.coinArr[5]
+                }
               });
             }
           }
