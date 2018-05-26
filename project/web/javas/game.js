@@ -6,6 +6,7 @@ coinNum[1] = 0;
 coinNum[2] = 0;
 coinNum[3] = 0;
 coinNum[4] = 0;
+var localNum =  0;
 var detail = [];
 var turn = 1;
 var send;

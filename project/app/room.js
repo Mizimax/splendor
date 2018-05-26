@@ -295,7 +295,7 @@ const room = function(socket, io) {
             if (!arr[2]) arr[2] = [];
             arr[2][i - 70] = rand[i - 70];
           }
-
+          let result = []
           if (resSelect.length != 0) {
             resSelect.forEach(function(item, index) {
               // console.log(item["card_id"]);
