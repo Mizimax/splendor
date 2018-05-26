@@ -53,7 +53,10 @@ var server = {
         } else if (data.action === "GAME_START") {
           turn = data.turn;
           modal.hide();
-        } else if (data.action === "TAKE_CARD") {
+        } else if (data.action === "PLAYER_DETAIL") {
+          window.DBplayer = data.user
+        }
+         else if (data.action === "TAKE_CARD") {
           turn = data.turn;
         } else if (data.action === "TAKE_COIN") {
           turn = data.turn;
