@@ -56,8 +56,18 @@ io.on("connection", async function(socket) {
   chat(socket);
   room(socket, io);
 
-  socket.on("disconnect", function() {
+  socket.on("disconnect", async function() {
     numUsers--;
+    // if (socket.handshake.session) {
+    //   let [resUpdate] = await db.query(
+    //     "UPDATE user SET remember_token = ?, user_online_status = ? WHERE user_id = ?",
+    //     [null, 0, socket.handshake.session.userdata.user_id]
+    //   );
+    //   if (resUpdate.length != 0) {
+    //     socket.handshake.session.destroy();
+    //     console.log("Logout");
+    //   }
+    // }
     console.log("Total users : " + numUsers);
   });
 });
@@ -72,12 +82,25 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
+app.post("/logout", async function(req, res) {
+  let [resUpdate] = await db.query(
+    "UPDATE user SET remember_token = ?, user_online_status = ? WHERE user_id = ?",
+    [null, 0, req.session.userdata.user_id]
+  );
+  if (resUpdate.length != 0) {
+    req.session.destroy();
+    res.status(200).json({ message: "Logout" });
+  }
+});
+
 app.post("/login", async function(req, res) {
   let data = req.body;
   let [results] = await db.query("SELECT * FROM user WHERE user_name = ?", [
     data.username
   ]);
-  if (results.length === 1) {
+  if (results[0].user_online_status === 1)
+    res.status(422).json({ message: "This user already login" });
+  else if (results.length === 1) {
     let response = results[0];
     let resEncrypt = await bcrypt.compare(data.password, response.user_pw);
     if (resEncrypt) {
@@ -87,8 +110,8 @@ app.post("/login", async function(req, res) {
       req.session.save();
       //create cookie จำไว้ใน remember_token ด้วย
       let [resUpdate] = await db.query(
-        "UPDATE user SET remember_token = ? WHERE user_id = ?",
-        [req.sessionID, response.user_id]
+        "UPDATE user SET remember_token = ?, user_online_status = ? WHERE user_id = ?",
+        [req.sessionID, 1, response.user_id]
       );
       if (resUpdate.affectedRows === 1) {
         res.status(200).json({ message: "Login Success !" });

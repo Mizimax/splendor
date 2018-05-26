@@ -4,12 +4,8 @@ var server = {
   user_id: "",
   ready: false,
   game: {
-    loadCard: function() {
-      socket.on("LOAD_CARD");
-    },
-    loadPlayerInfo: function() {
-      //สุ่มในนี้
-      socket.on("LOAD_PLAYER");
+    takeCoin: function(coinArr) {
+      socket.emit("TAKE_COIN", { coinArr: coinArr });
     }
   },
   room: {
@@ -32,11 +28,9 @@ var server = {
     playerStart: function() {
       socket.emit("GAME_START");
     },
-    getDetail: function() {
+    getPlayerDetail: function() {
       //ดึงข้อมูล
-      socket.to(this.roomName).on("ROOM_DETAIL", function(data) {
-        console.log(data);
-      });
+      socket.emit("PLAYER_DETAIL");
     },
     getRoomMessage: function() {
       var self = this;
@@ -45,15 +39,24 @@ var server = {
         if (data.action === "JOIN_ROOM") {
           self.playerReady();
           self.playerStart();
+
+          self.getPlayerDetail();
           if (data.status === "success") {
             this.match_id = data.match_id;
             this.joined = true;
           } else {
             // window.location.href = "/";
           }
-        } else if(data.action === "LOAD_CARD") {
+        } else if (data.action === "LOAD_CARD") {
           window.DBcards = data.cards;
           cardadd();
+        } else if (data.action === "GAME_START") {
+          turn = data.turn;
+          modal.hide();
+        } else if (data.action === "TAKE_CARD") {
+          turn = data.turn;
+        } else if (data.action === "TAKE_COIN") {
+          turn = data.turn;
         }
       });
     }

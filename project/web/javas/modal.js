@@ -80,7 +80,7 @@ function loading() {
       var loading = game.add.text(
         game.world.centerX,
         game.world.centerY,
-        "Authenticating...",
+        "Loading...",
         {
           fill: "#fff",
           font: "24pt Kanit"
