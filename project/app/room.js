@@ -263,11 +263,17 @@ const room = function(socket, io) {
     if (socket.room) {
       try {
         let [resPlayer] = await db.query(
-          "SELECT ready FROM match_player WHERE match_id = ? AND ready = ?",
+          "SELECT user_display_name, ready FROM match_player WHERE match_id = ? AND ready = ?",
           [socket.room, 1]
         );
         let status = 0;
+        let myuser;
         resPlayer.forEach(function(item) {
+          if (
+            item["user_display_name"] ===
+            socket.handshake.session.userdata.user_id
+          )
+            myuser = item["user_display_name"];
           status += item.ready;
         });
         if (status >= 4) {
@@ -361,6 +367,7 @@ const room = function(socket, io) {
                   status: "success",
                   action: "LOAD_CARD",
                   cards: result,
+                  myuser: myuser,
                   random: arr
                 });
                 io.sockets.to(socket.room).emit("ROOM_MESSAGE", {
@@ -368,8 +375,7 @@ const room = function(socket, io) {
                   action: "GAME_START",
                   match_id: socket.room,
                   start: true,
-                  turn: resGetTurn[0].match_turn,
-                  host: true
+                  turn: resGetTurn[0].match_turn
                 });
                 detail();
               } else {
@@ -424,10 +430,7 @@ const room = function(socket, io) {
     let rand,
       resultUser = [];
     let arr = [1, 2, 3, 4];
-    let myuser;
     resUser.forEach(function(item, index) {
-      if (item.user_id == socket.handshake.session.userdata.user_id)
-        myuser = item.user_display_name;
       rand = Math.floor(Math.random() * arr.length);
       resultUser[arr[rand]] = resUser[index];
       arr.splice(rand, 1);
@@ -458,7 +461,6 @@ const room = function(socket, io) {
     io.sockets.to(socket.room).emit("ROOM_MESSAGE", {
       status: "success",
       action: "PLAYER_DETAIL",
-      myuser: myuser,
       user: resultUser,
       card: resultCard,
       coin: resultCoin
@@ -487,18 +489,18 @@ const room = function(socket, io) {
         [socket.room]
       );
       if (resGetTurn[0].match_turn === 1) {
-        if(data.destroy == 1)
-          data.cardValue.forEach(async function(item, i){
-          let [resCard] = await db.query(
-            "INSERT INTO player_card VALUES (?,?,?,?)",
-            [
-              i+1,
-              socket.room,
-              socket.handshake.session.userdata.user_id,
-              item
-            ]
-          );
-        })
+        if (data.destroy == 1)
+          data.cardValue.forEach(async function(item, i) {
+            let [resCard] = await db.query(
+              "INSERT INTO player_card VALUES (?,?,?,?)",
+              [
+                i + 1,
+                socket.room,
+                socket.handshake.session.userdata.user_id,
+                item
+              ]
+            );
+          });
 
         data.coinArr.forEach(async function(item, index) {
           if (item != null) {
@@ -535,18 +537,18 @@ const room = function(socket, io) {
           }
         });
       } else {
-        if(data.destroy == 1)
-        data.cardValue.forEach(async function(item, i){
-          let [resCard] = await db.query(
-            "UPDATE player_card SET color_id = ?, amount = ? WHERE match_id = ? AND user_id = ?",
-            [
-              i+1,
-              item,
-              socket.room,
-              socket.handshake.session.userdata.user_id
-            ]
-          );
-        })
+        if (data.destroy == 1)
+          data.cardValue.forEach(async function(item, i) {
+            let [resCard] = await db.query(
+              "UPDATE player_card SET color_id = ?, amount = ? WHERE match_id = ? AND user_id = ?",
+              [
+                i + 1,
+                item,
+                socket.room,
+                socket.handshake.session.userdata.user_id
+              ]
+            );
+          });
         data.coinArr.forEach(async function(item, index) {
           if (item != null) {
             let [resCoin] = await db.query(
