@@ -200,17 +200,17 @@ app.get('/problem_info', async function(req, res){
 app.get('/analysis', async function(req, res){
 
   let [ one ] = await db.query(
-    "SELECT u.user_name, u.user_display_name, COUNT(*) AS TotalGameRound FROM user u, game_match g, match_player m  WHERE u.user_id = m.user_id AND m.match_id = g.match_id GROUP BY m.user_id ORDER BY TotalGameRound LIMIT 10;"
+    "SELECT u.user_name, u.user_display_name, COUNT(*) AS TotalGameRound FROM user u, game_match g, match_player m  WHERE u.user_id = m.user_id AND m.match_id = g.match_id GROUP BY m.user_id ORDER BY TotalGameRound DESC LIMIT 10;"
   );
   let [two] = await db.query(
-    "SELECT u.user_name, u.user_display_name, COUNT(*) AS Win FROM user u, game_match g, match_player m  WHERE u.user_id = m.user_id AND m.match_id = g.match_id AND m.score >= 15 GROUP BY m.match_id, m.user_id ORDER BY Win LIMIT 10;"
+    "SELECT u.user_name, u.user_display_name, COUNT(*) AS Win FROM user u, game_match g, match_player m  WHERE u.user_id = m.user_id AND m.match_id = g.match_id AND m.score >= 15 GROUP BY m.user_id ORDER BY Win DESC LIMIT 10;"
   );
   let [three] = await db.query(
-    "SELECT match_id, (match_end - match_start)/60 AS m_time from game_match WHERE match_type = 'RANK' AND match_status = 'END' ORDER BY m_time DESC LIMIT 10;"
+    "SELECT match_id,  TIMESTAMPDIFF(MINUTE,match_start,match_end) As m_Time  from game_match WHERE match_type = 'RANK' AND match_status = 'END' ORDER BY m_Time DESC LIMIT 10;"
   );
   //
   let [four] = await db.query(
-    "select match_id, (match_end - match_start)/60 AS m_time from game_match WHERE match_type = 'NORMAL' AND match_status = 'END' ORDER BY m_time DESC LIMIT 10;"
+    "select match_id, TIMESTAMPDIFF(MINUTE,match_start,match_end) As m_Time from game_match WHERE match_type = 'NORMAL' AND match_status = 'END' ORDER BY m_Time DESC LIMIT 10;"
   );
   let [five] = await db.query(
     "SELECT u.user_name, u.user_display_name , COUNT(*) AS FriendAmount FROM user u, user_relation r WHERE u.user_id = r.user_id AND relation_type = 'FRIEND' GROUP BY u.user_id ORDER BY FriendAmount DESC LIMIT 1;"
@@ -244,7 +244,7 @@ app.get('/analysis', async function(req, res){
     "SELECT user_role, COUNT(*) AS Amount FROM user GROUP BY user_role;"
   );
   let [fifteen] = await db.query(
-    "SELECT AVG ( (match_end - match_start)/60 ) AS 'AVGTime(mins)' from game_match WHERE match_type = 'RANK' AND match_status = 'END';"
+    "SELECT AVG(TIMESTAMPDIFF(MINUTE,match_start,match_end)) AS AVGTime  from game_match WHERE match_type = 'RANK' AND match_status = 'END';"
   );
   res.json(
     {
