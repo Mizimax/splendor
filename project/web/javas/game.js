@@ -164,6 +164,21 @@ var checkPlayerDetail = function() {
   InfoPlayer[2].playerName = DBplayer[2].user_display_name;
   InfoPlayer[3].playerName = DBplayer[3].user_display_name;
   InfoPlayer[4].playerName = DBplayer[4].user_display_name;
+  /*console.log(DBplayer[1].user_display_name);
+  console.log(DBplayer[2].user_display_name);
+  console.log(DBplayer[3].user_display_name);
+  console.log(DBplayer[4].user_display_name);
+  console.log(InfoPlayer[1].playerName);
+  console.log(InfoPlayer[2].playerName);
+  console.log(InfoPlayer[3].playerName);
+  console.log(InfoPlayer[4].playerName);*/
+};
+var turnAdd = function(){
+  /*console.log(name);
+  console.log(InfoPlayer[1].playerName);
+  console.log(InfoPlayer[2].playerName);
+  console.log(InfoPlayer[3].playerName);
+  console.log(InfoPlayer[4].playerName);*/
   if (name == InfoPlayer[1].playerName) {
     localNum = 1;
   } else if (name == InfoPlayer[2].playerName) {
@@ -300,7 +315,7 @@ var checkPlayerDetail = function() {
       align: "center"
     }
   );
-};
+}
 var cardadd = function() {
   for (var i = 1; i <= 40; i++) {
     InfoCardLv1[i] = {

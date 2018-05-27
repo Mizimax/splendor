@@ -42,10 +42,10 @@ var server = {
     playerStart: function() {
       socket.emit("GAME_START");
     },
-    /*getPlayerDetail: function() {
+    getPlayerDetail: function() {
       //ดึงข้อมูล
       socket.emit("PLAYER_DETAIL");
-    },*/
+    },
     getRoomMessage: function() {
       var self = this;
       socket.on("ROOM_MESSAGE", function(data) {
@@ -53,7 +53,7 @@ var server = {
         if (data.action === "JOIN_ROOM") {
           self.playerReady();
           self.playerStart();
-         // self.getPlayerDetail();
+          self.getPlayerDetail();
           console.log(1);
           if (data.status === "success") {
             this.match_id = data.match_id;
@@ -63,18 +63,19 @@ var server = {
           }
         } else if (data.action === "LOAD_CARD") {
           window.DBcards = data.cards;
-          window.DBplayer = data.user;
           name=data.myuser;
-          checkPlayerDetail();
+          console.log(name);
           cardadd();
         } else if (data.action === "GAME_START") {
           // turn = data.turn;
           turn = data.turn;
           text[21].setText("Turn : " + turn);
           modal.hide();
-        } /*else if (data.action === "PLAYER_DETAIL") {
-          
-        }*/
+        } else if (data.action === "PLAYER_DETAIL") {
+          window.DBplayer = data.user;
+          checkPlayerDetail();
+          turnAdd();
+        }
          else if (data.action === "TAKE_CARD") {
           
           turn = data.turn;
