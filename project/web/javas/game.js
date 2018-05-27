@@ -60,7 +60,6 @@ var intLv1 = 4;
 var intLv2 = 4;
 var intLv3 = 4;
 var changeCardTemp=[];
-var Noble = 1;
 var InfoPlayer = [];
 var changeCard = function(){
   console.log(55555);
@@ -219,6 +218,21 @@ var changeCard = function(){
       cardlevel_3(button[serverButton], changeCardTemp[11],11);
       });
     }
+  }
+  else if (erverButton == 18){
+    button[serverButton].destroy();
+  }
+  else if (erverButton == 19){
+    button[serverButton].destroy();
+  }
+  else if (erverButton == 20){
+    button[serverButton].destroy();
+  }
+  else if (erverButton == 21){
+    button[serverButton].destroy();
+  }
+  else if (erverButton == 22){
+    button[serverButton].destroy();
   }
 
 }
@@ -600,23 +614,23 @@ var turnAdd = function(){
   //Noble
   button[18] = game.add.button(10 * x - 25, 0.5 * y + 25, rand4[0]);
   button[18].events.onInputDown.add(function() {
-    click_Noble(button[18], 0);
+    click_Noble(0,18);
   });
   button[19] = game.add.button(10 * x - 25, y + 75, rand4[1]);
   button[19].events.onInputDown.add(function() {
-    click_Noble(button[19], 1);
+    click_Noble(1,19);
   });
   button[20] = game.add.button(10 * x - 25, 2 * y + 25, rand4[2]);
   button[20].events.onInputDown.add(function() {
-    click_Noble(button[20], 2);
+    click_Noble(2,20);
   });
   button[21] = game.add.button(11 * x, y - 25, rand4[3]);
   button[21].events.onInputDown.add(function() {
-    click_Noble(button[21], 3);
+    click_Noble(3,21);
   });
   button[22] = game.add.button(11 * x, 1.5 * y + 40, rand4[4]);
   button[22].events.onInputDown.add(function() {
-    click_Noble(button[22], 4);
+    click_Noble(4,22);
   });
   changeTurn();
 }
@@ -666,7 +680,73 @@ var cardadd = function() {
       score: 0
     };
   }
-
+  //Noble
+  for (var i = 0; i < 5; i++) {
+    Noble[i] = {
+      reqBlue: 0,
+      reqWhite: 0,
+      reqRed: 0,
+      reqGreen: 0,
+      reqBlack: 0,
+      score: 0
+    };
+  }
+  //Noble
+  var randImage4;
+  for (i = 0; i < 5; i++) {
+    randImage4 = DBrand[3][i+1];
+    if (randImage4 == 1) {
+      Noble[i].reqBlack = 4;
+      Noble[i].reqWhite = 4;
+      Noble[i].score = 3;
+    } else if (randImage4 == 2) {
+      Noble[i].reqRed = 4;
+      Noble[i].reqGreen = 4;
+      Noble[i].score = 3;
+    } else if (randImage4 == 3) {
+      Noble[i].reqBlack = 4;
+      Noble[i].reqqRed = 4;
+      Noble[i].score = 3;
+    } else if (randImage4 == 4) {
+      Noble[i].reqBlue = 4;
+      Noble[i].reqWhite = 4;
+      Noble[i].score = 3;
+    } else if (randImage4 == 5) {
+      Noble[i].reqBlack = 3;
+      Noble[i].reqRed = 3;
+      Noble[i].reqWhite = 3;
+      Noble[i].score = 3;
+    } else if (randImage4 == 6) {
+      Noble[i].reqGreen = 3;
+      Noble[i].reqRed = 3;
+      Noble[i].reqBlue = 3;
+      Noble[i].score = 3;
+    } else if (randImage4 == 7) {
+      Noble[i].reqBlack = 3;
+      Noble[i].reqRed = 3;
+      Noble[i].reqGreen = 3;
+      Noble[i].score = 3;
+    } else if (randImage4 == 8) {
+      Noble[i].reqBlue = 4;
+      Noble[i].reqGreen = 4;
+      Noble[i].score = 3;
+    } else if (randImage4 == 9) {
+      Noble[i].reqBlue = 3;
+      Noble[i].reqWhite = 3;
+      Noble[i].reqGreen = 3;
+      Noble[i].score = 3;
+    } else if (randImage4 == 10) {
+      Noble[i].reqBlack = 3;
+      Noble[i].reqBlue = 3;
+      Noble[i].reqWhite = 3;
+      Noble[i].score = 3;
+    }
+    game.load.image(
+      "level4_" + randImage4,
+      "image/Level4/" + randImage4 + ".png"
+    );
+    rand4[i] = "level4_" + randImage4;
+  }
   for (var i = 1; i <= 40; i++) {
     if (DBcards[i].reqBlue) {
       InfoCardLv1[i].reqBlue = DBcards[i].reqBlue;
@@ -763,18 +843,6 @@ var gamestate = {
 
     game.load.image("modal", "assets/464885029.jpg");
     game.load.image("modal_bg", "assets/modal_bg.png");
-    //cardVar
-
-    for (var i = 0; i < 5; i++) {
-      Noble[i] = {
-        reqBlue: 0,
-        reqWhite: 0,
-        reqRed: 0,
-        reqGreen: 0,
-        reqBlack: 0,
-        score: 0
-      };
-    }
     //chat
     for (i = 1; i <= 40; i++) {
       this.load.image("level1_" + i, "image/Level1/" + i + ".png");
@@ -784,6 +852,9 @@ var gamestate = {
     }
     for (i = 1; i <= 20; i++) {
       this.load.image("level3_" + i, "image/Level3/" + i + ".png");
+    }
+    for(i=1;i<=10;i++){
+      this.load.image("level4_" + i, "image/Level4/" + i + ".png");
     }
     //confirmCancel
     this.load.image("right", "image/right.png");
@@ -797,62 +868,6 @@ var gamestate = {
     this.load.image("lilGold", "image/misc/Eflower.png");
     this.load.image("popup", "image/misc/newpopup.png");
     this.load.image("exitpopup", "image/misc/exit.png");
-    //Noble
-    /*for (i = 0; i < 5; i++) {
-      if (randImage4 == 1) {
-        Noble[i].reqBlack = 4;
-        Noble[i].reqWhite = 4;
-        Noble[i].score = 3;
-      } else if (randImage4 == 2) {
-        Noble[i].reqRed = 4;
-        Noble[i].reqGreen = 4;
-        Noble[i].score = 3;
-      } else if (randImage4 == 3) {
-        Noble[i].reqBlack = 4;
-        Noble[i].reqqRed = 4;
-        Noble[i].score = 3;
-      } else if (randImage4 == 4) {
-        Noble[i].reqBlue = 4;
-        Noble[i].reqWhite = 4;
-        Noble[i].score = 3;
-      } else if (randImage4 == 5) {
-        Noble[i].reqBlack = 3;
-        Noble[i].reqRed = 3;
-        Noble[i].reqWhite = 3;
-        Noble[i].score = 3;
-      } else if (randImage4 == 6) {
-        Noble[i].reqGreen = 3;
-        Noble[i].reqRed = 3;
-        Noble[i].reqBlue = 3;
-        Noble[i].score = 3;
-      } else if (randImage4 == 7) {
-        Noble[i].reqBlack = 3;
-        Noble[i].reqRed = 3;
-        Noble[i].reqGreen = 3;
-        Noble[i].score = 3;
-      } else if (randImage4 == 8) {
-        Noble[i].reqBlue = 4;
-        Noble[i].reqGreen = 4;
-        Noble[i].score = 3;
-      } else if (randImage4 == 9) {
-        Noble[i].reqBlue = 3;
-        Noble[i].reqWhite = 3;
-        Noble[i].reqGreen = 3;
-        Noble[i].score = 3;
-      } else if (randImage4 == 10) {
-        Noble[i].reqBlack = 3;
-        Noble[i].reqBlue = 3;
-        Noble[i].reqWhite = 3;
-        Noble[i].score = 3;
-      }
-      this.load.image(
-        "level4_" + randImage4,
-        "image/Level4/" + randImage4 + ".png"
-      );
-      rand4[i] = "level4_" + randImage4;
-    }*/
-    
-
     //deck_level1-3
     this.load.image("level1_BG", "image/level1/BG_1.png");
     this.load.image("level2_BG", "image/level2/BG_2.png");
@@ -1243,7 +1258,7 @@ function cardlevel_3(card, cardID,index) {
   }
   ohCancel();
 }
-function click_Noble(card, NobleID) {
+function click_Noble(NobleID,index) {
   var person = confirm("Are you sure in this card Noble?");
   if (person == true) {
     if (
@@ -1254,7 +1269,7 @@ function click_Noble(card, NobleID) {
       InfoPlayer[localNum].cardblack >= Noble[NobleID].reqBlack
     ) {
       InfoPlayer[localNum].score += Noble[NobleID].score;
-      card.destroy();
+      endTurn(1,index);
     } else {
       testMessageBox("noCard");
     }
