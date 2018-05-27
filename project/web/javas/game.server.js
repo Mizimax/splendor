@@ -90,7 +90,6 @@ var server = {
           name=data.myuser;
           
         } else if (data.action === "TAKE_COIN") {
-          console.log(data.destroy);
           InfoPlayer[modedTurn].blueCoin =
             data.coin.BlueCoin;
           InfoPlayer[modedTurn].whiteCoin =
@@ -101,7 +100,7 @@ var server = {
           InfoPlayer[modedTurn].blackCoin =
             data.coin.BlackCoin;
           InfoPlayer[modedTurn].cardblue =
-            data.card.cardblue;console.log(data.destroy);
+            data.card.cardblue;
           InfoPlayer[modedTurn].cardwhite =
             data.card.cardwhite;
           InfoPlayer[modedTurn].cardred = data.card.cardred;

@@ -219,19 +219,19 @@ var changeCard = function(){
       });
     }
   }
-  else if (erverButton == 18){
+  else if (serverButton == 18){
     button[serverButton].destroy();
   }
-  else if (erverButton == 19){
+  else if (serverButton == 19){
     button[serverButton].destroy();
   }
-  else if (erverButton == 20){
+  else if (serverButton == 20){
     button[serverButton].destroy();
   }
-  else if (erverButton == 21){
+  else if (serverButton == 21){
     button[serverButton].destroy();
   }
-  else if (erverButton == 22){
+  else if (serverButton == 22){
     button[serverButton].destroy();
   }
 
@@ -485,15 +485,15 @@ var turnAdd = function(){
   });
   //add card datapath
   for (i = 0; i < 4; i++) {
-    rand3[i] = "level3_" + DBrand[2][i+1];
+    rand3[i] = "level3_" + DBrand[2][i+1];console.log(rand3[i]);
   }
   //level2
   for (i = 0; i < 4; i++) {
-    rand2[i] = "level2_" + DBrand[1][i+1];
+    rand2[i] = "level2_" + DBrand[1][i+1];console.log(rand2[i]);
   }
   //level1
   for (i = 0; i < 4; i++) {
-    rand[i] = "level1_" + DBrand[0][i+1];
+    rand[i] = "level1_" + DBrand[0][i+1];console.log(rand[i]);
   }
   //level1
   button[0] = game.add.button(4 * x, 2 * y + 40, rand[0]);
@@ -732,6 +732,7 @@ var cardadd = function() {
       "image/Level4/" + randImage4 + ".png"
     );
     rand4[i] = "level4_" + randImage4;
+    console.log(rand[i]);
   }
   for (var i = 1; i <= 40; i++) {
     if (DBcards[i].reqBlue) {
@@ -876,7 +877,7 @@ var gamestate = {
     });
     server.room.getRoomMessage();
     socket.emit("MY_USER");
-    server.room.joinRoom(870);
+    server.room.joinRoom(875);
     // server.room.createRoom('jojojj2011', '1234', 4);
     //server.room.createRoom('jardet', '1234', 4);
     //jardet 1234
@@ -1313,32 +1314,7 @@ function OhRight() {
       endTurn(0,0);
       text[21].setText("Turn : " + turn);
 
-      //runturn(turn);
-      if (InfoPlayer[1].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 1 : " + InfoPlayer[1].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      } else if (InfoPlayer[2].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 2 : " + InfoPlayer[2].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      } else if (InfoPlayer[3].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 3 : " + InfoPlayer[3].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      } else if (InfoPlayer[4].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 4 : " + InfoPlayer[4].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      }
+      checkEndGame();
     } else if (
       coinNum[0] + coinNum[1] + coinNum[2] + coinNum[3] + coinNum[4] < 3 &&
       (coinNum[0] == 2 ||
@@ -1495,6 +1471,7 @@ function showMessageBox(text, w = 300, h = 300) {
   msgBox.add(back);
   msgBox.add(closeButton);
   msgBox.add(text1);
+  back.inputEnabled = true;
   closeButton.x = back.width / 2 - closeButton.width / 2;
   closeButton.y = back.height - closeButton.height;
   closeButton.inputEnabled = true;
@@ -1697,7 +1674,7 @@ function showScore(w = 500, h = 500) {
   scrBox.add(detail2[7]);
   scrBox.add(detail2[8]);
   scrBox.add(detail2[9]);
-
+  back2.inputEnabled = true;
   closeButton2.x = back2.width - 40;
   closeButton2.y = 10;
   closeButton2.scale.setTo(0.5);
@@ -1771,6 +1748,7 @@ function showFinalBox(text, w = 300, h = 300) {
   msgBox3.add(back);
   msgBox3.add(closeButton);
   msgBox3.add(text1);
+  back.inputEnabled = true;
   closeButton.x = back.width / 2 - closeButton.width / 2;
   closeButton.y = back.height - closeButton.height;
   closeButton.inputEnabled = true;
