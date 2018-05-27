@@ -487,19 +487,19 @@ const room = function(socket, io) {
         [socket.room]
       );
       if (resGetTurn[0].match_turn === 1) {
-        let i;
-        for (i = 1; i <= 5; i++) {
+        if(data.destroy == 1)
+          data.cardValue.forEach(async function(item, i){
           let [resCard] = await db.query(
             "INSERT INTO player_card VALUES (?,?,?,?)",
             [
-              i,
+              i+1,
               socket.room,
               socket.handshake.session.userdata.user_id,
-              data.cardValue[i]
+              item
             ]
           );
-        }
-        console.log(resCard);
+        })
+
         data.coinArr.forEach(async function(item, index) {
           if (item != null) {
             let [resCoin] = await db.query(
@@ -535,17 +535,18 @@ const room = function(socket, io) {
           }
         });
       } else {
-        for (i = 1; i <= 5; i++) {
+        if(data.destroy == 1)
+        data.cardValue.forEach(async function(item, i){
           let [resCard] = await db.query(
             "UPDATE player_card SET color_id = ?, amount = ? WHERE match_id = ? AND user_id = ?",
             [
-              i,
-              data.cardValue[i],
+              i+1,
+              item,
               socket.room,
               socket.handshake.session.userdata.user_id
             ]
           );
-        }
+        })
         data.coinArr.forEach(async function(item, index) {
           if (item != null) {
             let [resCoin] = await db.query(

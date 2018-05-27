@@ -98,9 +98,10 @@ app.post("/login", async function(req, res) {
   let [results] = await db.query("SELECT * FROM user WHERE user_name = ?", [
     data.username
   ]);
-  // if (results[0].user_online_status === 1)
-    res.status(422).json({ message: "This user already login" });
-  else if (results.length === 1) {
+  //  if (results[0].user_online_status === 1)
+  //   res.status(422).json({ message: "This user already login" });
+  // else 
+  if (results.length === 1) {
     let response = results[0];
     let resEncrypt = await bcrypt.compare(data.password, response.user_pw);
     if (resEncrypt) {
