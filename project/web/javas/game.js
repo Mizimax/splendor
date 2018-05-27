@@ -7,6 +7,7 @@ coinNum[2] = 0;
 coinNum[3] = 0;
 coinNum[4] = 0;
 var localNum =  0;
+var serverTemp=[];
 var name;
 var detail = [];
 var turn = 1;
@@ -823,7 +824,7 @@ var gamestate = {
       }
     });
     server.room.getRoomMessage();
-    server.room.joinRoom(855);
+    server.room.joinRoom(860);
     //server.room.createRoom('jardet', '1234', 4);
     //jardet 1234
     //testza 1234
