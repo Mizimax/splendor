@@ -1,3 +1,4 @@
+var loadCard = false;
 var server = {
   joined: false,
   match_id: "",
@@ -68,20 +69,24 @@ var server = {
             DBrand = data.random;
             cardadd();
             turnAdd();
+            
         } else if (data.action === "GAME_START") {
-          if (data.status === "success") 
-          console.log(111);
-          self.getPlayerDetail();
-          turn = data.turn;
-          text[21].setText("Turn : " + turn);
-          modal.hide();
+          if (data.status === "success") {
+            console.log(111);
+            self.getPlayerDetail();
+            turn = data.turn;
+            window.hostUser = data.user_id;
+            text[21].setText("Turn : " + turn);
+            modal.hide();
+          }
         } else if (data.action === "PLAYER_DETAIL") {
           if (data.status === "status") 
           console.log(222);
-          /*self.loadCard();*/
           window.DBplayer = data.user;
           checkPlayerDetail();
-          self.loadCard();
+          if(hostUser === name){
+            self.loadCard();
+          }
         } else if (data.action === "MY_USER") {
           name=data.myuser;
           
