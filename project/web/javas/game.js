@@ -637,8 +637,8 @@ var gamestate = {
       }
     });
     server.room.getRoomMessage();
-    //server.room.joinRoom(850);
-    server.room.createRoom("147", "123", 4);
+    server.room.joinRoom(854);
+    // server.room.createRoom("147", "123", 4);
     //jardet 1234
     //testza 1234
     //123456 123456
