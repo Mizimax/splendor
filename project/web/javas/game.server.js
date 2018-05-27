@@ -29,7 +29,7 @@ var server = {
       socket.emit("ROOM_JOIN", { match_id: match_id });
     },
     joinPlayingRoom: function() {
-      socket.emit("ROOM_JOIN_PLAYING");
+      socket.emit("ROOM_JOIN_WAITING");
     },
     createRoom: function(roomName, password, players) {
       socket.emit("ROOM_CREATE", {
@@ -62,11 +62,13 @@ var server = {
             this.match_id = data.match_id;
             this.joined = true;
           } else {
-            // window.location.href = "/";
           }
+        } else if (data.action === "CREATE_ROOM") {
         } else if (data.action === "LOAD_CARD") {
           window.DBcards = data.cards;
             DBrand = data.random;
+           //window.DBplayer=data.user;
+            //checkPlayerDetail();
             cardadd();
             turnAdd();
             
@@ -80,13 +82,10 @@ var server = {
             modal.hide();
           }
         } else if (data.action === "PLAYER_DETAIL") {
-          if (data.status === "status") 
+          if (data.status === "st.atus") 
           console.log(222);
           window.DBplayer = data.user;
           checkPlayerDetail();
-          if(hostUser === name){
-            self.loadCard();
-          }
         } else if (data.action === "MY_USER") {
           name=data.myuser;
           

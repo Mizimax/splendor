@@ -58,6 +58,12 @@ io.on("connection", async function(socket) {
 
   socket.on("disconnect", async function() {
     numUsers--;
+    if (socket.room) {
+      let [resRmPlayer] = await db.query(
+        "DELETE FROM match_player WHERE user_id = ? AND match_id = ?",
+        [socket.handshake.session.userdata.user_id, socket.room]
+      );
+    }
     // if (socket.handshake.session) {
     //   let [resUpdate] = await db.query(
     //     "UPDATE user SET remember_token = ?, user_online_status = ? WHERE user_id = ?",
@@ -100,7 +106,7 @@ app.post("/login", async function(req, res) {
   ]);
   //  if (results[0].user_online_status === 1)
   //   res.status(422).json({ message: "This user already login" });
-  // else 
+  // else
   if (results.length === 1) {
     let response = results[0];
     let resEncrypt = await bcrypt.compare(data.password, response.user_pw);

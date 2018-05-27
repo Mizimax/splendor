@@ -875,6 +875,7 @@ var gamestate = {
       }
     });
     server.room.getRoomMessage();
+    socket.emit("MY_USER");
     server.room.joinRoom(870);
     // server.room.createRoom('jojojj2011', '1234', 4);
     //server.room.createRoom('jardet', '1234', 4);

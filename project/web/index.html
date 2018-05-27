@@ -10,20 +10,118 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css">
   <script src="../js/jquery-3.3.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src="js/socket.io.js"></script>
   <script>
-
-
-    // $(document).ready(function () {
-    //   $('.nav-tabs a:first').tab('show')
-    //   console.log($('.nav-tabs a:first'))
-    // })
-
     var setModal = (function (body, callback) {
       $('#alert .modal-body').html(body);
       $('#alert').modal();
       $('#alert button').one('click', function () {
-        callback();
+        typeof callback === 'function' && callback();
       })
+    })
+  </script>
+  <script type="text/javascript" src="javas/game.server.js"></script>
+  <script>
+
+    $.ajax({
+      method: 'post',
+      url: "/auth",
+      success: function (res) {
+        $('.nav-tabs a:eq(1)').tab('show')
+        initLobby()
+      },
+      error: function (res) {
+        setModal(res.responseJSON.message)
+      }
+    })
+
+    var initLobby = (function () {
+      window.connectionOptions = {
+        "force new connection": true,
+        reconnectionAttempts: "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
+        timeout: 10000, //before connect_error and connect_timeout are emitted.
+        transports: ["websocket"]
+      };
+      window.socket = io("http://localhost:8888", connectionOptions);
+
+      socket.on("ROOM_MESSAGE", function (data) {
+        console.log(data);
+        if (data.action === "JOIN_ROOM") {
+          if (data.status === "success") {
+
+          } else {
+            if (data.match_id) setModal("เข้าเกม");
+            else setModal(data.message);
+          }
+        } else if (data.action === "CREATE_ROOM") {
+          $("#alert").modal("toggle");
+          $(".nav-tabs a:eq(2)").tab("show");
+        }
+      });
+
+      socket.on('GET_ROOM', function (data) {
+        data.data.forEach(function (item, index) {
+          $('#room-' + data.match_type).append(
+            `<div class="row">
+            <div class="col-sm-2">
+              ${item['match_id']}
+            </div>
+            <div class="col-sm-8">
+                ${item['match_name']} (${item['user_display_name']})
+            </div>
+            <div class="col-sm-2">
+            ${
+            item['match_status'] === 'WAITING' ?
+              '<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#normal" role="tab" aria-controls="pills-home" aria-selected="true" onclick="joinRoom(' + item["match_id"] + ', ' + item['pw_require'] + ')">Join (' + item['playerInRoom'] + '/' + item['match_player_no'] + ')</a>'
+              :
+              'Playing'
+            }
+              </div>
+          </div>
+          `
+          )
+        })
+
+      })
+
+      socket.emit('GET_ROOM', { match_type: 'NORMAL' })
+      socket.emit('GET_ROOM', { match_type: 'RANK' })
+      socket.emit('ROOM_JOIN_WAITING')
+
+
+    })
+
+
+    var joinRoom = (function (match_id, pw) {
+      console.log(pw)
+      if (pw === 1)
+        setModal('Password required')
+      else
+        server.room.joinRoom(match_id);
+    })
+
+    var createRoom = (function () {
+      setModal(
+        `
+      <h1 align="center">Create Room</h1>
+    <div class="createroom" style="width: 80%; margin: 0 auto">
+        <div class="row">Room name :
+            <input type="text" id="roomname">
+        </div>
+        <div class="row">
+            <input type="checkbox" onclick="document.getElementById('pass').disabled = !document.getElementById('pass').disabled"> Passoword :
+            <input id="pass" type="text" disabled>
+        </div>
+        <div class="row">
+            Player Numbers :
+            <input type="radio" name="playernumbers" id="num" value="4" checked> 4 Players
+        </div>
+        <div class="row">
+            <button style="margin: 0 auto" class="btn btn-default" type="submit" onclick="server.room.createRoom($('#roomname').val(), $('#pass').val(), $('#num').val())">Create Room</button>
+        </div>
+    </div>
+      `
+      )
     })
 
     var login = (function () {
@@ -41,6 +139,7 @@
         success: function (res) {
           setModal(res.message, function () {
             $('.nav-tabs a:eq(1)').tab('show')
+            initLobby()
           })
         },
         error: function (res) {
@@ -94,7 +193,6 @@
   </script>
   <link rel="stylesheet" type="text/css" href="../style/fontawesome-all.min.css">
   <link rel="stylesheet" type="text/css" href="../style/style.css">
-  <link rel="stylesheet" type="text/css" href="../style/bootstrap-grid.css">
 </head>
 
 <body>
@@ -105,8 +203,6 @@
           aria-selected="true">Login</a>
         <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile"
           aria-selected="false">Lobby</a>
-        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact"
-          aria-selected="false">Room</a>
       </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
@@ -116,11 +212,8 @@
           <img src="../style/Splendor.png" id="logo">
 
           <div class="row">
-            <div class="col-md-8">
-              <img src="../style/5555.jpg" id="logo2">
-            </div>
-            <div class="col-md-4" style="height: 520px;">
-              <div class="boxregister">
+            <div class="col-md-4 order-md-8" style="height: 520px;">
+              <div class="boxregister middle">
                 <div id="login">
                   <h1>Login</h1>
                   <form id="loginForm" onSubmit="login(); return false;">
@@ -155,16 +248,21 @@
                 </div>
               </div>
             </div>
-            <div>
-              <img src="../style/2222.jpg" id="logo3">
+            <div class="col-md-8 order-md-4">
+              <img src="../style/5555.jpg" id="logo2">
             </div>
+          </div>
+          <div>
+            <img src="../style/2222.jpg" id="logo3">
           </div>
         </div>
       </div>
 
       <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
         <img src="../style/Splendor.png" style="position:absolute;left:50%; transform: translate(-50%, -90px); z-index: 99; width: 500px">
-        <div class="container boxregister relative" style="margin-top: 100px">
+
+
+        <div class="container boxregister relative" style="margin-top: 100px; width: 100%">
           <div class="row">
             <div class="col-sm-8">
               <div class="row" align="center">
@@ -179,30 +277,33 @@
                   </ul>
                   <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="normal" role="tabpanel" aria-labelledby="pills-home-tab">
-                      <div class="normal"></div>
+                      <div class="normal">
+                        <div id="room-NORMAL" style="background: rgba(0,0,0,0.4); height: 300px;">
+                          <!--  -->
+                        </div>
+                      </div>
                     </div>
                     <div class="tab-pane fade" id="ranking" role="tabpanel" aria-labelledby="pills-profile-tab">
-                      <div class="ranking"></div>
+                      <div class="ranking">
+                        <div id="room-RANK" style="background: rgba(0,0,0,0.4); height: 300px;"></div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="row">
-                <a style="width: 84.53px" class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#normal" role="tab" aria-controls="pills-home"
-                  aria-selected="true">สร้างห้อง</a>
+              <div class="row" align="center">
+                <a style="width: 120px" class="nav-link active" id="pills-home-tab" data-toggle="pill" href="" role="tab" aria-controls="pills-home"
+                  aria-selected="true" onclick="createRoom()">สร้างห้อง</a>
               </div>
             </div>
             <div class="col-sm-4" align="left" style="padding-top: 50px">
               <a style="width: 84.53px" class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#normal" role="tab" aria-controls="pills-home"
                 aria-selected="true">Friend</a>
-              <div style="background: black; height: 500px;"></div>
+              <div style="background: rgba(0,0,0,0.4); height: 500px;"></div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-
     </div>
 
 
