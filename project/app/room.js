@@ -308,9 +308,13 @@ const room = function(socket, io) {
         });
         socket.emit("ROOM_MESSAGE", {
           status: "success",
-          action: "LOAD_CARD",
+          action: "MY_USER",
+          myuser: resUserDisplay[0].user_display_name
+        });
+        io.sockets.to(socket.room).emit("ROOM_MESSAGE", {
+          status: "success",
+          action: "RANDOM_CARD",
           cards: result,
-          myuser: resUserDisplay[0].user_display_name,
           random: arr
         });
       } else {
