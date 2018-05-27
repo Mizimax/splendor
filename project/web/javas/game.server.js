@@ -118,7 +118,7 @@ var server = {
           turn = data.turn;
           text[21].setText("Turn : " + turn);
           text[23].setText("Turn of : " + InfoPlayer[modedTurn].playerName);
-          checkTurn();
+          changeTurn();
         }
       });
     }
