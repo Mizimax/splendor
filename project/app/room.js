@@ -259,6 +259,73 @@ const room = function(socket, io) {
     }
   });
 
+  socket.on("LOAD_CARD", async function() {
+    if (socket.room) {
+      let [resUserDisplay] = await db.query(
+        "SELECT user_display_name FROM user WHERE user_id = ?",
+        [socket.handshake.session.userdata.user_id]
+      );
+      let [resSelect] = await db.query(
+        "SELECT c.card_id, c.card_image, c.card_level, c.card_score, ccc.color_name as card_color_name, ccc.color_code, cc.color_name, cr.amount FROM coin_requirement cr " +
+          "JOIN card c ON c.card_id = cr.card_id " +
+          "JOIN coin co ON co.coin_id = cr.coin_requirement " +
+          "JOIN coin_color cc ON cc.color_id = co.coin_color_id " +
+          "JOIN coin_color ccc ON ccc.color_id = c.coin_color_id"
+      );
+
+      let arr = [];
+      let i = 1;
+      let rand = [];
+      for (i = 1; i <= 40; i++) {
+        rand[i] = Math.floor(Math.random() * 40) + 1;
+        if (!arr[0]) arr[0] = [];
+        arr[0][i] = rand[i];
+      }
+      for (i = 41; i <= 70; i++) {
+        rand[i - 40] = Math.floor(Math.random() * 30) + 1;
+        if (!arr[1]) arr[1] = [];
+        arr[1][i - 40] = rand[i - 40];
+      }
+      for (i = 71; i <= 90; i++) {
+        rand[i - 70] = Math.floor(Math.random() * 20) + 1;
+        if (!arr[2]) arr[2] = [];
+        arr[2][i - 70] = rand[i - 70];
+      }
+      let result = [];
+      if (resSelect.length != 0) {
+        resSelect.forEach(function(item, index) {
+          // console.log(item["card_id"]);
+          result[item["card_id"]] = {
+            ...result[item["card_id"]],
+            card_id: item["card_id"],
+            color_code: item["color_code"],
+            card_level: item["card_level"],
+            card_score: item["card_score"],
+            card_image: item["card_image"],
+            ["add" + item["card_color_name"]]: 1,
+            ["req" + item["color_name"]]: item["amount"]
+          };
+        });
+        socket.emit("ROOM_MESSAGE", {
+          status: "success",
+          action: "LOAD_CARD",
+          cards: result,
+          myuser: resUserDisplay[0].user_display_name,
+          random: arr
+        });
+      } else {
+        //cant start not host
+        socket.emit("ROOM_MESSAGE", {
+          status: "error",
+          action: "GAME_START",
+          match_id: socket.room,
+          start: false,
+          message: "Can't start you're not host"
+        });
+      }
+    }
+  });
+
   socket.on("GAME_START", async function() {
     if (socket.room) {
       try {
@@ -266,130 +333,34 @@ const room = function(socket, io) {
           "SELECT ready FROM match_player WHERE match_id = ? AND ready = ?",
           [socket.room, 1]
         );
-        let [resUserDisplay] = await db.query(
-          "SELECT user_display_name FROM user WHERE user_id = ?",
-          [socket.handshake.session.userdata.user_id]
-        );
+
         let status = 0;
-        let myuser;
         resPlayer.forEach(function(item) {
           status += item.ready;
         });
         if (status >= 4) {
-          let [resSelect] = await db.query(
-            "SELECT c.card_id, c.card_image, c.card_level, c.card_score, ccc.color_name as card_color_name, ccc.color_code, cc.color_name, cr.amount FROM coin_requirement cr " +
-              "JOIN card c ON c.card_id = cr.card_id " +
-              "JOIN coin co ON co.coin_id = cr.coin_requirement " +
-              "JOIN coin_color cc ON cc.color_id = co.coin_color_id " +
-              "JOIN coin_color ccc ON ccc.color_id = c.coin_color_id"
-          );
-
-          let arr = [];
-          let i = 1;
-          let rand = [];
-          for (i = 1; i <= 40; i++) {
-            rand[i] = Math.floor(Math.random() * 40) + 1;
-            if (!arr[0]) arr[0] = [];
-            arr[0][i] = rand[i];
-          }
-          for (i = 41; i <= 70; i++) {
-            rand[i - 40] = Math.floor(Math.random() * 30) + 1;
-            if (!arr[1]) arr[1] = [];
-            arr[1][i - 40] = rand[i - 40];
-          }
-          for (i = 71; i <= 90; i++) {
-            rand[i - 70] = Math.floor(Math.random() * 20) + 1;
-            if (!arr[2]) arr[2] = [];
-            arr[2][i - 70] = rand[i - 70];
-          }
-          let result = [];
-          if (resSelect.length != 0) {
-            resSelect.forEach(function(item, index) {
-              // console.log(item["card_id"]);
-              result[item["card_id"]] = {
-                ...result[item["card_id"]],
-                card_id: item["card_id"],
-                color_code: item["color_code"],
-                card_level: item["card_level"],
-                card_score: item["card_score"],
-                card_image: item["card_image"],
-                ["add" + item["card_color_name"]]: 1,
-                ["req" + item["color_name"]]: item["amount"]
-              };
-
-              // if (item["card_id"] <= 40) {
-              //   result["level1"][arr[0][item["card_id"]]] = {
-              //     ...result[item["card_id"]],
-              //     card_id: item["card_id"],
-              //     color_code: item["color_code"],
-              //     card_level: item["card_level"],
-              //     card_score: item["card_score"],
-              //     card_image: item["card_image"],
-              //     ["add" + item["card_color_name"]]: 1,
-              //     ["req" + item["color_name"]]: item["amount"]
-              //   };
-              // } else if (item["card_id"] > 40 && item["card_id"] <= 70) {
-              //   result["level2"][arr[1][item["card_id"]]] = {
-              //     ...result[item["card_id"]],
-              //     card_id: item["card_id"],
-              //     color_code: item["color_code"],
-              //     card_level: item["card_level"],
-              //     card_score: item["card_score"],
-              //     card_image: item["card_image"],
-              //     ["add" + item["card_color_name"]]: 1,
-              //     ["req" + item["color_name"]]: item["amount"]
-              //   };
-              // } else if (item["card_id"] > 70 && item["card_id"] <= 90) {
-              //   result["level3"][arr[2][item["card_id"]]] = {
-              //     ...result[item["card_id"]],
-              //     card_id: item["card_id"],
-              //     color_code: item["color_code"],
-              //     card_level: item["card_level"],
-              //     card_score: item["card_score"],
-              //     card_image: item["card_image"],
-              //     ["add" + item["card_color_name"]]: 1,
-              //     ["req" + item["color_name"]]: item["amount"]
-              //   };
-              // }
-            });
-            try {
-              let [resUpdateMatch] = await db.query(
-                "UPDATE game_match SET match_status = 'PLAYING' WHERE host_id = ? AND match_id = ?",
-                [socket.handshake.session.userdata.user_id, socket.room]
+          try {
+            let [resUpdateMatch] = await db.query(
+              "UPDATE game_match SET match_status = 'PLAYING' WHERE host_id = ? AND match_id = ?",
+              [socket.handshake.session.userdata.user_id, socket.room]
+            );
+            if (resUpdateMatch.affectedRows != 0) {
+              let [resGetTurn] = await db.query(
+                "SELECT match_turn FROM game_match WHERE match_id = ?",
+                [socket.room]
               );
-              if (resUpdateMatch.affectedRows != 0) {
-                let [resGetTurn] = await db.query(
-                  "SELECT match_turn FROM game_match WHERE match_id = ?",
-                  [socket.room]
-                );
-                socket.emit("ROOM_MESSAGE", {
-                  status: "success",
-                  action: "LOAD_CARD",
-                  cards: result,
-                  myuser: resUserDisplay[0].user_display_name,
-                  random: arr
-                });
-                io.sockets.to(socket.room).emit("ROOM_MESSAGE", {
-                  status: "success",
-                  action: "GAME_START",
-                  match_id: socket.room,
-                  start: true,
-                  turn: resGetTurn[0].match_turn
-                });
-                detail();
-              } else {
-                //cant start not host
-                socket.emit("ROOM_MESSAGE", {
-                  status: "error",
-                  action: "GAME_START",
-                  match_id: socket.room,
-                  start: false,
-                  message: "Can't start you're not host"
-                });
-              }
-            } catch (error) {
-              console.log(error);
+
+              io.sockets.to(socket.room).emit("ROOM_MESSAGE", {
+                status: "success",
+                action: "GAME_START",
+                match_id: socket.room,
+                start: true,
+                turn: resGetTurn[0].match_turn
+              });
+              detail();
             }
+          } catch (error) {
+            console.log(error);
           }
         } else
           socket.emit("ROOM_MESSAGE", {
