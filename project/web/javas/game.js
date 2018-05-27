@@ -6,11 +6,15 @@ coinNum[1] = 0;
 coinNum[2] = 0;
 coinNum[3] = 0;
 coinNum[4] = 0;
+<<<<<<< HEAD
 var localNum =  0;
 var name;
+=======
+var localNum = 0;
+>>>>>>> 206d14ad146f0ed62c3cd170f781f1326d518529
 var detail = [];
 var turn = 1;
-var modedTurn=0;
+var modedTurn = 0;
 var send;
 var garlax2;
 var chat2;
@@ -159,21 +163,18 @@ var changeTurn = function(){
 /*var update = function(){
   InfoPlayer[1].
 }*/
-var checkPlayerDetail = function(){
-  InfoPlayer[1].playerName=DBplayer[1].user_display_name;
-  InfoPlayer[2].playerName=DBplayer[2].user_display_name;
-  InfoPlayer[3].playerName=DBplayer[3].user_display_name;
-  InfoPlayer[4].playerName=DBplayer[4].user_display_name;
-  if(name==InfoPlayer[1].playerName){
+var checkPlayerDetail = function() {
+  InfoPlayer[1].playerName = DBplayer[1].user_display_name;
+  InfoPlayer[2].playerName = DBplayer[2].user_display_name;
+  InfoPlayer[3].playerName = DBplayer[3].user_display_name;
+  InfoPlayer[4].playerName = DBplayer[4].user_display_name;
+  if (name == InfoPlayer[1].playerName) {
     localNum = 1;
-  }
-  else if(name==InfoPlayer[2].playerName){
+  } else if (name == InfoPlayer[2].playerName) {
     localNum = 2;
-  }
-  else if(name==InfoPlayer[3].playerName){
+  } else if (name == InfoPlayer[3].playerName) {
     localNum = 3;
-  }
-  else if(name==InfoPlayer[4].playerName){
+  } else if (name == InfoPlayer[4].playerName) {
     localNum = 4;
   }
   console.log(localNum);
@@ -223,11 +224,16 @@ var checkPlayerDetail = function(){
       align: "center"
     }
   );
-  text[7] = game.add.text(6 * x, 3.5 * y - 15, ": " + InfoPlayer[localNum].redCoin, {
-    font: "30px Arial",
-    fill: "#ff00ff",
-    align: "center"
-  });
+  text[7] = game.add.text(
+    6 * x,
+    3.5 * y - 15,
+    ": " + InfoPlayer[localNum].redCoin,
+    {
+      font: "30px Arial",
+      fill: "#ff00ff",
+      align: "center"
+    }
+  );
   text[8] = game.add.text(
     7 * x - 30,
     3.5 * y - 15,
@@ -298,7 +304,7 @@ var checkPlayerDetail = function(){
       align: "center"
     }
   );
-}
+};
 var cardadd = function() {
   for (var i = 1; i <= 40; i++) {
     InfoCardLv1[i] = {
@@ -433,8 +439,8 @@ var gamestate = {
     //profile
     this.load.image("player1", "image/profile/music.png");
     this.load.image("player2", "image/profile/satchan.png");
-    this.load.image("player3", "image/profile/noey.png");
-    this.load.image("player4", "image/profile/pun.png");
+    this.load.image("player3", "image/profile/pun.png");
+    this.load.image("player4", "image/profile/cher.png");
     //level 1-3
     game.load.image("galaxy", "assets/galaxy.jpg");
     game.load.image("chat_head", "assets/chat_box.png");
@@ -636,8 +642,13 @@ var gamestate = {
       }
     });
     server.room.getRoomMessage();
+<<<<<<< HEAD
     server.room.joinRoom(850);
     //server.room.createRoom('147', '123', 4);
+=======
+    //server.room.joinRoom(850);
+    server.room.createRoom("147", "123", 4);
+>>>>>>> 206d14ad146f0ed62c3cd170f781f1326d518529
     //jardet 1234
     //testza 1234
     //123456 123456
@@ -648,7 +659,6 @@ var gamestate = {
     */
     x = window.outerWidth / 12; //row
     y = window.outerHeight / 4; //col
-
 
     this.BG = this.game.add.sprite(0, 0, "BG").scale.setTo(1.5);
 
@@ -1025,7 +1035,7 @@ function cardlevel_1(card, x, y, cardID, index) {
       text[13].setText(": " + InfoPlayer[localNum].cardgreen);
       text[14].setText(": " + InfoPlayer[localNum].cardblack);
 
-    card.destroy();
+      card.destroy();
       randIndex = Math.floor(Math.random() * aImageFiles.length);
       if (aImageFiles.length == 0) {
         aImageFiles.splice(randIndex, 0);
@@ -1161,7 +1171,8 @@ function cardlevel_2(card, x, y, cardID, index) {
         aImageFiles2.splice(randIndex2, 1);
         console.log(aImageFiles2);
       }
-      text[21].setText("Turn : " + turn);console.log(2);
+      text[21].setText("Turn : " + turn);
+      console.log(2);
       endTurn();
       if (InfoPlayer[1].score >= 15) {
         showFinalBox(
@@ -1276,7 +1287,8 @@ function cardlevel_3(card, x, y, cardID, index) {
         aImageFiles3.splice(randIndex3, 1);
         console.log(aImageFiles3);
       }
-      text[21].setText("Turn : " + turn);console.log(3);
+      text[21].setText("Turn : " + turn);
+      console.log(3);
       endTurn();
       if (InfoPlayer[1].score >= 15) {
         showFinalBox(
@@ -1321,7 +1333,8 @@ function click_Noble(card, NobleID) {
       InfoPlayer[localNum].cardblack >= Noble[NobleID].reqBlack
     ) {
       InfoPlayer[localNum].score += Noble[NobleID].score;
-      card.destroy();console.log(4);
+      card.destroy();
+      console.log(4);
       endTurn();
     } else {
       testMessageBox("noCard");
@@ -1409,7 +1422,7 @@ function OhRight() {
       console.log(5);
       endTurn();
       text[21].setText("Turn : " + turn);
-      
+
       //runturn(turn);
       if (InfoPlayer[1].score >= 15) {
         showFinalBox(
@@ -1451,7 +1464,8 @@ function OhRight() {
       InfoPlayer[localNum].blackCoin += coinNum[4];
       ohCancel();
       updatePlayerInfo();
-      text[21].setText("Turn : " + turn);console.log(6);
+      text[21].setText("Turn : " + turn);
+      console.log(6);
       endTurn();
       if (InfoPlayer[1].score >= 15) {
         showFinalBox(
@@ -1506,7 +1520,7 @@ function OhRight() {
     text[15].setText("Total " + total + "/10");
   }
 }
-function endTurn(){
+function endTurn() {
   server.game.takeCoin(
     [
       null,
@@ -1763,13 +1777,17 @@ function showScore(w = 500, h = 500) {
   scoreNum[11] = game.add.text(
     0,
     0,
-    InfoPlayer[1].playerName.substring(0,5) +
+    InfoPlayer[1].playerName.substring(0, 5) +
       "\n\n" +
-      InfoPlayer[2].playerName.substring(0,5) +
+      InfoPlayer[2].playerName.substring(0, 5) +
       "\n\n" +
-      InfoPlayer[3].playerName.substring(0,5) +
+      InfoPlayer[3].playerName.substring(0, 5) +
       "\n\n" +
+<<<<<<< HEAD
       InfoPlayer[4].playerName.substring(0,5)+localNum
+=======
+      InfoPlayer[4].playerName.substring(0, 5)
+>>>>>>> 206d14ad146f0ed62c3cd170f781f1326d518529
   );
   var detail2 = [];
   detail2[0] = this.game.add.sprite(0, 0, "coinBlue");
