@@ -6,12 +6,8 @@ coinNum[1] = 0;
 coinNum[2] = 0;
 coinNum[3] = 0;
 coinNum[4] = 0;
-<<<<<<< HEAD
 var localNum =  0;
 var name;
-=======
-var localNum = 0;
->>>>>>> 206d14ad146f0ed62c3cd170f781f1326d518529
 var detail = [];
 var turn = 1;
 var modedTurn = 0;
@@ -642,13 +638,8 @@ var gamestate = {
       }
     });
     server.room.getRoomMessage();
-<<<<<<< HEAD
-    server.room.joinRoom(850);
-    //server.room.createRoom('147', '123', 4);
-=======
-    //server.room.joinRoom(850);
-    server.room.createRoom("147", "123", 4);
->>>>>>> 206d14ad146f0ed62c3cd170f781f1326d518529
+    server.room.joinRoom(855);
+    //server.room.createRoom('jardet', '1234', 4);
     //jardet 1234
     //testza 1234
     //123456 123456
@@ -1783,11 +1774,7 @@ function showScore(w = 500, h = 500) {
       "\n\n" +
       InfoPlayer[3].playerName.substring(0, 5) +
       "\n\n" +
-<<<<<<< HEAD
       InfoPlayer[4].playerName.substring(0,5)+localNum
-=======
-      InfoPlayer[4].playerName.substring(0, 5)
->>>>>>> 206d14ad146f0ed62c3cd170f781f1326d518529
   );
   var detail2 = [];
   detail2[0] = this.game.add.sprite(0, 0, "coinBlue");
