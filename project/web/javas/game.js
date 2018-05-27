@@ -6,10 +6,11 @@ coinNum[1] = 0;
 coinNum[2] = 0;
 coinNum[3] = 0;
 coinNum[4] = 0;
-var localNum = 0;
+var localNum =  0;
+var name;
 var detail = [];
 var turn = 1;
-var modedTurn = 0;
+var modedTurn = 1;
 var send;
 var garlax2;
 var chat2;
@@ -150,19 +151,70 @@ var rand3 = [];
 var rand4 = [];
 var count = 0;
 var InfoPlayer = [];
-/*
-var changeTurn = function(){
 
+var changeTurn = function(){
+  if(localNum==modedTurn){
+    button[0].inputEnabled = true;
+    button[1].inputEnabled = true;
+    button[2].inputEnabled = true;
+    button[3].inputEnabled = true;
+    button[4].inputEnabled = true;
+    button[5].inputEnabled = true;
+    button[6].inputEnabled = true;
+    button[7].inputEnabled = true;
+    button[8].inputEnabled = true;
+    button[9].inputEnabled = true;
+    button[10].inputEnabled = true;
+    button[11].inputEnabled = true;
+    button[12].inputEnabled = true;
+    button[13].inputEnabled = true;
+    button[14].inputEnabled = true;
+    button[15].inputEnabled = true;
+    button[16].inputEnabled = true;
+    button[18].inputEnabled = true;
+    button[19].inputEnabled = true;
+    button[20].inputEnabled = true;
+    button[21].inputEnabled = true;
+    button[22].inputEnabled = true;
+
+  }
+  else{
+    button[0].inputEnabled = false;
+    button[1].inputEnabled = false;
+    button[2].inputEnabled = false;
+    button[3].inputEnabled = false;
+    button[4].inputEnabled = false;
+    button[5].inputEnabled = false;
+    button[6].inputEnabled = false;
+    button[7].inputEnabled = false;
+    button[8].inputEnabled = false;
+    button[9].inputEnabled = false;
+    button[10].inputEnabled = false;
+    button[11].inputEnabled = false;
+    button[12].inputEnabled = false;
+    button[13].inputEnabled = false;
+    button[14].inputEnabled = false;
+    button[15].inputEnabled = false;
+    button[16].inputEnabled = false;
+    button[18].inputEnabled = false;
+    button[19].inputEnabled = false;
+    button[20].inputEnabled = false;
+    button[21].inputEnabled = false;
+    button[22].inputEnabled = false;
+  }
 }
-*/
+
 /*var update = function(){
   InfoPlayer[1].
 }*/
+
 var checkPlayerDetail = function() {
   InfoPlayer[1].playerName = DBplayer[1].user_display_name;
   InfoPlayer[2].playerName = DBplayer[2].user_display_name;
   InfoPlayer[3].playerName = DBplayer[3].user_display_name;
   InfoPlayer[4].playerName = DBplayer[4].user_display_name;
+};
+var turnAdd = function(){
   if (name == InfoPlayer[1].playerName) {
     localNum = 1;
   } else if (name == InfoPlayer[2].playerName) {
@@ -299,7 +351,141 @@ var checkPlayerDetail = function() {
       align: "center"
     }
   );
-};
+  text[22] = game.add.text(0, 25, "Name : " + InfoPlayer[localNum].playerName, {
+    font: "20px Arial",
+    fill: "#ffffff",
+    align: "center"
+  });
+  text[23] = game.add.text(0, 50, "Turn of : " + InfoPlayer[modedTurn].playerName, {
+    font: "20px Arial",
+    fill: "#ffffff",
+    align: "center"
+  });
+  //level1
+  button[0] = game.add.button(4 * x, 2 * y + 40, rand[0]);
+  button[0].events.onInputDown.add(function() {
+    cardlevel_1(button[0], 4 * x, 2 * y + 40, check[0], 0);
+  });
+  button[1] = game.add.button(4 * x + 140, 2 * y + 40, rand[1]);
+  button[1].events.onInputDown.add(function() {
+    cardlevel_1(button[1], 4 * x + 140, 2 * y + 40, check[1], 1);
+  });
+  button[2] = game.add.button(4 * x + 280, 2 * y + 40, rand[2]);
+  button[2].events.onInputDown.add(function() {
+    cardlevel_1(button[2], 4 * x + 280, 2 * y + 40, check[2], 2);
+  });
+  button[3] = game.add.button(4 * x + 420, 2 * y + 40, rand[3]);
+  button[3].events.onInputDown.add(function() {
+    cardlevel_1(button[3], 4 * x + 420, 2 * y + 40, check[3], 3);
+  });
+  //level2
+  button[4] = game.add.button(4 * x, 1.5 * y - 40, rand2[0]);
+  button[4].events.onInputDown.add(function() {
+    cardlevel_2(button[4], 4 * x, 1.5 * y - 40, check[4], 4);
+  });
+  button[5] = game.add.button(4 * x + 140, 1.5 * y - 40, rand2[1]);
+  button[5].events.onInputDown.add(function() {
+    cardlevel_2(button[5], 4 * x + 140, 1.5 * y - 40, check[5], 5);
+  });
+  button[6] = game.add.button(4 * x + 280, 1.5 * y - 40, rand2[2]);
+  button[6].events.onInputDown.add(function() {
+    cardlevel_2(button[6], 4 * x + 280, 1.5 * y - 40, check[6], 6);
+  });
+  button[7] = game.add.button(4 * x + 420, 1.5 * y - 40, rand2[3]);
+  button[7].events.onInputDown.add(function() {
+    cardlevel_2(button[7], 4 * x + 420, 1.5 * y - 40, check[7], 7);
+  });
+  //level3
+  button[8] = game.add.button(4 * x, 0.5 * y - 25, rand3[0]);
+  button[8].events.onInputDown.add(function() {
+    cardlevel_3(button[8], 4 * x, 0.5 * y - 25, check[8], 8);
+  });
+  button[9] = game.add.button(4 * x + 140, 0.5 * y - 25, rand3[1]);
+  button[9].events.onInputDown.add(function() {
+    cardlevel_3(button[9], 4 * x + 140, 0.5 * y - 25, check[9], 9);
+  });
+  button[10] = game.add.button(4 * x + 280, 0.5 * y - 25, rand3[2]);
+  button[10].events.onInputDown.add(function() {
+    cardlevel_3(button[10], 4 * x + 280, 0.5 * y - 25, check[10], 10);
+  });
+  button[11] = game.add.button(4 * x + 420, 0.5 * y - 25, rand3[3]);
+  button[11].events.onInputDown.add(function() {
+    cardlevel_3(button[11], 4 * x + 420, 0.5 * y - 25, check[11], 11);
+  });
+  //coin
+  button[12] = game.add.button(
+    8 * x + 50,
+    0.5 * y - 25,
+    "coinBlue",
+    click_coin,
+    this
+  );
+  button[12].events.onInputDown.add(function() {
+    click_coin("blue");
+  });
+  button[13] = game.add.button(
+    8 * x + 50,
+    y - 45,
+    "coinWhite",
+    click_coin,
+    this
+  );
+  button[13].events.onInputDown.add(function() {
+    click_coin("white");
+  });
+  button[14] = game.add.button(
+    8 * x + 50,
+    y + 40,
+    "coinRed",
+    click_coin,
+    this
+  );
+  button[14].events.onInputDown.add(function() {
+    click_coin("red");
+  });
+  button[15] = game.add.button(
+    8 * x + 50,
+    1.5 * y + 20,
+    "coinGreen",
+    click_coin,
+    this
+  );
+  button[15].events.onInputDown.add(function() {
+    click_coin("green");
+  });
+  button[16] = game.add.button(
+    8 * x + 50,
+    2 * y - 5,
+    "coinBlack",
+    click_coin,
+    this
+  );
+  button[16].events.onInputDown.add(function() {
+    click_coin("black");
+  });
+  //Noble
+  button[18] = game.add.button(10 * x - 25, 0.5 * y + 25, rand4[0]);
+  button[18].events.onInputDown.add(function() {
+    click_Noble(button[18], 0);
+  });
+  button[19] = game.add.button(10 * x - 25, y + 75, rand4[1]);
+  button[19].events.onInputDown.add(function() {
+    click_Noble(button[19], 1);
+  });
+  button[20] = game.add.button(10 * x - 25, 2 * y + 25, rand4[2]);
+  button[20].events.onInputDown.add(function() {
+    click_Noble(button[20], 2);
+  });
+  button[21] = game.add.button(11 * x, y - 25, rand4[3]);
+  button[21].events.onInputDown.add(function() {
+    click_Noble(button[21], 3);
+  });
+  button[22] = game.add.button(11 * x, 1.5 * y + 40, rand4[4]);
+  button[22].events.onInputDown.add(function() {
+    click_Noble(button[22], 4);
+  });
+  changeTurn();
+}
 var cardadd = function() {
   for (var i = 1; i <= 40; i++) {
     InfoCardLv1[i] = {
@@ -637,8 +823,13 @@ var gamestate = {
       }
     });
     server.room.getRoomMessage();
+<<<<<<< HEAD
     server.room.joinRoom(78);
     //server.room.createRoom("147", "123", 4);
+=======
+    server.room.joinRoom(855);
+    //server.room.createRoom('jardet', '1234', 4);
+>>>>>>> 92448b62f286a069a24c3c6776b9f30bca70a3cd
     //jardet 1234
     //testza 1234
     //123456 123456
@@ -677,154 +868,6 @@ var gamestate = {
       0.5 * y - 25,
       "level3_BG"
     );
-    //level1
-    button[0] = game.add.button(4 * x, 2 * y + 40, rand[0]);
-    button[0].events.onInputDown.add(function() {
-      cardlevel_1(button[0], 4 * x, 2 * y + 40, check[0], 0);
-    });
-    button[0].inputEnabled = true;
-    button[1] = game.add.button(4 * x + 140, 2 * y + 40, rand[1]);
-    button[1].events.onInputDown.add(function() {
-      cardlevel_1(button[1], 4 * x + 140, 2 * y + 40, check[1], 1);
-    });
-    button[1].inputEnabled = true;
-    button[2] = game.add.button(4 * x + 280, 2 * y + 40, rand[2]);
-    button[2].events.onInputDown.add(function() {
-      cardlevel_1(button[2], 4 * x + 280, 2 * y + 40, check[2], 2);
-    });
-    button[2].inputEnabled = true;
-    button[3] = game.add.button(4 * x + 420, 2 * y + 40, rand[3]);
-    button[3].events.onInputDown.add(function() {
-      cardlevel_1(button[3], 4 * x + 420, 2 * y + 40, check[3], 3);
-    });
-    button[3].inputEnabled = true;
-
-    //level2
-    button[4] = game.add.button(4 * x, 1.5 * y - 40, rand2[0]);
-    button[4].events.onInputDown.add(function() {
-      cardlevel_2(button[4], 4 * x, 1.5 * y - 40, check[4], 4);
-    });
-    button[4].inputEnabled = true;
-    button[5] = game.add.button(4 * x + 140, 1.5 * y - 40, rand2[1]);
-    button[5].events.onInputDown.add(function() {
-      cardlevel_2(button[5], 4 * x + 140, 1.5 * y - 40, check[5], 5);
-    });
-    button[5].inputEnabled = true;
-    button[6] = game.add.button(4 * x + 280, 1.5 * y - 40, rand2[2]);
-    button[6].events.onInputDown.add(function() {
-      cardlevel_2(button[6], 4 * x + 280, 1.5 * y - 40, check[6], 6);
-    });
-    button[6].inputEnabled = true;
-    button[7] = game.add.button(4 * x + 420, 1.5 * y - 40, rand2[3]);
-    button[7].events.onInputDown.add(function() {
-      cardlevel_2(button[7], 4 * x + 420, 1.5 * y - 40, check[7], 7);
-    });
-    button[7].inputEnabled = true;
-
-    //level3
-    button[8] = game.add.button(4 * x, 0.5 * y - 25, rand3[0]);
-    button[8].events.onInputDown.add(function() {
-      cardlevel_3(button[8], 4 * x, 0.5 * y - 25, check[8], 8);
-    });
-    button[8].inputEnabled = true;
-    button[9] = game.add.button(4 * x + 140, 0.5 * y - 25, rand3[1]);
-    button[9].events.onInputDown.add(function() {
-      cardlevel_3(button[9], 4 * x + 140, 0.5 * y - 25, check[9], 9);
-    });
-    button[9].inputEnabled = true;
-    button[10] = game.add.button(4 * x + 280, 0.5 * y - 25, rand3[2]);
-    button[10].events.onInputDown.add(function() {
-      cardlevel_3(button[10], 4 * x + 280, 0.5 * y - 25, check[10], 10);
-    });
-    button[10].inputEnabled = true;
-    button[11] = game.add.button(4 * x + 420, 0.5 * y - 25, rand3[3]);
-    button[11].events.onInputDown.add(function() {
-      cardlevel_3(button[11], 4 * x + 420, 0.5 * y - 25, check[11], 11);
-    });
-    button[11].inputEnabled = true;
-    //coin
-    button[12] = game.add.button(
-      8 * x + 50,
-      0.5 * y - 25,
-      "coinBlue",
-      click_coin,
-      this
-    );
-    button[12].events.onInputDown.add(function() {
-      click_coin("blue");
-    });
-    button[12].inputEnabled = true;
-    button[13] = game.add.button(
-      8 * x + 50,
-      y - 45,
-      "coinWhite",
-      click_coin,
-      this
-    );
-    button[13].events.onInputDown.add(function() {
-      click_coin("white");
-    });
-    button[13].inputEnabled = true;
-    button[14] = game.add.button(
-      8 * x + 50,
-      y + 40,
-      "coinRed",
-      click_coin,
-      this
-    );
-    button[14].events.onInputDown.add(function() {
-      click_coin("red");
-    });
-    button[14].inputEnabled = true;
-    button[15] = game.add.button(
-      8 * x + 50,
-      1.5 * y + 20,
-      "coinGreen",
-      click_coin,
-      this
-    );
-    button[15].events.onInputDown.add(function() {
-      click_coin("green");
-    });
-    button[15].inputEnabled = true;
-    button[16] = game.add.button(
-      8 * x + 50,
-      2 * y - 5,
-      "coinBlack",
-      click_coin,
-      this
-    );
-    button[16].events.onInputDown.add(function() {
-      click_coin("black");
-    });
-    button[16].inputEnabled = true;
-
-    //Noble
-    button[18] = game.add.button(10 * x - 25, 0.5 * y + 25, rand4[0]);
-    button[18].events.onInputDown.add(function() {
-      click_Noble(button[18], 0);
-    });
-    button[18].inputEnabled = true;
-    button[19] = game.add.button(10 * x - 25, y + 75, rand4[1]);
-    button[19].events.onInputDown.add(function() {
-      click_Noble(button[19], 1);
-    });
-    button[19].inputEnabled = true;
-    button[20] = game.add.button(10 * x - 25, 2 * y + 25, rand4[2]);
-    button[20].events.onInputDown.add(function() {
-      click_Noble(button[20], 2);
-    });
-    button[20].inputEnabled = true;
-    button[21] = game.add.button(11 * x, y - 25, rand4[3]);
-    button[21].events.onInputDown.add(function() {
-      click_Noble(button[21], 3);
-    });
-    button[21].inputEnabled = true;
-    button[22] = game.add.button(11 * x, 1.5 * y + 40, rand4[4]);
-    button[22].events.onInputDown.add(function() {
-      click_Noble(button[22], 4);
-    });
-    button[22].inputEnabled = true;
     //showscore
     button[23] = game.add.button(x + 50, 0.5 * y, "score", function() {
       showScore(5 * x, 2 * y);
@@ -1773,7 +1816,7 @@ function showScore(w = 500, h = 500) {
       "\n\n" +
       InfoPlayer[3].playerName.substring(0, 5) +
       "\n\n" +
-      InfoPlayer[4].playerName.substring(0, 5)
+      InfoPlayer[4].playerName.substring(0,5)+localNum
   );
   var detail2 = [];
   detail2[0] = this.game.add.sprite(0, 0, "coinBlue");
