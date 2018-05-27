@@ -64,10 +64,10 @@ var server = {
           }
         } else if (data.action === "LOAD_CARD") {
           window.DBcards = data.cards;
-          window.DBrand = data.random;
-          console.log(DBrand[0][1]);
+         DBrand = data.random;
+          //console.log(DBrand[0][1]);
           name=data.myuser;
-          console.log(name);
+          //console.log(name);
           cardadd();
           turnAdd();
         } else if (data.action === "GAME_START") {
@@ -107,8 +107,8 @@ var server = {
           InfoPlayer[modedTurn].cardblack =
             data.card.cardblack;
           InfoPlayer[modedTurn].score = data.score;
-          window.upDestroy = data.destroy;
-          window.upButton = data.button;
+          //window.upDestroy = data.destroy;
+          //window.upButton = data.button;
           //update();
           if(data.turn%4 != 0){
             modedTurn=data.turn%4;
@@ -134,6 +134,10 @@ var server = {
           text[20].setText(coinLeft[4]+"/7");
           text[21].setText("Turn : " + turn);
           text[23].setText("Turn of : " + InfoPlayer[modedTurn].playerName);
+          if (data.destroy==1){
+            serverButton = data.button;
+            changeCard();
+          }
           changeTurn();
         }
       });
