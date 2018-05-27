@@ -7,8 +7,24 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Splendor</title>
   <link href="https://fonts.googleapis.com/css?family=Kanit&amp;subset=thai" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css">
   <script src="../js/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.min.js"></script>
   <script>
+
+
+    // $(document).ready(function () {
+    //   $('.nav-tabs a:first').tab('show')
+    //   console.log($('.nav-tabs a:first'))
+    // })
+
+    var setModal = (function (body, callback) {
+      $('#alert .modal-body').html(body);
+      $('#alert').modal();
+      $('#alert button').one('click', function () {
+        callback();
+      })
+    })
 
     var login = (function () {
 
@@ -23,11 +39,12 @@
         url: "/login",
         data: $('#loginForm').serialize(),
         success: function (res) {
-          alert(res.message)
-          window.location.href = "/game.html"
+          setModal(res.message, function () {
+            $('.nav-tabs a:eq(1)').tab('show')
+          })
         },
         error: function (res) {
-          alert(res.responseJSON.message)
+          setModal(res.responseJSON.message)
         }
       })
     });
@@ -50,11 +67,12 @@
         url: "/register",
         data: $('#registerForm').serialize(),
         success: function (res) {
-          alert(res.message)
-          toggleForm();
+          setModal(res.message, function () {
+            toggleForm();
+          })
         },
         error: function (res) {
-          alert(res.responseJSON.message)
+          setModal(res.responseJSON.message)
         }
       })
 
@@ -81,10 +99,23 @@
 
 <body>
   <div id="app">
-    <div class="container">
+    <nav style="position: absolute;">
+      <div class="nav nav-tabs hide" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home"
+          aria-selected="true">Login</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile"
+          aria-selected="false">Lobby</a>
+        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact"
+          aria-selected="false">Room</a>
+      </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+        <div class="container">
 
-      <img src="../style/Splendor.png" id="logo">
+          <img src="../style/Splendor.png" id="logo">
 
+<<<<<<< HEAD
       <div class="row">
         <div class="col-md-8">
           <!-- <img src="../style/5555.jpg" id="logo2"> -->
@@ -102,37 +133,126 @@
                 <input type="submit" name="submit" value="Login">
                 <input type="button" name="submit" value="Register" onclick="toggleForm()">
               </form>
+=======
+          <div class="row">
+            <div class="col-md-8">
+              <img src="../style/5555.jpg" id="logo2">
+>>>>>>> 68bbea527cc05f60d4bcb06cbb77f774498e851b
             </div>
+            <div class="col-md-4" style="height: 520px;">
+              <div class="boxregister">
+                <div id="login">
+                  <h1>Login</h1>
+                  <form id="loginForm" onSubmit="login(); return false;">
+                    <p>Username</p>
+                    <input type="text" id="username" name="username" placeholder="username here...">
+                    <p>Password</p>
+                    <input type="password" id="password" name="password" placeholder="password here...">
+                    <input type="submit" name="submit" value="Login">
+                    <input type="button" name="submit" value="Register" onclick="toggleForm()">
+                  </form>
+                </div>
 
-            <div id="register">
-              <h1 class="register">
-                <i class="fas fa-arrow-left pointer" onclick="toggleForm()"></i>
-                Register
-              </h1>
-              <br>
-              <form id="registerForm" onSubmit="register(); return false;">
-                <p>User Name</p>
-                <input id="username-reg" type="text" name="username">
-                <p>Password</p>
-                <input id="password-reg" type="password" name="password">
-                <p>Confirm Password</p>
-                <input id="confirmpass" type="password" name="confirmpass">
-                <p>Email Address</p>
-                <input id="email" type="text" name="email">
-                <p>User Display Name</p>
-                <input id="displayname" type="text" name="displayname">
-                <input type="submit" name="submit" value="Register">
-              </form>
+                <div id="register">
+                  <h1 class="register">
+                    <i class="fas fa-arrow-left pointer" onclick="toggleForm()"></i>
+                    Register
+                  </h1>
+                  <br>
+                  <form id="registerForm" onSubmit="register(); return false;">
+                    <p>User Name</p>
+                    <input id="username-reg" type="text" name="username">
+                    <p>Password</p>
+                    <input id="password-reg" type="password" name="password">
+                    <p>Confirm Password</p>
+                    <input id="confirmpass" type="password" name="confirmpass">
+                    <p>Email Address</p>
+                    <input id="email" type="text" name="email">
+                    <p>User Display Name</p>
+                    <input id="displayname" type="text" name="displayname">
+                    <input type="submit" name="submit" value="Register">
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div>
+              <img src="../style/2222.jpg" id="logo3">
             </div>
           </div>
         </div>
+<<<<<<< HEAD
         <div>
           <img src="../style/lobby3.jpg" id="logo3">
           <!-- <img src="../style/2222.jpg" id="logo3"> -->
+=======
+      </div>
+
+      <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <img src="../style/Splendor.png" style="position:absolute;left:50%; transform: translate(-50%, -90px); z-index: 99; width: 500px">
+        <div class="container boxregister relative" style="margin-top: 100px">
+          <div class="row">
+            <div class="col-sm-8">
+              <div class="row" align="center">
+                <div class="roomList" align="center" style="padding-top: 50px; margin: 0 auto">
+                  <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#normal" role="tab" aria-controls="pills-home" aria-selected="true">Normal</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#ranking" role="tab" aria-controls="pills-profile" aria-selected="false">Ranking</a>
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="normal" role="tabpanel" aria-labelledby="pills-home-tab">
+                      <div class="normal"></div>
+                    </div>
+                    <div class="tab-pane fade" id="ranking" role="tabpanel" aria-labelledby="pills-profile-tab">
+                      <div class="ranking"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <a style="width: 84.53px" class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#normal" role="tab" aria-controls="pills-home"
+                  aria-selected="true">สร้างห้อง</a>
+              </div>
+            </div>
+            <div class="col-sm-4" align="left" style="padding-top: 50px">
+              <a style="width: 84.53px" class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#normal" role="tab" aria-controls="pills-home"
+                aria-selected="true">Friend</a>
+              <div style="background: black; height: 500px;"></div>
+            </div>
+          </div>
+>>>>>>> 68bbea527cc05f60d4bcb06cbb77f774498e851b
         </div>
       </div>
     </div>
+    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+
+    </div>
+
+
+
   </div>
+
+
+  <div class="modal fade" id="alert">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+
+        <!-- Modal body -->
+        <div class="modal-body" style="padding: 20px 0; text-align: center">
+
+        </div>
+
+        <!-- Modal footer -->
+
+        <button type="button" class="btn btn-warning" data-dismiss="modal" style="border-radius: 0">Close</button>
+
+      </div>
+    </div>
   </div>
 </body>
 

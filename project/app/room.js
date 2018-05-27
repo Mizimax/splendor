@@ -291,6 +291,11 @@ const room = function(socket, io) {
         if (!arr[2]) arr[2] = [];
         arr[2][i - 70] = rand[i - 70];
       }
+      for (i = 91; i <= 100; i++) {
+        rand[i - 90] = Math.floor(Math.random() * 10) + 1;
+        if (!arr[3]) arr[3] = [];
+        arr[3][i - 90] = rand[i - 90];
+      }
       let result = [];
       if (resSelect.length != 0) {
         resSelect.forEach(function(item, index) {
@@ -308,9 +313,13 @@ const room = function(socket, io) {
         });
         socket.emit("ROOM_MESSAGE", {
           status: "success",
+          action: "MY_USER",
+          myuser: resUserDisplay[0].user_display_name
+        });
+        io.sockets.to(socket.room).emit("ROOM_MESSAGE", {
+          status: "success",
           action: "LOAD_CARD",
           cards: result,
-          myuser: resUserDisplay[0].user_display_name,
           random: arr
         });
       } else {

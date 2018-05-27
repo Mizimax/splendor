@@ -13,6 +13,12 @@ body {
   height: 100%;
 }
 
+.middle {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
 #login h1 {
   margin: 0;
   padding: 0 0 20px;
@@ -126,4 +132,25 @@ body {
   /* height: 10%; */
   height: 100%;
   margin-top: 75px;
+}
+
+.hide {
+  opacity: 0;
+}
+
+.roomList {
+  height: 400px;
+}
+
+.nav-link {
+  color: white;
+  border-radius: 0 !important;
+}
+
+.nav-link.active {
+  background: orange !important;
+}
+
+.nav-link:hover {
+  color: orange;
 }
