@@ -64,20 +64,18 @@ var server = {
           }
         } else if (data.action === "LOAD_CARD") {
           window.DBcards = data.cards;
-          name=data.myuser;
+          name = data.myuser;
           console.log(name);
           cardadd();
           turnAdd();
         } else if (data.action === "GAME_START") {
-          if (data.status === "success") 
-          self.getPlayerDetail();
+          if (data.status === "success") self.getPlayerDetail();
           // turn = data.turn;
           turn = data.turn;
           text[21].setText("Turn : " + turn);
           modal.hide();
         } else if (data.action === "PLAYER_DETAIL") {
-          if (data.status === "status") 
-          self.loadCard();
+          if (data.status === "status") self.loadCard();
           window.DBplayer = data.user;
           checkPlayerDetail();
           self.loadCard();
@@ -108,10 +106,9 @@ var server = {
           window.upDestroy = data.destroy;
           window.upButton = data.button;
           //update();
-          if(data.turn%4 != 0){
-            modedTurn=data.turn%4;
-          }
-          else{
+          if (data.turn % 4 != 0) {
+            modedTurn = data.turn % 4;
+          } else {
             modedTurn = 4;
           }
           modedTurn = data.playerTurn;
