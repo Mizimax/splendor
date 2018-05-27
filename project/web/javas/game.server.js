@@ -27,7 +27,7 @@ var server = {
       socket.emit("ROOM_JOIN", { match_id: match_id });
     },
     joinPlayingRoom: function() {
-      socket.emit("ROOM_JOIN_PLAYING");
+      socket.emit("ROOM_JOIN_WAITING");
     },
     createRoom: function(roomName, password, players) {
       socket.emit("ROOM_CREATE", {
@@ -54,15 +54,12 @@ var server = {
       socket.on("ROOM_MESSAGE", function(data) {
         console.log(data);
         if (data.action === "JOIN_ROOM") {
-          self.playerReady();
-          self.playerStart();
-
           if (data.status === "success") {
             this.match_id = data.match_id;
             this.joined = true;
           } else {
-            // window.location.href = "/";
           }
+        } else if (data.action === "CREATE_ROOM") {
         } else if (data.action === "LOAD_CARD") {
           window.DBcards = data.cards;
           cardadd();

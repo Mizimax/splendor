@@ -2,35 +2,22 @@ const db = require("./mysql").connect();
 const socket = require("./io.connect").socket;
 
 const room = function(socket, io) {
-  // socket.on("GAME_START", async function(data) {
-  //   try {
-  //     let [resCreatePlayer] = await db.query(
-  //       "INSERT INTO match_player VALUES (?,?,?)",
-  //       [resCreate.insertId, socket.handshake.session.userdata.user_id, 0]
-  //     );
-  //     if (resCreatePlayer.affectedRows != 0) {
-  //       socket.join(resCreate.insertId);
-  //       socket.to(resCreate.insertId).on("PLAYER_READY", function(data) {
-  //         console.log(data);
-  //       });
-  //       socket.emit("ROOM_MESSAGE", {
-  //         status: "success",
-  //         action: "JOIN_ROOM",
-  //         message: "Room Joined",
-  //         match_id: resCreate.insertId
-  //       });
-  //     }
-  //   } catch (error) {
-  //     if (error.code === "ER_DUP_ENTRY") {
-  //       socket.emit("ROOM_MESSAGE", {
-  //         status: "error",
-  //         action: "JOIN_ROOM",
-  //         message: "Already Joined",
-  //         match_id: resCreate.insertId
-  //       });
-  //     }
-  //   }
-  // });
+  socket.on("GET_ROOM", async function(data) {
+    let [resGetRoom] = await db.query(
+      "SELECT gm.match_id, user.user_display_name, gm.match_name, gm.match_status, gm.match_type, gm.match_player_no, COUNT(user.user_id) as playerInRoom, (case when (!gm.match_password) THEN 0 ELSE 1 END) as pw_require " +
+        "FROM match_player mp " +
+        "JOIN game_match gm ON gm.match_id = mp.match_id " +
+        "JOIN user ON user.user_id = gm.host_id WHERE match_status IN(?,?) AND match_type = ? " +
+        "GROUP BY match_id ORDER BY match_status DESC",
+      ["WAITING", "PLAYING", data.match_type]
+    );
+    socket.emit("GET_ROOM", {
+      status: "success",
+      action: "GET_ROOM",
+      data: resGetRoom,
+      match_type: data.match_type
+    });
+  });
 
   socket.on("ROOM_CREATE", async function(data) {
     var date = new Date();
@@ -79,11 +66,12 @@ const room = function(socket, io) {
           if (resCreatePlayer.affectedRows != 0) {
             socket.join(resCreate.insertId);
             socket.room = resCreate.insertId;
-            socket.emit("ROOM_MESSAGE", {
+            io.sockets.to(socket.room).emit("ROOM_MESSAGE", {
               status: "success",
               action: "JOIN_ROOM",
               message: "Room Joined",
-              match_id: resCreate.insertId
+              match_id: resCreate.insertId,
+              user_id: socket.handshake.session.userdata.user_id
             });
           }
         } catch (error) {
@@ -120,7 +108,7 @@ const room = function(socket, io) {
           socket.emit("ROOM_MESSAGE", {
             status: "success",
             action: "JOIN_ROOM",
-            message: "Room" + resUniqueCreate[0].match_id + "Joined",
+            message: "Room " + resUniqueCreate[0].match_id + " Joined",
             match_id: resUniqueCreate[0].match_id
           });
         }
@@ -139,21 +127,22 @@ const room = function(socket, io) {
     }
   });
 
-  socket.on("ROOM_JOIN_PLAYING", async function() {
+  socket.on("ROOM_JOIN_WAITING", async function() {
     // socket.broadcast.emit("chat", msg);
     let [res] = await db.query(
-      "SELECT match_id FROM match_player mp JOIN game_match gm ON mp.match_id = gm.match_id WHERE mp.user_id = ? AND gm.match_status = ?",
-      [socket.handshake.session.userdata.user_id, "PLAYING"]
+      "SELECT mp.match_id FROM match_player mp JOIN game_match gm ON mp.match_id = gm.match_id WHERE mp.user_id = ? AND gm.match_status = ?",
+      [socket.handshake.session.userdata.user_id, "WAITING"]
     );
 
     if (res.length != 0) {
       socket.join(res[0].match_id);
       socket.room = res[0].match_id;
-      socket.emit("ROOM_MESSAGE", {
+      io.sockets.to(socket.room).emit("ROOM_MESSAGE", {
         status: "success",
         action: "JOIN_ROOM",
         message: "Join room " + res[0].match_id,
-        match_id: res[0].match_id
+        match_id: res[0].match_id,
+        user_id: socket.handshake.session.userdata.user_id
       });
     } else {
       socket.emit("ROOM_MESSAGE", {
@@ -184,12 +173,13 @@ const room = function(socket, io) {
         if (res.affectedRows != 0) {
           socket.join(data.match_id);
           socket.room = data.match_id;
-          socket.emit("ROOM_MESSAGE", {
+          io.sockets.to(socket.room).emit("ROOM_MESSAGE", {
             status: "success",
             action: "JOIN_ROOM",
             message: "Join room " + data.match_id,
             ready: resReady,
-            match_id: data.match_id
+            match_id: data.match_id,
+            user_id: socket.handshake.session.userdata.user_id
           });
         } else {
           socket.emit("ROOM_MESSAGE", {
@@ -221,7 +211,6 @@ const room = function(socket, io) {
           status: "error",
           action: "JOIN_ROOM",
           message: "Room Full",
-          match_id: socket.room,
           user_id: socket.handshake.session.userdata.user_id
         });
       } else {
