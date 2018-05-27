@@ -14,6 +14,7 @@ var thirteen;
 var fourteen;
 var fifteen;
 var out = "";
+document.getElementById("select").innerHTML = "<h2>Loading ...</h2>";
 $.ajax({
     method: "get",
     url: "/analysis",
@@ -34,6 +35,7 @@ $.ajax({
         thirteen = res.thirteen;
         fourteen = res.fourteen;
         fifteen = res.fifteen;
+        select();
     },
     error: function (res){
         alert("Error");
@@ -353,7 +355,6 @@ Report4 = function(){
     var i;
     var j;
     out = '<table class="table table-bordered">';
-
     out += "<tr>";
     for(j=0;j<head.length;j++){
         out += "<th>";
@@ -364,7 +365,6 @@ Report4 = function(){
     for(i=0;i<four.length;i++) // row
     {
     out += "<tr>"
-        
         for(j=0;j<head.length;j++) // column
         {
             out += "<td>" ;
@@ -460,25 +460,47 @@ Report1 = function(){
     out += "</table>";
     document.getElementById("R15").innerHTML= out;
 };
+var chart
 var myfunction = function(){
     var x = document.getElementById("R").value;
     x = parseInt(x)
     switch(x){
         case 0:   document.getElementById("R15").innerHTML= ""; break;
-        case 1:   Report1(); break;
-        case 2:   Report2(); break;
-        case 3:   Report3(); break;
-        case 4:   Report4(); break;
-        case 5:   Report5(); break;
-        case 6:   Report6(); break;
-        case 7:   Report7(); break;
-        case 8:   Report8(); break;
-        case 9:   Report9(); break;
-        case 10:   Report10(); break;
-        case 11:   Report11(); break;
-        case 12:   Report12(); break;
-        case 13:   Report13(); break;
-        case 14:   Report14(); break;
-        case 15:   Report15(); break;
+        case 1:   Report1(); document.getElementById("piechart").innerHTML= ""; break;
+        case 2:   Report2(); document.getElementById("piechart").innerHTML= "";break;
+        case 3:   Report3(); document.getElementById("piechart").innerHTML= "";break;
+        case 4:   Report4(); document.getElementById("piechart").innerHTML= ""; break;
+        case 5:   Report5(); document.getElementById("piechart").innerHTML= "";break;
+        case 6:   Report6(); document.getElementById("piechart").innerHTML= "";break;
+        case 7:   Report7(); google.charts.setOnLoadCallback(drawChart);break;
+        case 8:   Report8(); google.charts.setOnLoadCallback(drawChart);break;
+        case 9:   Report9(); google.charts.setOnLoadCallback(drawChart);break;
+        case 10:   Report10(); document.getElementById("piechart").innerHTML= "";break;
+        case 11:   Report11(); document.getElementById("piechart").innerHTML= "";break;
+        case 12:   Report12(); google.charts.setOnLoadCallback(drawChart);break;
+        case 13:   Report13(); document.getElementById("piechart").innerHTML= "";break;
+        case 14:   Report14(); google.charts.setOnLoadCallback(drawChart);break;
+        case 15:   Report15(); document.getElementById("piechart").innerHTML= "";break;
     }
 };
+var select = function(){
+    var form = '<select id = "R" class="form-control" onchange="myfunction()"> '+
+                '<option value="0">Report Analysis' +
+                '<option value="1"> 1.) จำนวนรอบการเล่นของ user มากที่สุด 10 อันดับแรก' +
+                '<option value="2"> 2.) จำนวนการชนะของ user มากที่สุด 10 อันดับแรก' +
+                '<option value="3"> 3. )เวลาที่ใช้ในการเล่นต่อ match นานที่สุด 10 อันดับแรก rank match' +
+                '<option value="4"> 4. )เวลาที่ใช้ในการเล่นต่อ match นานที่สุด 10 อันดับแรก normal match'+
+                '<option value="5"> 5. )user ที่มีเพื่อนมากที่สุด'+
+                '<option value="6"> 6. )user ที่มี rank สูงสุด 10 อันดับแรก'+
+                '<option value="7"> 7. )จำนวน Match ที่เล่นในแต่ละเดือน'+
+                '<option value="8"> 8. )จำนวนผูเ้ล่นที่อยู่ในแต่ละ Rank'+
+                '<option value="9"> 9. )การ์ดที่ได้ร้บความนิยมมากที่สุดในแต่ละสี'+
+                '<option value="10"> 10.)ผเู้ล่นที่แจ้งปัญหา เยอะที่สุด'+
+                '<option value="11">11.)ประเภทของปัญหาที่เกิดขึ้นมากที่สุดและมีจำนวนเท่าไร'+
+                '<option value="12">12.)จำนวนของ Match ในแต่ละประเภทของของการเล่น '+
+                '<option value="13">13.)ผู้เล่นที่มีอัตราการแพ้สูงสุด'+
+                '<option value="14">14.)จำนวน User ในแต่ละ Role'+
+                '<option value="15">15.)ระยะเวลาที่ใชใ้นการเล่นในแต่ละ Match โดยเฉลี่ย'+
+            '</select>' ;
+        document.getElementById("select").innerHTML = form;
+}

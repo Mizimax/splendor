@@ -7,27 +7,11 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 
 <body>
-        <select id = "R" class="form-control" onchange="myfunction()">
-                <option value="0">Report Analysis
-                <option value="1">จำนวนรอบการเล่นของ user มากที่สุด 10 อันดับแรก
-                <option value="2">จำนวนการชนะของ user มากที่สุด 10 อันดับแรก
-                <option value="3">เวลาที่ใช้ในการเล่นต่อ match นานที่สุด 10 อันดับแรก rank match
-                <option value="4">เวลาที่ใช้ในการเล่นต่อ match นานที่สุด 10 อันดับแรก normal match
-                <option value="5">user ที่มีเพื่อนมากที่สุด
-                <option value="6">user ที่มี rank สูงสุด 10 อันดับแรก
-                <option value="7">จำนวน Match ที่เล่นในแต่ละเดือน
-                <option value="8">จำนวนผูเ้ล่นที่อยู่ในแต่ละ Rank
-                <option value="9">การ์ดที่ได้ร้บความนิยมมากที่สุดในแต่ละสี
-                <option value="10">ผเู้ล่นที่แจ้งปัญหา เยอะที่สุด
-                <option value="11">ประเภทของปัญหาที่เกิดขึ้นมากที่สุดและมีจำนวนเท่าไร
-                <option value="12">จำนวนของ Match ในแต่ละประเภทของของการเล่น 
-                <option value="13">ผเู้ล่นที่มีอตัราการแพ้สูงสุด
-                <option value="14">จำนวน User ในแต่ละ Role
-                <option value="15">ระยะเวลาที่ใชใ้นการเล่นในแต่ละ Match โดยเฉลี่ย
-            </select>
+    <p id ="select"></p>
             <br>
 </body>
 <body>
@@ -37,6 +21,7 @@
     </div>
     <script type="text/javascript" src="js/analysis.js"></script>
 </body> 
+<!--
 <body>
     <input type="button" class="btn btn-info" value="จำนวนรอบการเล่นของ user มากที่สุด 10 อันดับแรก" onclick="Report1(); return false;"> <br>
     <input style="margin-top : 10px; " type="button" class="btn btn-info" value="จำนวนการชนะของ user มากที่สุด 10 อันดับแรก" onclick="Report2(); return false;"><br>
@@ -56,3 +41,44 @@
 
     
 </body>
+-->
+<div id="piechart"></div>
+<script>
+google.charts.load('current', {'packages':['corechart']});
+
+function drawChart() {
+    var chart;
+    var message;
+    var x = document.getElementById("R").value;
+    x = parseInt(x)
+    switch(x){
+        case 7: chart = seven; message = "Amount Match for Each Month"; break;
+        case 8: chart = eight; message = "Total Rank";break;
+        case 9: chart = nine;  message = "Amount color card Use";break;
+        case 12: chart = twelve; message = "Total number of Match";break;
+        case 14: chart = fourteen; message = "Total Users";break;
+    }
+    var head = Object.keys( chart[0] );
+    var i= head.length;
+    var j= chart.length;
+    var dummy = [...Array(j+1)].map(e => Array(i));
+    dummy[0][0] = head[0];
+    dummy[0][1] = head[1];
+    for(j = 0; j < chart.length ; j++)
+    dummy[j+1][0] =  String ( chart[j][head[0]] );
+    for(j = 0; j < chart.length ; j++)
+    dummy[j+1][1] =  parseInt (chart[j][head[1]]);
+    
+    var data = google.visualization.arrayToDataTable(
+    dummy
+  );
+   //onsole.log(data['hc'][0][0]);
+  
+    // Optional; add a title and set the width and height of the chart
+    var options = {'title':message, 'width':550, 'height':400 };
+  
+    // Display the chart inside the <div> element with id="piechart"
+    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+    chart.draw(data, options);
+  }
+  </script>
