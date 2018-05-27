@@ -5,7 +5,8 @@ var server = {
   ready: false,
   game: {
     takeCoin: function(coinArr, card, destroy, button, score) {
-      console.log(coinArr);
+      console.log(destroy);
+      console.log(button);
       socket.emit("TAKE_COIN", {
         coinArr: coinArr,
         cardValue: [
@@ -64,30 +65,32 @@ var server = {
           }
         } else if (data.action === "LOAD_CARD") {
           window.DBcards = data.cards;
-         DBrand = data.random;
+          DBrand = data.random;
           //console.log(DBrand[0][1]);
-          name=data.myuser;
+          //name=data.myuser;
           //console.log(name);
+
           cardadd();
           turnAdd();
         } else if (data.action === "GAME_START") {
           if (data.status === "success") 
+          console.log(111);
           self.getPlayerDetail();
-          // turn = data.turn;
           turn = data.turn;
           text[21].setText("Turn : " + turn);
           modal.hide();
         } else if (data.action === "PLAYER_DETAIL") {
           if (data.status === "status") 
-          self.loadCard();
+          console.log(222);
+          /*self.loadCard();*/
           window.DBplayer = data.user;
           checkPlayerDetail();
           self.loadCard();
-        } else if (data.action === "TAKE_CARD") {
-          turn = data.turn;
+        } else if (data.action === "MY_USER") {
+          name=data.myuser;
+          
         } else if (data.action === "TAKE_COIN") {
-          console.log((data.playerTurn - 1) % 4 + 1);
-          console.log(data.playerTurn);
+          console.log(data.destroy);
           InfoPlayer[modedTurn].blueCoin =
             data.coin.BlueCoin;
           InfoPlayer[modedTurn].whiteCoin =
@@ -98,7 +101,7 @@ var server = {
           InfoPlayer[modedTurn].blackCoin =
             data.coin.BlackCoin;
           InfoPlayer[modedTurn].cardblue =
-            data.card.cardblue;
+            data.card.cardblue;console.log(data.destroy);
           InfoPlayer[modedTurn].cardwhite =
             data.card.cardwhite;
           InfoPlayer[modedTurn].cardred = data.card.cardred;
@@ -106,13 +109,14 @@ var server = {
             data.card.cardgreen;
           InfoPlayer[modedTurn].cardblack =
             data.card.cardblack;
-          InfoPlayer[modedTurn].score = data.score;
+          InfoPlayer[modedTurn].score = data.score;console.log(data.destroy);
           if(data.turn%4 != 0){
             modedTurn=data.turn%4;
           }
           else{
             modedTurn = 4;
           }
+          //modedTurn = 1;
           turn = data.turn;
           serverTemp[0]=InfoPlayer[1].blueCoin+InfoPlayer[2].blueCoin+InfoPlayer[3].blueCoin+InfoPlayer[4].blueCoin;
           serverTemp[1]=InfoPlayer[1].whiteCoin+InfoPlayer[2].whiteCoin+InfoPlayer[3].whiteCoin+InfoPlayer[4].whiteCoin;
@@ -123,7 +127,7 @@ var server = {
           coinLeft[1]= 7 - serverTemp[1];
           coinLeft[2]= 7 - serverTemp[2];
           coinLeft[3]= 7 - serverTemp[3];
-          coinLeft[4]= 7 - serverTemp[4];
+          coinLeft[4]= 7 - serverTemp[4];console.log(data.destroy);
           text[16].setText(coinLeft[0]+"/7");
           text[17].setText(coinLeft[1]+"/7");
           text[18].setText(coinLeft[2]+"/7");
@@ -131,11 +135,16 @@ var server = {
           text[20].setText(coinLeft[4]+"/7");
           text[21].setText("Turn : " + turn);
           text[23].setText("Turn of : " + InfoPlayer[modedTurn].playerName);
+          console.log(data.destroy);
           if (data.destroy==1){
+            console.log(1234);
             serverButton = data.button;
             changeCard();
+
           }
+          console.log(data.destroy);
           changeTurn();
+          console.log(data.destroy);
         }
       });
     }
