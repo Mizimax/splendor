@@ -313,7 +313,7 @@ const room = function(socket, io) {
         });
         io.sockets.to(socket.room).emit("ROOM_MESSAGE", {
           status: "success",
-          action: "RANDOM_CARD",
+          action: "LOAD_CARD",
           cards: result,
           random: arr
         });
