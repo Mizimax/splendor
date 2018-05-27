@@ -823,8 +823,8 @@ var gamestate = {
       }
     });
     server.room.getRoomMessage();
-    server.room.joinRoom(855);
-    //server.room.createRoom('jardet', '1234', 4);
+    server.room.joinRoom(78);
+    //server.room.createRoom('jo', '1234', 4);
     //jardet 1234
     //testza 1234
     //123456 123456
@@ -1629,7 +1629,7 @@ function ohCancel() {
   text[15].setText("Total " + total + "/10");
 }
 function summit() {
-  var person = prompt("มันใจหรอ", "... summit ...");
+  var person = prompt("????????", "... summit ...");
 }
 function testMessageBox(type) {
   if (type == "format") {
