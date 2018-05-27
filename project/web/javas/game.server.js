@@ -77,8 +77,8 @@ var server = {
           window.DBplayer = data.user;
           window.name = data.myuser;
           checkPlayerDetail();
-        } else if (data.action === "TAKE_CARD") {
-          turn = data.turn;
+        } else if (data.action === "MY_USER") {
+          //data.myuser
         } else if (data.action === "TAKE_COIN") {
           InfoPlayer[(data.playerTurn - 1) % 4 + 1].blueCoin =
             data.coin.BlueCoin;
