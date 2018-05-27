@@ -65,13 +65,9 @@ var server = {
           }
         } else if (data.action === "LOAD_CARD") {
           window.DBcards = data.cards;
-          DBrand = data.random;
-          //console.log(DBrand[0][1]);
-          //name=data.myuser;
-          //console.log(name);
-
-          cardadd();
-          turnAdd();
+            DBrand = data.random;
+            cardadd();
+            turnAdd();
         } else if (data.action === "GAME_START") {
           if (data.status === "success") 
           console.log(111);
@@ -109,13 +105,14 @@ var server = {
             data.card.cardgreen;
           InfoPlayer[modedTurn].cardblack =
             data.card.cardblack;
-          InfoPlayer[modedTurn].score = data.score;console.log(data.destroy);
+          InfoPlayer[modedTurn].score = data.score;
           if(data.turn%4 != 0){
             modedTurn=data.turn%4;
           }
           else{
             modedTurn = 4;
           }
+          console.log(modedTurn);
           //modedTurn = 1;
           turn = data.turn;
           serverTemp[0]=InfoPlayer[1].blueCoin+InfoPlayer[2].blueCoin+InfoPlayer[3].blueCoin+InfoPlayer[4].blueCoin;
@@ -127,14 +124,8 @@ var server = {
           coinLeft[1]= 7 - serverTemp[1];
           coinLeft[2]= 7 - serverTemp[2];
           coinLeft[3]= 7 - serverTemp[3];
-          coinLeft[4]= 7 - serverTemp[4];console.log(data.destroy);
-          text[16].setText(coinLeft[0]+"/7");
-          text[17].setText(coinLeft[1]+"/7");
-          text[18].setText(coinLeft[2]+"/7");
-          text[19].setText(coinLeft[3]+"/7");
-          text[20].setText(coinLeft[4]+"/7");
-          text[21].setText("Turn : " + turn);
-          text[23].setText("Turn of : " + InfoPlayer[modedTurn].playerName);
+          coinLeft[4]= 7 - serverTemp[4];
+          upd();
           console.log(data.destroy);
           if (data.destroy==1){
             console.log(1234);

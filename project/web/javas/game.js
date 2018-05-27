@@ -260,7 +260,8 @@ var changeTurn = function(){
     button[20].inputEnabled = true;
     button[21].inputEnabled = true;
     button[22].inputEnabled = true;
-
+    button[24].inputEnabled = true;
+    button[25].inputEnabled = true;
   }
   else{
     button[0].inputEnabled = false;
@@ -285,9 +286,19 @@ var changeTurn = function(){
     button[20].inputEnabled = false;
     button[21].inputEnabled = false;
     button[22].inputEnabled = false;
+    button[24].inputEnabled = false;
+    button[25].inputEnabled = false;
   }
 }
-
+var upd = function(){
+  text[16].setText(coinLeft[0]+"/7");
+  text[17].setText(coinLeft[1]+"/7");
+  text[18].setText(coinLeft[2]+"/7");
+  text[19].setText(coinLeft[3]+"/7");
+  text[20].setText(coinLeft[4]+"/7");
+  text[21].setText("Turn : " + turn);
+  text[23].setText("Turn of : " + InfoPlayer[modedTurn].playerName);
+}
 var checkPlayerDetail = function() {
   InfoPlayer[1] = {
     playerName: "Player1",
@@ -361,31 +372,6 @@ var turnAdd = function(){
     localNum = 4;
   }
   console.log(localNum);
-  text[0] = game.add.text(8 * x + 50, 2.5 * y + 20, "Blue:   " + coinNum[0], {
-    font: "13px Arial",
-    fill: "#ffffff",
-    align: "center"
-  });
-  text[1] = game.add.text(8 * x + 50, 2.5 * y + 35, "White: " + coinNum[1], {
-    font: "13px Arial",
-    fill: "#ffffff",
-    align: "center"
-  });
-  text[2] = game.add.text(8 * x + 50, 2.5 * y + 50, "Red:    " + coinNum[2], {
-    font: "13px Arial",
-    fill: "#ffffff",
-    align: "center"
-  });
-  text[3] = game.add.text(8 * x + 50, 2.5 * y + 65, "Green: " + coinNum[3], {
-    font: "13px Arial",
-    fill: "#ffffff",
-    align: "center"
-  });
-  text[4] = game.add.text(8 * x + 50, 2.5 * y + 80, "Black:  " + coinNum[4], {
-    font: "13px Arial",
-    fill: "#ffffff",
-    align: "center"
-  });
   //PlayerInfo
   text[5] = game.add.text(
     4 * x + 55,
@@ -889,7 +875,8 @@ var gamestate = {
       }
     });
     server.room.getRoomMessage();
-    server.room.joinRoom(863);
+    server.room.joinRoom(870);
+    // server.room.createRoom('jojojj2011', '1234', 4);
     //server.room.createRoom('jardet', '1234', 4);
     //jardet 1234
     //testza 1234
@@ -929,6 +916,32 @@ var gamestate = {
       0.5 * y - 25,
       "level3_BG"
     );
+    //coinNum
+    text[0] = game.add.text(8 * x + 50, 2.5 * y + 20, "Blue:   " + coinNum[0], {
+      font: "13px Arial",
+      fill: "#ffffff",
+      align: "center"
+    });
+    text[1] = game.add.text(8 * x + 50, 2.5 * y + 35, "White: " + coinNum[1], {
+      font: "13px Arial",
+      fill: "#ffffff",
+      align: "center"
+    });
+    text[2] = game.add.text(8 * x + 50, 2.5 * y + 50, "Red:    " + coinNum[2], {
+      font: "13px Arial",
+      fill: "#ffffff",
+      align: "center"
+    });
+    text[3] = game.add.text(8 * x + 50, 2.5 * y + 65, "Green: " + coinNum[3], {
+      font: "13px Arial",
+      fill: "#ffffff",
+      align: "center"
+    });
+    text[4] = game.add.text(8 * x + 50, 2.5 * y + 80, "Black:  " + coinNum[4], {
+      font: "13px Arial",
+      fill: "#ffffff",
+      align: "center"
+    });
     //showscore
     button[23] = game.add.button(x + 50, 0.5 * y, "score", function() {
       showScore(5 * x, 2 * y);
@@ -1008,62 +1021,7 @@ var gamestate = {
     });
     //reservedCard
     button[26] = game.add.button(8 * x + 25, 3.5 * y + 30, "lilGold");
-
-    //chat  input
-    chat2 = game.add.inputField(game.width * 0.001, game.height * 0.95, {
-      width: 200,
-      height: 20,
-      borderRadius: 6,
-      zomm: true,
-      placeHolder: "   Message......"
-    });
-    chat2.inputEnabled = true;
-    chat2.focusOnenter = true;
-    chat2.bringToTop();
-    //chat bg
-    galax2 = game.add.image(chat2.x, chat2.y - 205, "galaxy");
-    galax2.scale.setTo(300 / galax2.width, 200 / galax2.height);
-    galax2.alpha = 0.45;
-    send = game.add.button(
-      chat2.x + 200 + 50,
-      chat2.y + 10,
-      "chat",
-      ChatClick2,
-      this
-    );
-    //chat send button
-    send.inputEnabled = true;
-    send.anchor.setTo(0.5, 0.5);
-    send.scale.setTo(1, 30 / 29);
-    send.onInputOver.add(function() {
-      this.game.canvas.style.cursor = "pointer";
-      game.add
-        .tween(send.scale)
-        .to({ x: 100 / 80, y: 35 / 29 }, 400, Phaser.Easing.Back.Out, true, 0);
-    });
-    send.onInputOut.add(function() {
-      this.game.canvas.style.cursor = "default";
-      game.add
-        .tween(send.scale)
-        .to({ x: 80 / 80, y: 30 / 29 }, 200, Phaser.Easing.Back.In, true, 0);
-    });
-    //chat scroller
-    scroller2 = game.add.existing(
-      new ScrollableArea(chat2.x, chat2.y - 200, 300, 190)
-    );
-    chat_h = game.add.button(galax2.x, galax2.y, "chat_head", ChatDown2, this);
-    chat_h.inputEnabled = true;
-    chat_h.scale.setTo(300 / chat_h.width, 20 / chat_h.height);
-    chat_h.onInputOver.add(function() {
-      this.game.canvas.style.cursor = "pointer";
-      chat_h.alpha = 0.3;
-    });
-    chat_h.onInputOut.add(function() {
-      this.game.canvas.style.cursor = "default";
-      chat_h.alpha = 1;
-    });
-    scroller2.start(); // scroller show
-    loading();
+    button[26].inputEnabled=false;
   },
   render: function() {}
 };
@@ -1796,42 +1754,6 @@ function showScore(w = 500, h = 500) {
 }
 function hideBox2() {
   this.scrBox.destroy();
-}
-function ChatClick2() {
-  if (chat2.value.length > 2) {
-    text2[start_text] = chat2.value;
-    message2[start_text] = game.make.text(
-      10,
-      start_text * 22 + 20,
-      "Pro : " + chat2.value,
-      {
-        font: "14px Arial",
-        fill: "#000000",
-        stroke: "#ffffff",
-        strokeThickness: 2
-      }
-    );
-    scroller2.addChild(message2[start_text]);
-    block2 = game.make.text(0, start_text * 22 + 35, "", {
-      font: "18px Arial"
-    });
-    scroller2.addChild(block2);
-    scroller2.scrollTo(0, block2.y, 10, false);
-    chat2.resetText();
-    start_text++;
-  }
-}
-function ChatDown2() {
-  scroller2.visible = !scroller2.visible;
-  galax.visible = !galax.visible;
-  chat.visible = !chat.visible;
-  send.visible = !send.visible;
-
-  if (!scroller2.visible) {
-    chat_h.y = chat.y;
-  } else {
-    chat_h.y = galax2.y;
-  }
 }
 function showFinalBox(text, w = 300, h = 300) {
   if (this.msgBox3) {
