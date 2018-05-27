@@ -107,9 +107,6 @@ var server = {
           InfoPlayer[modedTurn].cardblack =
             data.card.cardblack;
           InfoPlayer[modedTurn].score = data.score;
-          //window.upDestroy = data.destroy;
-          //window.upButton = data.button;
-          //update();
           if(data.turn%4 != 0){
             modedTurn=data.turn%4;
           }
