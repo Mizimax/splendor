@@ -46,6 +46,9 @@ var server = {
       //ดึงข้อมูล
       socket.emit("PLAYER_DETAIL");
     },
+    loadCard: function() {
+      socket.emit("LOAD_CARD");
+    },
     getRoomMessage: function() {
       var self = this;
       socket.on("ROOM_MESSAGE", function(data) {
@@ -53,8 +56,6 @@ var server = {
         if (data.action === "JOIN_ROOM") {
           self.playerReady();
           self.playerStart();
-          self.getPlayerDetail();
-          console.log(1);
           if (data.status === "success") {
             this.match_id = data.match_id;
             this.joined = true;
@@ -67,37 +68,43 @@ var server = {
           console.log(name);
           cardadd();
         } else if (data.action === "GAME_START") {
+          if (data.status === "success") self.getPlayerDetail();
           // turn = data.turn;
           turn = data.turn;
           text[21].setText("Turn : " + turn);
           modal.hide();
         } else if (data.action === "PLAYER_DETAIL") {
+          if (data.status === "status") self.loadCard();
           window.DBplayer = data.user;
           checkPlayerDetail();
-          turnAdd();
-        }
-         else if (data.action === "TAKE_CARD") {
-          
+        } else if (data.action === "TAKE_CARD") {
           turn = data.turn;
         } else if (data.action === "TAKE_COIN") {
-          InfoPlayer[(data.playerTurn-1)%4+1].blueCoin = data.coin.BlueCoin;
-          InfoPlayer[(data.playerTurn-1)%4+1].whiteCoin = data.coin.WhiteCoin;
-          InfoPlayer[(data.playerTurn-1)%4+1].redCoin = data.coin.RedCoin;
-          InfoPlayer[(data.playerTurn-1)%4+1].greenCoin = data.coin.GreenCoin;
-          InfoPlayer[(data.playerTurn-1)%4+1].blackCoin = data.coin.BlackCoin;
-          InfoPlayer[(data.playerTurn-1)%4+1].cardblue = data.card.cardblue;
-          InfoPlayer[(data.playerTurn-1)%4+1].cardwhite = data.card.cardwhite;
-          InfoPlayer[(data.playerTurn-1)%4+1].cardred = data.card.cardred;
-          InfoPlayer[(data.playerTurn-1)%4+1].cardgreen = data.card.cardgreen;
-          InfoPlayer[(data.playerTurn-1)%4+1].cardblack = data.card.cardblack;
-          InfoPlayer[(data.playerTurn-1)%4+1].score = data.score;
+          InfoPlayer[(data.playerTurn - 1) % 4 + 1].blueCoin =
+            data.coin.BlueCoin;
+          InfoPlayer[(data.playerTurn - 1) % 4 + 1].whiteCoin =
+            data.coin.WhiteCoin;
+          InfoPlayer[(data.playerTurn - 1) % 4 + 1].redCoin = data.coin.RedCoin;
+          InfoPlayer[(data.playerTurn - 1) % 4 + 1].greenCoin =
+            data.coin.GreenCoin;
+          InfoPlayer[(data.playerTurn - 1) % 4 + 1].blackCoin =
+            data.coin.BlackCoin;
+          InfoPlayer[(data.playerTurn - 1) % 4 + 1].cardblue =
+            data.card.cardblue;
+          InfoPlayer[(data.playerTurn - 1) % 4 + 1].cardwhite =
+            data.card.cardwhite;
+          InfoPlayer[(data.playerTurn - 1) % 4 + 1].cardred = data.card.cardred;
+          InfoPlayer[(data.playerTurn - 1) % 4 + 1].cardgreen =
+            data.card.cardgreen;
+          InfoPlayer[(data.playerTurn - 1) % 4 + 1].cardblack =
+            data.card.cardblack;
+          InfoPlayer[(data.playerTurn - 1) % 4 + 1].score = data.score;
           window.upDestroy = data.destroy;
           window.upButton = data.button;
           //update();
           modedTurn = data.playerTurn;
           turn = data.turn;
           text[21].setText("Turn : " + turn);
-
         }
       });
     }
