@@ -71,7 +71,7 @@ var server = {
           modal.hide();
         } else if (data.action === "PLAYER_DETAIL") {
           window.DBplayer = data.user;
-          window.name = data.myuser;
+          name = data.myuser;
           checkPlayerDetail();
         }
          else if (data.action === "TAKE_CARD") {

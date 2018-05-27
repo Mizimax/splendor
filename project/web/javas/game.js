@@ -7,6 +7,7 @@ coinNum[2] = 0;
 coinNum[3] = 0;
 coinNum[4] = 0;
 var localNum =  0;
+var name;
 var detail = [];
 var turn = 1;
 var modedTurn=0;
@@ -635,8 +636,8 @@ var gamestate = {
       }
     });
     server.room.getRoomMessage();
-    //server.room.joinRoom(850);
-    server.room.createRoom('147', '123', 4);
+    server.room.joinRoom(850);
+    //server.room.createRoom('147', '123', 4);
     //jardet 1234
     //testza 1234
     //123456 123456
@@ -1768,7 +1769,7 @@ function showScore(w = 500, h = 500) {
       "\n\n" +
       InfoPlayer[3].playerName.substring(0,5) +
       "\n\n" +
-      InfoPlayer[4].playerName.substring(0,5)
+      InfoPlayer[4].playerName.substring(0,5)+localNum
   );
   var detail2 = [];
   detail2[0] = this.game.add.sprite(0, 0, "coinBlue");
