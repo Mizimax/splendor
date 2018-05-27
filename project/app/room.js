@@ -263,17 +263,16 @@ const room = function(socket, io) {
     if (socket.room) {
       try {
         let [resPlayer] = await db.query(
-          "SELECT user_display_name, ready FROM match_player WHERE match_id = ? AND ready = ?",
+          "SELECT ready FROM match_player WHERE match_id = ? AND ready = ?",
           [socket.room, 1]
+        );
+        let [resUserDisplay] = await db.query(
+          "SELECT user_display_name FROM user WHERE user_id = ?",
+          [socket.handshake.session.userdata.user_id]
         );
         let status = 0;
         let myuser;
         resPlayer.forEach(function(item) {
-          if (
-            item["user_display_name"] ===
-            socket.handshake.session.userdata.user_id
-          )
-            myuser = item["user_display_name"];
           status += item.ready;
         });
         if (status >= 4) {
@@ -367,7 +366,7 @@ const room = function(socket, io) {
                   status: "success",
                   action: "LOAD_CARD",
                   cards: result,
-                  myuser: myuser,
+                  myuser: resUserDisplay[0].user_display_name,
                   random: arr
                 });
                 io.sockets.to(socket.room).emit("ROOM_MESSAGE", {
