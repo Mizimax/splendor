@@ -304,7 +304,8 @@ const room = function(socket, io) {
           status: "success",
           action: "LOAD_CARD",
           cards: result,
-          random: arr
+          random: arr,
+
         });
       } else {
         //cant start not host
@@ -347,6 +348,7 @@ const room = function(socket, io) {
                 status: "success",
                 action: "GAME_START",
                 match_id: socket.room,
+                user_id; socket.handshake.session.userdata.user_id,
                 start: true,
                 turn: resGetTurn[0].match_turn
               });
