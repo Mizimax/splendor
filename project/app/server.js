@@ -222,7 +222,7 @@ app.get('/analysis', async function(req, res){
     "SELECT CAST ( ( (match_start + 1)%10000000000 ) /100000000  AS INT) AS MONTH, COUNT(*) AS MatchAmount  FROM game_match WHERE match_start >0 GROUP BY MONTH ORDER BY MONTH;"
   );
   let [eight] = await db.query(
-    "SELECT rank_name AS RANK,COUNT(*) AS  PlayerAmount FROM user WHERE rank_score > 0 GROUP BY rank_name ORDER BY rank_score DESC LIMIT 10;"
+    "SELECT rank_name AS RANK,COUNT(*) AS  PlayerAmount FROM user WHERE rank_score > 0 GROUP BY rank_name ORDER BY rank_score DESC;"
   );
   // skip...
   let [nine] = await db.query(

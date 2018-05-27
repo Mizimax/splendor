@@ -8,6 +8,28 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
+
+<body>
+        <select id = "R" class="form-control" onchange="myfunction()">
+                <option value="0">Report Analysis
+                <option value="1">จำนวนรอบการเล่นของ user มากที่สุด 10 อันดับแรก
+                <option value="2">จำนวนการชนะของ user มากที่สุด 10 อันดับแรก
+                <option value="3">เวลาที่ใช้ในการเล่นต่อ match นานที่สุด 10 อันดับแรก rank match
+                <option value="4">เวลาที่ใช้ในการเล่นต่อ match นานที่สุด 10 อันดับแรก normal match
+                <option value="5">user ที่มีเพื่อนมากที่สุด
+                <option value="6">user ที่มี rank สูงสุด 10 อันดับแรก
+                <option value="7">จำนวน Match ที่เล่นในแต่ละเดือน
+                <option value="8">จำนวนผูเ้ล่นที่อยู่ในแต่ละ Rank
+                <option value="9">การ์ดที่ได้ร้บความนิยมมากที่สุดในแต่ละสี
+                <option value="10">ผเู้ล่นที่แจ้งปัญหา เยอะที่สุด
+                <option value="11">ประเภทของปัญหาที่เกิดขึ้นมากที่สุดและมีจำนวนเท่าไร
+                <option value="12">จำนวนของ Match ในแต่ละประเภทของของการเล่น 
+                <option value="13">ผเู้ล่นที่มีอตัราการแพ้สูงสุด
+                <option value="14">จำนวน User ในแต่ละ Role
+                <option value="15">ระยะเวลาที่ใชใ้นการเล่นในแต่ละ Match โดยเฉลี่ย
+            </select>
+            <br>
+</body>
 <body>
         <script src="../js/jquery-3.3.1.min.js"></script>
     <div class="container">
@@ -31,4 +53,6 @@
     <input style="margin-top : 10px; " type="button" class="btn btn-info" value="ผเู้ล่นที่มีอตัราการแพสู้งสุด" onclick="Report13(); return false;"><br>
     <input style="margin-top : 10px; " type="button" class="btn btn-info" value="จำนวน User ในแต่ละ Role " onclick="Report14(); return false;"><br>
     <input style="margin-top : 10px; " type="button" class="btn btn-info" value="ระยะเวลาที่ใชใ้นการเล่นในแต่ละ Match โดยเฉลี่ย " onclick="Report15(); return false;"><br>
+
+    
 </body>

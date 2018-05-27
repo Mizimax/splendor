@@ -460,3 +460,25 @@ Report1 = function(){
     out += "</table>";
     document.getElementById("R15").innerHTML= out;
 };
+var myfunction = function(){
+    var x = document.getElementById("R").value;
+    x = parseInt(x)
+    switch(x){
+        case 0:   document.getElementById("R15").innerHTML= ""; break;
+        case 1:   Report1(); break;
+        case 2:   Report2(); break;
+        case 3:   Report3(); break;
+        case 4:   Report4(); break;
+        case 5:   Report5(); break;
+        case 6:   Report6(); break;
+        case 7:   Report7(); break;
+        case 8:   Report8(); break;
+        case 9:   Report9(); break;
+        case 10:   Report10(); break;
+        case 11:   Report11(); break;
+        case 12:   Report12(); break;
+        case 13:   Report13(); break;
+        case 14:   Report14(); break;
+        case 15:   Report15(); break;
+    }
+};
