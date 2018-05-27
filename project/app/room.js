@@ -220,7 +220,9 @@ const room = function(socket, io) {
         socket.emit("ROOM_MESSAGE", {
           status: "error",
           action: "JOIN_ROOM",
-          message: "Room Full"
+          message: "Room Full",
+          match_id: socket.room,
+          user_id: socket.handshake.session.userdata.user_id
         });
       } else {
         socket.join(data.match_id);
