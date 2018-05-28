@@ -1944,6 +1944,5 @@ function showFinalBox(text, w = 300, h = 300) {
   this.msgBox3 = msgBox3;
 }
 function hideBox3() {
-  this.msgBox3.destroy();
-  game.state.start("game");
+  socket.emit("END_GAME");
 }

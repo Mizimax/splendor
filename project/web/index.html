@@ -15,23 +15,23 @@
     var setModal = (function (body, callback) {
       $('#alert .modal-body').html(body);
       $('#alert').modal();
-      $('#alert button').one('click', function () {
+      $('#alert').one('hidden.bs.modal', function () {
         typeof callback === 'function' && callback();
       })
+
     })
   </script>
   <script type="text/javascript" src="javas/game.server.js"></script>
   <script>
-
     $.ajax({
-      method: 'post',
+      method: 'get',
       url: "/auth",
       success: function (res) {
         $('.nav-tabs a:eq(1)').tab('show')
         initLobby()
       },
       error: function (res) {
-        setModal(res.responseJSON.message)
+        console.log(res.responseJSON.message)
       }
     })
 
@@ -48,21 +48,59 @@
         console.log(data);
         if (data.action === "JOIN_ROOM") {
           if (data.status === "success") {
-
+            socket.emit('GET_ROOM', { match_type: 'NORMAL' })
+            socket.emit('GET_ROOM', { match_type: 'RANK' });
+            $("#second a:eq(1)").tab("show");
+            socket.emit('GET_PLAYER_ROOM');
           } else {
-            if (data.match_id) setModal("เข้าเกม");
-            else setModal(data.message);
+            if (data.match_id) { $("#second a:eq(1)").tab("show"); socket.emit('GET_PLAYER_ROOM'); }
+            else { setModal(data.message); }
           }
         } else if (data.action === "CREATE_ROOM") {
+          socket.emit('GET_ROOM', { match_type: 'NORMAL' })
+          socket.emit('GET_ROOM', { match_type: 'RANK' });
           $("#alert").modal("toggle");
-          $(".nav-tabs a:eq(2)").tab("show");
+          $("#second a:eq(1)").tab("show");
+        } else if (data.action === "PLAYER_READY") {
+          ready = data.ready
+          if (ready == 1)
+            window.playerNo++;
+          else
+            window.playerNo--;
+          if (window.playerNo == 4)
+            window.location.href = 'game.html'
+          $('#ready-' + data.user_id).html(ready ? 'Ready' : 'Not Ready')
         }
+        else if (data.action === "GET_PLAYER_ROOM") {
+          window.hostId = data.host_id
+          var text = ''
+          window.playerNo = 0
+          data.data.forEach(function (item, index) {
+            if (item['ready'] == 1) window.playerNo++
+            text += `
+              <div class="col-sm-3">
+                <img src="${ item['user_image']}" width="70" height="70">
+              </div>
+              <div class="col-sm-6" align="center">
+                ${item['user_display_name']}
+              </div>
+              <div class="col-sm-3" align="center" id="ready-${item['user_id']}" ready="${item['ready']}">
+                  ${ item['ready'] == 1 ? 'Ready' : 'Not Ready'}
+              </div>
+            `
+          })
+          if (window.playerNo == 4)
+            window.location.href = 'game.html'
+          $("#player-show").html(text);
+        }
+
       });
 
       socket.on('GET_ROOM', function (data) {
+        console.log(data)
+        var text = '';
         data.data.forEach(function (item, index) {
-          $('#room-' + data.match_type).append(
-            `<div class="row">
+          text += `<div class="row">
             <div class="col-sm-2">
               ${item['match_id']}
             </div>
@@ -79,21 +117,85 @@
               </div>
           </div>
           `
-          )
         })
+        $('#room-' + data.match_type).html(text)
 
       })
 
+      socket.on("GET_PLAYERS", function (data) {
+        console.log(data)
+        var text = '';
+        var tragra = false
+        data.data.forEach(function (item, index) {
+          friends.forEach(function (item1, index1) {
+            if (item1.user_id == item.user_id) {
+              tragra = true;
+              return false;
+            }
+          })
+          if (tragra) {
+            text += `
+            <div class="row" class="players-${item.user_id}">
+              <div class="col-sm-3">
+                <img src="${item.user_image}" width="50" height="50">
+              </div>
+              <div class="col-sm-6" align="center">${item.user_display_name}</div>
+              <div class="col-sm-3"></div>
+            </div>
+          `
+          } else {
+            text += `
+            <div class="row" class="players-${item.user_id}">
+              <div class="col-sm-3">
+                <img src="${item.user_image}" width="50" height="50">
+              </div>
+              <div class="col-sm-6" align="center">${item.user_display_name}</div>
+              <div class="col-sm-3" onclick="addFriend(${item.user_id})"><button class="btn btn-sm btn-warning">เพิ่ม</button></div>
+            </div>
+          `
+          }
+          tragra = false;
+        })
+        $('#players').html(text)
+
+      })
+
+      socket.on("GET_FRIEND", function (data) {
+        console.log(data)
+        var text = '';
+        data.data.forEach(function (item, index) {
+          text += `
+            <div class="friend-${item.user_id} room-player row">
+              <div class="col-sm-3">
+                <img src="${item.user_image}" width="50" height="50">
+              </div>
+              <div class="col-sm-6" align="center">${item.user_display_name}(${item.user_online_status == 0 ? 'Offline' : item.user_online_status == 1 ? 'Online' : 'Playing'})</div>
+              <div class="col-sm-3">${item.user_online_status == 1 ? "<button class='btn btn-sm btn-warning'>ชวน</button>" : ''}</div>
+            </div>
+          `
+        })
+        window.friends = data.data;
+        $('#friend').html(text)
+        $('#friend-room').html(text)
+        socket.emit('GET_PLAYERS');
+      })
+
+      socket.on("ADD_FRIEND", function (data) {
+        socket.emit('GET_PLAYERS');
+        socket.emit('GET_FRIEND');
+      })
+
       socket.emit('GET_ROOM', { match_type: 'NORMAL' })
-      socket.emit('GET_ROOM', { match_type: 'RANK' })
-      socket.emit('ROOM_JOIN_WAITING')
+      socket.emit('GET_ROOM', { match_type: 'RANK' }); socket.emit('GET_FRIEND')
 
 
     })
 
+    var addFriend = (function (user_id) {
+      socket.emit('ADD_FRIEND', { user_id: user_id })
+    })
 
     var joinRoom = (function (match_id, pw) {
-      console.log(pw)
       if (pw === 1)
         setModal('Password required')
       else
@@ -113,15 +215,20 @@
             <input id="pass" type="text" disabled>
         </div>
         <div class="row">
-            Player Numbers :
-            <input type="radio" name="playernumbers" id="num" value="4" checked> 4 Players
+            Mode :
+            <label><input type="radio" name="match_type" class="num" value="NORMAL" checked> Normal</label>
+            <label><input type="radio" name="match_type" class="num" value="RANK"> Rank</label>
         </div>
         <div class="row">
-            <button style="margin: 0 auto" class="btn btn-default" type="submit" onclick="server.room.createRoom($('#roomname').val(), $('#pass').val(), $('#num').val())">Create Room</button>
+            <button style="margin: 0 auto" class="btn btn-default" type="submit" onclick="server.room.createRoom($('#roomname').val(), $('#pass').val(), $('.num:checked').val())">Create Room</button>
         </div>
     </div>
       `
       )
+    })
+
+    var getPlayer = (function () {
+
     })
 
     var login = (function () {
@@ -147,6 +254,19 @@
         }
       })
     });
+
+    var logout = (function () {
+      $.ajax({
+        method: 'post',
+        url: "/logout",
+        success: function (res) {
+          $('.nav-tabs a:eq(0)').tab('show')
+        },
+        error: function (res) {
+          setModal(res.responseJSON.message)
+        }
+      })
+    })
 
     var register = (function () {
 
@@ -197,8 +317,8 @@
 
 <body>
   <div id="app">
-    <nav style="position: absolute;">
-      <div class="nav nav-tabs hide" id="nav-tab" role="tablist">
+    <nav style="position: absolute;left: -100%">
+      <div class="nav nav-tabs hide" id="first" role="tablist">
         <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home"
           aria-selected="true">Login</a>
         <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile"
@@ -208,7 +328,6 @@
     <div class="tab-content" id="nav-tabContent">
       <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
         <div class="container">
-
           <img src="../style/Splendor.png" id="logo">
 
           <div class="row">
@@ -259,52 +378,109 @@
       </div>
 
       <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
         <img src="../style/Splendor.png" style="position:absolute;left:50%; transform: translate(-50%, -90px); z-index: 99; width: 500px">
 
 
+
         <div class="container boxregister relative" style="margin-top: 100px; width: 100%">
-          <div class="row">
-            <div class="col-sm-8">
-              <div class="row" align="center">
-                <div class="roomList" align="center" style="padding-top: 50px; margin: 0 auto">
-                  <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                    <li class="nav-item">
-                      <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#normal" role="tab" aria-controls="pills-home" aria-selected="true">Normal</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#ranking" role="tab" aria-controls="pills-profile" aria-selected="false">Ranking</a>
-                    </li>
-                  </ul>
-                  <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane fade show active" id="normal" role="tabpanel" aria-labelledby="pills-home-tab">
-                      <div class="normal">
-                        <div id="room-NORMAL" style="background: rgba(0,0,0,0.4); height: 300px;">
-                          <!--  -->
+          <nav style="position: absolute; left: -100%">
+            <ul class="nav nav-pills hide" id="second" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#list" role="tab" aria-controls="pills-home" aria-selected="true">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#roomm" role="tab" aria-controls="pills-profile" aria-selected="false">Profile</a>
+              </li>
+            </ul>
+          </nav>
+          <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="list" role="tabpanel" aria-labelledby="pills-home-tab">
+              <a href="#" onclick="logout()" style="color:white">
+                <i class="fas fa-angle-double-left" style="color:white;"></i> ออกจากระบบ
+              </a>
+              <div class="row">
+                <div class="col-sm-9">
+                  <div class="row" align="center">
+                    <div class="roomList" align="center" style="padding-top: 50px; margin: 0 auto">
+                      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item">
+                          <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#normal" role="tab" aria-controls="pills-home" aria-selected="true">Normal</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#ranking" role="tab" aria-controls="pills-profile" aria-selected="false">Ranking</a>
+                        </li>
+                      </ul>
+                      <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="normal" role="tabpanel" aria-labelledby="pills-home-tab">
+                          <div class="normal">
+                            <div id="room-NORMAL" style="background: rgba(0,0,0,0.4); height: 300px;">
+                              <!--  -->
+                            </div>
+                          </div>
+                        </div>
+                        <div class="tab-pane fade" id="ranking" role="tabpanel" aria-labelledby="pills-profile-tab">
+                          <div class="ranking">
+                            <div id="room-RANK" style="background: rgba(0,0,0,0.4); height: 300px;"></div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div class="tab-pane fade" id="ranking" role="tabpanel" aria-labelledby="pills-profile-tab">
-                      <div class="ranking">
-                        <div id="room-RANK" style="background: rgba(0,0,0,0.4); height: 300px;"></div>
-                      </div>
-                    </div>
+                  </div>
+                  <div class="row" align="center">
+                    <a style="width: 120px" class="nav-link active" id="pills-home-tab" data-toggle="pill" href="" role="tab" aria-controls="pills-home"
+                      aria-selected="true" onclick="createRoom()">สร้างห้อง</a>
                   </div>
                 </div>
-              </div>
-              <div class="row" align="center">
-                <a style="width: 120px" class="nav-link active" id="pills-home-tab" data-toggle="pill" href="" role="tab" aria-controls="pills-home"
-                  aria-selected="true" onclick="createRoom()">สร้างห้อง</a>
+                <div class="col-sm-3" align="left" style="padding-top: 50px">
+                  <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#players" role="tab" aria-controls="pills-home" aria-selected="true">Player</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#friend" role="tab" aria-controls="pills-profile" aria-selected="false">Friend</a>
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="nav-tabContent" style="background: rgba(0,0,0,0.4); height: 350px; overflow-y: auto; overflow-x: hidden">
+                    <div class="tab-pane fade show active" id="players" role="tabpanel" aria-labelledby="nav-home-tab">
+                    </div>
+                    <div class="tab-pane fade show active" id="friend" role="tabpanel" aria-labelledby="nav-home-tab">
+                    </div>
+                  </div>
+
+                </div>
               </div>
             </div>
-            <div class="col-sm-4" align="left" style="padding-top: 50px">
-              <a style="width: 84.53px" class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#normal" role="tab" aria-controls="pills-home"
-                aria-selected="true">Friend</a>
-              <div style="background: rgba(0,0,0,0.4); height: 500px;"></div>
+            <div style="padding-top: 70px" class="tab-pane fade" id="roomm" role="tabpanel" aria-labelledby="pills-profile-tab">
+              <div class="row">
+                <div class="col-sm-9">
+                  <div id="player-show" class="row room-players">
+
+                  </div>
+                  <div>
+                    <button class="btn btn-warning btn-max" onclick="$('#second a:eq(0)').tab('show')">ออก</button>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div id="friend-room">
+
+                  </div>
+                  <div>
+                    <button class="btn btn-warning btn-max" onclick="socket.emit('PLAYER_READY')">Ready</button>
+                  </div>
+                </div>
+
+              </div>
             </div>
+
           </div>
         </div>
+
       </div>
+
     </div>
+  </div>
+  </div>
 
 
 

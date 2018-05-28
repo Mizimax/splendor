@@ -29,11 +29,11 @@ var server = {
     joinPlayingRoom: function() {
       socket.emit("ROOM_JOIN_WAITING");
     },
-    createRoom: function(roomName, password, players) {
+    createRoom: function(roomName, password, rank_type) {
       socket.emit("ROOM_CREATE", {
         roomName: roomName,
         password: password,
-        players: players
+        rank_type: rank_type
       });
     },
     playerReady: function() {
@@ -74,6 +74,8 @@ var server = {
           window.DBplayer = data.user;
           window.name = data.myuser;
           checkPlayerDetail();
+        } else if (data.action === "END_GAME") {
+          window.location.href = "/";
         } else if (data.action === "MY_USER") {
           //data.myuser
         } else if (data.action === "TAKE_COIN") {

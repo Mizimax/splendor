@@ -11,7 +11,7 @@ const room = function(socket, io) {
         "GROUP BY match_id ORDER BY match_status DESC",
       ["WAITING", "PLAYING", data.match_type]
     );
-    socket.emit("GET_ROOM", {
+    io.sockets.emit("GET_ROOM", {
       status: "success",
       action: "GET_ROOM",
       data: resGetRoom,
@@ -23,7 +23,7 @@ const room = function(socket, io) {
     let [resGetPlayers] = await db.query(
       "SELECT user_id, user_image, user_display_name FROM user WHERE user_online_status = 1"
     );
-    socket.emit("GET_PLAYERS", {
+    io.sockets.emit("GET_PLAYERS", {
       status: "success",
       action: "GET_PLAYERS",
       data: resGetPlayers
@@ -32,15 +32,44 @@ const room = function(socket, io) {
 
   socket.on("GET_FRIEND", async function() {
     let [resGetFriend] = await db.query(
-      "SELECT user_id, user_image, user_display_name FROM user" +
-        "JOIN user_relation ur ON ur.user_id = user.user_id " +
-        "JOIN user_relation ur ON ur.related_id = user.user_id " +
-        "WHERE user_id = ? AND user_online_status = 1"
+      "SELECT u.user_id, u.user_image, u.user_display_name, u.user_online_status FROM user_relation ur " +
+        "JOIN user u ON u.user_id = ur.related_id " +
+        // "WHERE user.user_id = ? AND user.user_online_status = 1",
+        "WHERE ur.user_id = ? ORDER BY u.user_online_status DESC",
+      [socket.handshake.session.userdata.user_id]
     );
     socket.emit("GET_FRIEND", {
       status: "success",
       action: "GET_FRIEND",
       data: resGetFriend
+    });
+  });
+
+  socket.on("ADD_FRIEND", async function(data) {
+    let [resGetFriend] = await db.query(
+      "INSERT INTO user_relation VALUES(?,?,?)",
+      [socket.handshake.session.userdata.user_id, data.user_id, "FRIEND"]
+    );
+    socket.emit("ADD_FRIEND", {
+      status: "success",
+      action: "ADD_FRIEND",
+      user_id: data.user_id
+    });
+  });
+
+  socket.on("GET_PLAYER_ROOM", async function() {
+    let [resGetPlayerRoom] = await db.query(
+      "SELECT mp.match_id, gm.host_id, gm.match_name, u.user_display_name, u.user_image, u.user_id, mp.ready FROM match_player mp " +
+        "JOIN user u ON u.user_id = mp.user_id " +
+        "JOIN game_match gm ON gm.match_id = mp.match_id " +
+        "WHERE mp.match_id = ?",
+      [socket.room]
+    );
+    console.log(resGetPlayerRoom);
+    io.sockets.emit("ROOM_MESSAGE", {
+      status: "success",
+      action: "GET_PLAYER_ROOM",
+      data: resGetPlayerRoom
     });
   });
 
@@ -58,96 +87,41 @@ const room = function(socket, io) {
       date.getMinutes() +
       ":" +
       date.getSeconds();
-    let [resUniqueCreate] = await db.query(
-      "SELECT * FROM game_match WHERE host_id = ? AND match_status = 'WAITING'",
-      [socket.handshake.session.userdata.user_id]
+    let [resCreate] = await db.query(
+      "INSERT INTO game_match(host_id,match_name,match_status,match_type,match_password,match_start,match_player_no,match_turn) VALUES (?,?,?,?,?,?,?,?)",
+      [
+        socket.handshake.session.userdata.user_id,
+        data.roomName,
+        "WAITING",
+        data.rank_type,
+        data.password,
+        dateTime,
+        4,
+        1
+      ]
     );
-    if (resUniqueCreate.length == 0) {
-      let [resCreate] = await db.query(
-        "INSERT INTO game_match(host_id,match_name,match_status,match_type,match_password,match_start,match_player_no,match_turn) VALUES (?,?,?,?,?,?,?,?)",
-        [
-          socket.handshake.session.userdata.user_id,
-          data.roomName,
-          "WAITING",
-          data.rank_type,
-          data.password,
-          dateTime,
-          4,
-          1
-        ]
-      );
-      if (resCreate.length != 0) {
-        socket.emit("ROOM_MESSAGE", {
-          status: "success",
-          action: "CREATE_ROOM",
-          message: "Room " + resCreate.insertId + " Created",
-          match_id: resCreate.insertId
-        });
-        try {
-          let [resCreatePlayer] = await db.query(
-            "INSERT INTO match_player VALUES (?,?,?)",
-            [resCreate.insertId, socket.handshake.session.userdata.user_id, 0]
-          );
-          if (resCreatePlayer.affectedRows != 0) {
-            socket.join(resCreate.insertId);
-            socket.room = resCreate.insertId;
-            io.sockets.to(socket.room).emit("ROOM_MESSAGE", {
-              status: "success",
-              action: "JOIN_ROOM",
-              message: "Room Joined",
-              match_id: resCreate.insertId,
-              user_id: socket.handshake.session.userdata.user_id
-            });
-          }
-        } catch (error) {
-          if (error.code === "ER_DUP_ENTRY") {
-            socket.join(resCreate.insertId);
-            socket.room = resCreate.insertId;
-            socket.emit("ROOM_MESSAGE", {
-              status: "error",
-              action: "JOIN_ROOM",
-              message: "Already Joined",
-              match_id: resCreate.insertId
-            });
-          }
-        }
-      }
-    } else {
+    if (resCreate.length != 0) {
       socket.emit("ROOM_MESSAGE", {
-        status: "error",
+        status: "success",
         action: "CREATE_ROOM",
-        message: "Room Exist ! Join exist room !"
+        message: "Room " + resCreate.insertId + " Created",
+        match_id: resCreate.insertId
       });
-      try {
-        let [resCreatePlayer] = await db.query(
-          "INSERT INTO match_player VALUES (?,?,?)",
-          [
-            resUniqueCreate[0].match_id,
-            socket.handshake.session.userdata.user_id,
-            0
-          ]
-        );
-        if (resCreatePlayer.affectedRows != 0) {
-          socket.join(resUniqueCreate[0].match_id);
-          socket.room = resUniqueCreate[0].match_id;
-          socket.emit("ROOM_MESSAGE", {
-            status: "success",
-            action: "JOIN_ROOM",
-            message: "Room " + resUniqueCreate[0].match_id + " Joined",
-            match_id: resUniqueCreate[0].match_id
-          });
-        }
-      } catch (error) {
-        if (error.code === "ER_DUP_ENTRY") {
-          socket.join(resUniqueCreate[0].match_id);
-          socket.room = resUniqueCreate[0].match_id;
-          socket.emit("ROOM_MESSAGE", {
-            status: "error",
-            action: "JOIN_ROOM",
-            message: "Already Join",
-            match_id: resUniqueCreate[0].match_id
-          });
-        }
+
+      let [resCreatePlayer] = await db.query(
+        "INSERT INTO match_player VALUES (?,?,?,0)",
+        [resCreate.insertId, socket.handshake.session.userdata.user_id, 0]
+      );
+      if (resCreatePlayer.affectedRows != 0) {
+        socket.join(resCreate.insertId);
+        socket.room = resCreate.insertId;
+        io.sockets.to(socket.room).emit("ROOM_MESSAGE", {
+          status: "success",
+          action: "JOIN_ROOM",
+          message: "Room Joined",
+          match_id: resCreate.insertId,
+          user_id: socket.handshake.session.userdata.user_id
+        });
       }
     }
   });
@@ -255,9 +229,17 @@ const room = function(socket, io) {
   socket.on("PLAYER_READY", async function(data) {
     try {
       if (socket.room) {
+        let [resReady] = await db.query(
+          "SELECT ready FROM match_player WHERE user_id = ? AND match_id = ?",
+          [socket.handshake.session.userdata.user_id, socket.room]
+        );
         let [resUpdateReady] = await db.query(
           "UPDATE match_player SET ready = ? WHERE match_id = ? AND user_id = ?",
-          [!data.ready, socket.room, socket.handshake.session.userdata.user_id]
+          [
+            !resReady[0].ready,
+            socket.room,
+            socket.handshake.session.userdata.user_id
+          ]
         );
         if (resUpdateReady.affectedRows != 0)
           io.sockets.in(socket.room).emit("ROOM_MESSAGE", {
@@ -265,7 +247,7 @@ const room = function(socket, io) {
             action: "PLAYER_READY",
             match_id: socket.room,
             user_id: socket.handshake.session.userdata.user_id,
-            ready: !data.ready
+            ready: !resReady[0].ready
           });
       }
     } catch (error) {
@@ -358,6 +340,10 @@ const room = function(socket, io) {
         });
         if (status >= 4) {
           try {
+            let [resUpdateUser] = await db.query(
+              "UPDATE user SET user_online_status = 2 WHERE user_id = ?",
+              [socket.handshake.session.userdata.user_id]
+            );
             let [resUpdateMatch] = await db.query(
               "UPDATE game_match SET match_status = 'PLAYING' WHERE host_id = ? AND match_id = ?",
               [socket.handshake.session.userdata.user_id, socket.room]
@@ -570,6 +556,44 @@ const room = function(socket, io) {
         [resGetTurn[0].match_turn + 1, socket.room]
       );
     }
+  });
+
+  socket.on("END_GAME", async function() {
+    let [resUpdateRoom] = await db.query(
+      "UPDATE game_match SET match_status = 'END' WHERE match_id = ?",
+      [socket.room]
+    );
+    let [resGetScore] = await db.query(
+      "SELECT score FROM match_player WHERE user_id = ? AND match_id = ?",
+      [socket.handshake.session.userdata.user_id, socket.room]
+    );
+    let [resGetUser] = await db.query(
+      "SELECT user.user_game_score, user.rank_exp, user.rank_name, rr.rank_requirement FROM user JOIN rank_requirement rr ON rr.rank_name = user.rank_name WHERE user_id = ?",
+      [socket.handshake.session.userdata.user_id]
+    );
+    let [resUpdateUser] = await db.query(
+      "UPDATE user SET user_online_status = 1, user_game_score = ?, rank_exp WHERE user_id = ?"
+    );
+    let [resGetUser2] = await db.query(
+      "SELECT user_game_score, rank_exp, rank_name FROM user WHERE user_id = ?",
+      [socket.handshake.session.userdata.user_id]
+    );
+    if (resGetUser2[0].rank_exp >= resGetUser[0].rank_requirement + 100) {
+      let [resGetUser3] = await db.query(
+        "SELECT rank_name FROM rank_detail WHERE rank_requirement = ?",
+        [resGetUser[0].rank_requirement + 100]
+      );
+      let [resUpdateUser2] = await db.query(
+        "UPDATE user SET rank_name = ? WHERE user_id = ?",
+        [resGetUser3[0].rank_name, socket.handshake.session.userdata.user_id]
+      );
+    }
+    socket.leave(socket.room);
+    socket.room = "";
+    socket.emit("END_GAME", {
+      status: "success",
+      action: "END_GAME"
+    });
   });
 };
 

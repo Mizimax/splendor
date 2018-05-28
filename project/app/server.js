@@ -26,8 +26,9 @@ const io_connect = require("./io.connect.js");
 
 auth(io);
 
+let numUsers = 0;
+
 io.on("connection", async function(socket) {
-  let numUsers = 0;
   numUsers++;
   console.log("Total users : " + numUsers);
 
@@ -58,12 +59,6 @@ io.on("connection", async function(socket) {
 
   socket.on("disconnect", async function() {
     numUsers--;
-    if (socket.room) {
-      let [resRmPlayer] = await db.query(
-        "DELETE FROM match_player WHERE user_id = ? AND match_id = ?",
-        [socket.handshake.session.userdata.user_id, socket.room]
-      );
-    }
     // if (socket.handshake.session) {
     //   let [resUpdate] = await db.query(
     //     "UPDATE user SET remember_token = ?, user_online_status = ? WHERE user_id = ?",
@@ -87,6 +82,27 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(bodyParser.json());
+
+app.get("/auth", async function(req, res) {
+  let resCookieAuth = [];
+  if (req.session.userdata) {
+    [resCookieAuth] = await db.query(
+      "SELECT * FROM user WHERE remember_token = ?",
+      [req.sessionID]
+    );
+    if (resCookieAuth.length != 0) {
+      res.json({
+        status: "success",
+        message: "Authentication Success"
+      });
+    }
+  } else {
+    res.status(401).json({
+      status: "error",
+      message: "Authentication Error"
+    });
+  }
+});
 
 app.post("/logout", async function(req, res) {
   let [resUpdate] = await db.query(
