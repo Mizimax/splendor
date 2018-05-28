@@ -85,6 +85,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // parse application/json
 app.use(bodyParser.json());
+app.use(busboy());
 
 app.get("/auth", async function(req, res) {
   let resCookieAuth = [];
@@ -227,6 +228,87 @@ app.post("/problem", async function(req, res) {
   });
 });
 
+app.post("/addcardImage", async function(req, res) {
+  let fstream;
+  let date = new Date();
+  let dateTime =
+    date.getFullYear() +
+    "-" +
+    (date.getMonth() + 1) +
+    "-" +
+    date.getDate() +
+    date.getHours() +
+    date.getMinutes() +
+    date.getSeconds();
+  let filepath = path.join(__dirname, "../web/image/Storage/");
+  req.pipe(req.busboy);
+  req.busboy.on("file", function(fieldname, file, filename) {
+    let newfilename = dateTime + filename;
+    let fullfilepath = filepath + newfilename;
+    let dbpath = "image/Storage/" + newfilename;
+    console.log("Uploading: " + filename);
+    console.log(filepath);
+    fstream = fs.createWriteStream(fullfilepath);
+    file.pipe(fstream);
+    fstream.on("close", async function() {
+      let [resResult] = await db.query(
+        "INSERT INTO card(card_image) VALUES (?)",
+        [dbpath]
+      );
+      let [resSelect] = await db.query(
+        "SELECT card_id FROM card WHERE card_image=?",
+        [dbpath]
+      );
+      res.json({
+        status: "success",
+        cardID: resSelect[0].card_id
+      });
+    });
+  });
+});
+
+app.post("/addcardInfo", async function(req, res) {
+  let data = req.body;
+  try {
+    let [resUpdate] = await db.query(
+      "UPDATE card SET card_score = ?,card_level = ?,coin_color_id = ? WHERE card_id=?",
+      [data.cardScore, data.cardLevel, data.coinColorID, data.cardID]
+    );
+    let [resInsert2] = await db.query(
+      "INSERT INTO coin_requirement VALUES (?,?,?)",
+      [data.cardID, 1, data.blackcoin]
+    );
+    let [resInsert3] = await db.query(
+      "INSERT INTO coin_requirement VALUES (?,?,?)",
+      [data.cardID, 2, data.bluecoin]
+    );
+    let [resInsert4] = await db.query(
+      "INSERT INTO coin_requirement VALUES (?,?,?)",
+      [data.cardID, 3, data.greencoin]
+    );
+    let [resInsert5] = await db.query(
+      "INSERT INTO coin_requirement VALUES (?,?,?)",
+      [data.cardID, 4, data.redcoin]
+    );
+    let [resInsert6] = await db.query(
+      "INSERT INTO coin_requirement VALUES (?,?,?)",
+      [data.cardID, 5, data.whitecoin]
+    );
+    let [resDelete] = await db.query(
+      "DELETE FROM coin_requirement WHERE amount = 0"
+    );
+    res.json({
+      status: "success",
+      message: "Info added"
+    });
+  } catch (error) {
+    res.json({
+      status: "error",
+      message: "Mistake occured"
+    });
+  }
+});
+
 app.get("/problem_info", async function(req, res) {
   let [details] = await db.query(
     "SELECT DISTINCT problem_detail FROM problem_detail"
@@ -320,84 +402,3 @@ app.get("/analysis", async function(req, res) {
 
 io.use(cookieParser());
 io.use(sharedsession(session));
-
-app.post("/addcardImage", async function(req, res) {
-  let fstream;
-  let date = new Date();
-  let dateTime =
-    date.getFullYear() +
-    "-" +
-    (date.getMonth() + 1) +
-    "-" +
-    date.getDate() +
-    date.getHours() +
-    date.getMinutes() +
-    date.getSeconds();
-  let filepath = path.join(__dirname, "../web/image/Storage/");
-  req.pipe(req.busboy);
-  req.busboy.on("file", function(fieldname, file, filename) {
-    let newfilename = dateTime + filename;
-    let fullfilepath = filepath + newfilename;
-    let dbpath = "image/Storage/" + newfilename;
-    console.log("Uploading: " + filename);
-    console.log(filepath);
-    fstream = fs.createWriteStream(fullfilepath);
-    file.pipe(fstream);
-    fstream.on("close", async function() {
-      let [resResult] = await db.query(
-        "INSERT INTO card(card_image) VALUES (?)",
-        [dbpath]
-      );
-      let [resSelect] = await db.query(
-        "SELECT card_id FROM card WHERE card_image=?",
-        [dbpath]
-      );
-      res.json({
-        status: "success",
-        cardID: resSelect[0].card_id
-      });
-    });
-  });
-});
-
-app.post("/addcardInfo", async function(req, res) {
-  let data = req.body;
-  try {
-    let [resUpdate] = await db.query(
-      "UPDATE card SET card_score = ?,card_level = ?,coin_color_id = ? WHERE card_id=?",
-      [data.cardScore, data.cardLevel, data.coinColorID, data.cardID]
-    );
-    let [resInsert2] = await db.query(
-      "INSERT INTO coin_requirement VALUES (?,?,?)",
-      [data.cardID, 1, data.blackcoin]
-    );
-    let [resInsert3] = await db.query(
-      "INSERT INTO coin_requirement VALUES (?,?,?)",
-      [data.cardID, 2, data.bluecoin]
-    );
-    let [resInsert4] = await db.query(
-      "INSERT INTO coin_requirement VALUES (?,?,?)",
-      [data.cardID, 3, data.greencoin]
-    );
-    let [resInsert5] = await db.query(
-      "INSERT INTO coin_requirement VALUES (?,?,?)",
-      [data.cardID, 4, data.redcoin]
-    );
-    let [resInsert6] = await db.query(
-      "INSERT INTO coin_requirement VALUES (?,?,?)",
-      [data.cardID, 5, data.whitecoin]
-    );
-    let [resDelete] = await db.query(
-      "DELETE FROM coin_requirement WHERE amount = 0"
-    );
-    res.json({
-      status: "success",
-      message: "Info added"
-    });
-  } catch (error) {
-    res.json({
-      status: "error",
-      message: "Mistake occured"
-    });
-  }
-});
