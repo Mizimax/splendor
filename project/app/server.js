@@ -7,6 +7,9 @@ const bcrypt = require("bcrypt");
 const bodyParser = require("body-parser");
 const cookieParser = require("socket.io-cookie-parser");
 const sharedsession = require("express-socket.io-session");
+const fs = require("fs");
+const busboy = require("connect-busboy");
+const path = require("path");
 const session = require("express-session")({
   secret: "splendor",
   cookie: { maxAge: 60 * 60 * 24 * 365 }
@@ -78,7 +81,7 @@ app.use(session);
 app.use(express.static(__dirname + "/../web"));
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // parse application/json
 app.use(bodyParser.json());
@@ -182,6 +185,219 @@ app.post("/register", async function(req, res) {
     }
   }
 });
+//console.log("server");
+app.post("/problem", async function(req, res) {
+  var match;
+  if (!req.query.match) match = 0;
+  else match = req.query.match;
+  let data = req.body;
+  //problem_type, problem_detail, description
+  let user_id = req.session.userdata.user_id; //get user_id
+
+  // get type_id     ->  get  detail_id
+
+  let [type_id] = await db.query(
+    "SELECT DISTINCT problem_type_id FROM problem_type WHERE problem_type = ?;",
+    [data.problem_type]
+  );
+  var t_id = type_id[0].problem_type_id;
+
+  let [detail_id] = await db.query(
+    "SELECT DISTINCT problem_detail_id FROM problem_detail WHERE problem_detail = ? AND problem_type_id = ?",
+    [data.problem_Detail, type_id[0].problem_type_id]
+  );
+
+  await db.query("SET GLOBAL FOREIGN_KEY_CHECKS=0;");
+  let [resInsert_descript] = await db.query(
+    "INSERT INTO problem (user_id, match_id, problem_description, problem_detail_id) VALUES (?,?,?,?)",
+    [user_id, match, data.description, detail_id[0].problem_detail_id]
+  );
+  await db.query("SET GLOBAL FOREIGN_KEY_CHECKS=1;");
+
+  //alert("Send complete");
+
+  res.json({
+    status: "success",
+    action: "PROBLEM_ADD",
+    message: "Problem added",
+    result: data,
+    user: user_id,
+    match: match,
+    type_id: t_id
+  });
+});
+
+app.get("/problem_info", async function(req, res) {
+  let [details] = await db.query(
+    "SELECT DISTINCT problem_detail FROM problem_detail"
+  );
+  let [types] = await db.query(
+    "SELECT DISTINCT problem_type FROM problem_type"
+  );
+  var log;
+  var user_id;
+  if (!req.session.userdata) log = 0;
+  else {
+    let user_id = req.session.userdata.user_id;
+    log = 1;
+  }
+  res.json({
+    problem: {
+      type: types,
+      detail: details
+    },
+    user: user_id,
+    login: log
+  });
+});
+
+app.get("/analysis", async function(req, res) {
+  let [one] = await db.query(
+    "SELECT u.user_name, u.user_display_name, COUNT(*) AS TotalGameRound FROM user u, game_match g, match_player m  WHERE u.user_id = m.user_id AND m.match_id = g.match_id GROUP BY m.user_id ORDER BY TotalGameRound DESC LIMIT 10;"
+  );
+  let [two] = await db.query(
+    "SELECT u.user_name, u.user_display_name, COUNT(*) AS Win FROM user u, game_match g, match_player m  WHERE u.user_id = m.user_id AND m.match_id = g.match_id AND m.score >= 15 GROUP BY m.user_id ORDER BY Win DESC LIMIT 10;"
+  );
+  let [three] = await db.query(
+    "SELECT match_id,  TIMESTAMPDIFF(MINUTE,match_start,match_end) As m_Time  from game_match WHERE match_type = 'RANK' AND match_status = 'END' ORDER BY m_Time DESC LIMIT 10;"
+  );
+  //
+  let [four] = await db.query(
+    "select match_id, TIMESTAMPDIFF(MINUTE,match_start,match_end) As m_Time from game_match WHERE match_type = 'NORMAL' AND match_status = 'END' ORDER BY m_Time DESC LIMIT 10;"
+  );
+  let [five] = await db.query(
+    "SELECT u.user_name, u.user_display_name , COUNT(*) AS FriendAmount FROM user u, user_relation r WHERE u.user_id = r.user_id AND relation_type = 'FRIEND' GROUP BY u.user_id ORDER BY FriendAmount DESC LIMIT 1;"
+  );
+  let [six] = await db.query(
+    "SELECT user_name, user_display_name, rank_name FROM user WHERE rank_score > 0 ORDER BY rank_score DESC LIMIT 10;"
+  );
+  let [seven] = await db.query(
+    "SELECT CAST ( ( (match_start + 1)%10000000000 ) /100000000  AS INT) AS MONTH, COUNT(*) AS MatchAmount  FROM game_match WHERE match_start >0 GROUP BY MONTH ORDER BY MONTH;"
+  );
+  let [eight] = await db.query(
+    "SELECT rank_name AS RANK,COUNT(*) AS  PlayerAmount FROM user WHERE rank_score > 0 GROUP BY rank_name ORDER BY rank_score DESC;"
+  );
+  // skip...
+  let [nine] = await db.query(
+    "SELECT color_name, SUM(amount) AS Amount FROM player_card q, user u, coin_color c WHERE  u.user_id = q.user_id AND c.color_id = q.color_id GROUP BY q.color_id ORDER BY q.color_id;"
+  );
+  let [ten] = await db.query(
+    "select user_name, user_display_name, COUNT(*) AS ReportAmount from problem p, user u WHERE u.user_id = p.user_id GROUP BY p.user_id ORDER BY ReportAmount DESC LIMIT 1;"
+  );
+  let [eleven] = await db.query(
+    "select  t.problem_type AS problemreporttype, COUNT(*) AS AMOUNT from problem p, problem_detail d, problem_type t WHERE p.problem_detail_id = d.problem_detail_id AND d.problem_type_id = t.problem_type_id GROUP BY t.problem_type_id;"
+  );
+  let [twelve] = await db.query(
+    "select match_type, COUNT(*) AS Amount from game_match WHERE match_status = 'END' AND match_turn > 0 GROUP BY match_type ORDER BY Amount DESC;"
+  );
+  let [thirteen] = await db.query(
+    "SELECT u.user_name, u.user_display_name , COUNT(*) AS Losetimes FROM game_match g, match_player m, user u WHERE u.user_id = m.user_id AND m.match_id = g.match_id AND g.match_status = 'END' AND m.score < 15 GROUP BY u.user_id  ORDER BY Losetimes DESC LIMIT 1;"
+  );
+  let [fourteen] = await db.query(
+    "SELECT user_role, COUNT(*) AS Amount FROM user GROUP BY user_role;"
+  );
+  let [fifteen] = await db.query(
+    "SELECT AVG(TIMESTAMPDIFF(MINUTE,match_start,match_end)) AS AVGTime  from game_match WHERE match_type = 'RANK' AND match_status = 'END';"
+  );
+  res.json({
+    one: one,
+    two: two,
+    three: three,
+    four: four,
+    five: five,
+    six: six,
+    seven: seven,
+    eight: eight,
+    nine: nine,
+    ten: ten,
+    eleven: eleven,
+    twelve: twelve,
+    thirteen: thirteen,
+    fourteen: fourteen,
+    fifteen: fifteen
+  });
+});
 
 io.use(cookieParser());
 io.use(sharedsession(session));
+
+app.post("/addcardImage", async function(req, res) {
+  let fstream;
+  let date = new Date();
+  let dateTime =
+    date.getFullYear() +
+    "-" +
+    (date.getMonth() + 1) +
+    "-" +
+    date.getDate() +
+    date.getHours() +
+    date.getMinutes() +
+    date.getSeconds();
+  let filepath = path.join(__dirname, "../web/image/Storage/");
+  req.pipe(req.busboy);
+  req.busboy.on("file", function(fieldname, file, filename) {
+    let newfilename = dateTime + filename;
+    let fullfilepath = filepath + newfilename;
+    let dbpath = "image/Storage/" + newfilename;
+    console.log("Uploading: " + filename);
+    console.log(filepath);
+    fstream = fs.createWriteStream(fullfilepath);
+    file.pipe(fstream);
+    fstream.on("close", async function() {
+      let [resResult] = await db.query(
+        "INSERT INTO card(card_image) VALUES (?)",
+        [dbpath]
+      );
+      let [resSelect] = await db.query(
+        "SELECT card_id FROM card WHERE card_image=?",
+        [dbpath]
+      );
+      res.json({
+        status: "success",
+        cardID: resSelect[0].card_id
+      });
+    });
+  });
+});
+
+app.post("/addcardInfo", async function(req, res) {
+  let data = req.body;
+  try {
+    let [resUpdate] = await db.query(
+      "UPDATE card SET card_score = ?,card_level = ?,coin_color_id = ? WHERE card_id=?",
+      [data.cardScore, data.cardLevel, data.coinColorID, data.cardID]
+    );
+    let [resInsert2] = await db.query(
+      "INSERT INTO coin_requirement VALUES (?,?,?)",
+      [data.cardID, 1, data.blackcoin]
+    );
+    let [resInsert3] = await db.query(
+      "INSERT INTO coin_requirement VALUES (?,?,?)",
+      [data.cardID, 2, data.bluecoin]
+    );
+    let [resInsert4] = await db.query(
+      "INSERT INTO coin_requirement VALUES (?,?,?)",
+      [data.cardID, 3, data.greencoin]
+    );
+    let [resInsert5] = await db.query(
+      "INSERT INTO coin_requirement VALUES (?,?,?)",
+      [data.cardID, 4, data.redcoin]
+    );
+    let [resInsert6] = await db.query(
+      "INSERT INTO coin_requirement VALUES (?,?,?)",
+      [data.cardID, 5, data.whitecoin]
+    );
+    let [resDelete] = await db.query(
+      "DELETE FROM coin_requirement WHERE amount = 0"
+    );
+    res.json({
+      status: "success",
+      message: "Info added"
+    });
+  } catch (error) {
+    res.json({
+      status: "error",
+      message: "Mistake occured"
+    });
+  }
+});
