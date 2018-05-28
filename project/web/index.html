@@ -47,7 +47,9 @@
       socket.on("ROOM_MESSAGE", function (data) {
         console.log(data);
         if (data.action === "JOIN_ROOM") {
+          window.match_id = data.match_id
           if (data.status === "success") {
+
             socket.emit('GET_ROOM', { match_type: 'NORMAL' })
             socket.emit('GET_ROOM', { match_type: 'RANK' });
             $("#second a:eq(1)").tab("show");
@@ -63,12 +65,7 @@
           $("#second a:eq(1)").tab("show");
         } else if (data.action === "PLAYER_READY") {
           ready = data.ready
-          if (ready == 1)
-            window.playerNo++;
-          else
-            window.playerNo--;
-          if (window.playerNo == 4)
-            window.location.href = 'game.html'
+          window.playerNo = data.readyNo
           $('#ready-' + data.user_id).html(ready ? 'Ready' : 'Not Ready')
         }
         else if (data.action === "GET_PLAYER_ROOM") {
@@ -89,9 +86,9 @@
               </div>
             `
           })
-          if (window.playerNo == 4)
-            window.location.href = 'game.html'
           $("#player-show").html(text);
+          if (window.playerNo == 4)
+            window.location.href = 'game.html?room=' + window.match_id
         }
 
       });

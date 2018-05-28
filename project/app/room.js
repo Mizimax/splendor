@@ -229,6 +229,16 @@ const room = function(socket, io) {
   socket.on("PLAYER_READY", async function(data) {
     try {
       if (socket.room) {
+        let [resPlayer] = await db.query(
+          "SELECT ready FROM match_player WHERE match_id = ? AND ready = ?",
+          [socket.room, 1]
+        );
+
+        let status = 0;
+        resPlayer.forEach(function(item) {
+          status += item.ready;
+        });
+
         let [resReady] = await db.query(
           "SELECT ready FROM match_player WHERE user_id = ? AND match_id = ?",
           [socket.handshake.session.userdata.user_id, socket.room]
@@ -247,7 +257,8 @@ const room = function(socket, io) {
             action: "PLAYER_READY",
             match_id: socket.room,
             user_id: socket.handshake.session.userdata.user_id,
-            ready: !resReady[0].ready
+            ready: !resReady[0].ready,
+            readyNo: status + 1
           });
       }
     } catch (error) {
@@ -255,7 +266,7 @@ const room = function(socket, io) {
     }
   });
 
-  socket.on("MY_USER", async function(){
+  socket.on("MY_USER", async function() {
     let [resUserDisplay] = await db.query(
       "SELECT user_display_name FROM user WHERE user_id = ?",
       [socket.handshake.session.userdata.user_id]
@@ -266,11 +277,10 @@ const room = function(socket, io) {
       user_id: socket.handshake.session.userdata.user_id,
       myuser: resUserDisplay[0].user_display_name
     });
-  })
+  });
 
   let loadCard = async function() {
     if (socket.room) {
-      
       let [resSelect] = await db.query(
         "SELECT c.card_id, c.card_image, c.card_level, c.card_score, ccc.color_name as card_color_name, ccc.color_code, cc.color_name, cr.amount FROM coin_requirement cr " +
           "JOIN card c ON c.card_id = cr.card_id " +
@@ -317,7 +327,7 @@ const room = function(socket, io) {
             ["req" + item["color_name"]]: item["amount"]
           };
         });
-       
+
         io.sockets.to(socket.room).emit("ROOM_MESSAGE", {
           status: "success",
           action: "LOAD_CARD",
@@ -335,7 +345,7 @@ const room = function(socket, io) {
         });
       }
     }
-  }
+  };
 
   socket.on("GAME_START", async function() {
     if (socket.room) {
@@ -349,6 +359,7 @@ const room = function(socket, io) {
         resPlayer.forEach(function(item) {
           status += item.ready;
         });
+        console.log(status);
         if (status >= 4) {
           try {
             let [resUpdateUser] = await db.query(
@@ -373,10 +384,9 @@ const room = function(socket, io) {
                 start: true,
                 turn: resGetTurn[0].match_turn
               });
-              detail(function(){
+              detail(function() {
                 loadCard();
               });
-              
             }
           } catch (error) {
             console.log(error);
@@ -454,7 +464,7 @@ const room = function(socket, io) {
       card: resultCard,
       coin: resultCoin
     });
-    callback()
+    callback();
   };
 
   socket.on("TAKE_COIN", async function(data) {

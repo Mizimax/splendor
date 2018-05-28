@@ -1,3 +1,12 @@
+function getParameterByName(name, url) {
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+    results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return "";
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
 var button = [];
 var text = [];
 var coinNum = [];
@@ -6,8 +15,8 @@ coinNum[1] = 0;
 coinNum[2] = 0;
 coinNum[3] = 0;
 coinNum[4] = 0;
-var localNum =  0;
-var serverTemp=[];
+var localNum = 0;
+var serverTemp = [];
 var name;
 var detail = [];
 var turn = 1;
@@ -59,185 +68,228 @@ var serverButton;
 var intLv1 = 4;
 var intLv2 = 4;
 var intLv3 = 4;
-var changeCardTemp=[];
+var changeCardTemp = [];
 var InfoPlayer = [];
-var changeCard = function(){
+var changeCard = function() {
   console.log(55555);
-  if(serverButton == 0){
+  if (serverButton == 0) {
     button[serverButton].destroy();
-    intLv1+=1;
-    if(intLv1<=40){
-      changeCardTemp[0]=DBrand[0][intLv1];
-      game.load.image("level1_" +changeCardTemp[0],"image/Level1/" +changeCardTemp[0]+ ".png");
+    intLv1 += 1;
+    if (intLv1 <= 40) {
+      changeCardTemp[0] = DBrand[0][intLv1];
+      game.load.image(
+        "level1_" + changeCardTemp[0],
+        "image/Level1/" + changeCardTemp[0] + ".png"
+      );
       rand[0] = "level1_" + changeCardTemp[0];
-      button[serverButton] = game.add.button(4 * x,2 * y + 40, rand[0]);
+      button[serverButton] = game.add.button(4 * x, 2 * y + 40, rand[0]);
       button[serverButton].events.onInputDown.add(function() {
-      cardlevel_1(button[serverButton], changeCardTemp[0],0);
+        cardlevel_1(button[serverButton], changeCardTemp[0], 0);
       });
     }
-  }
-  else if(serverButton == 1){
+  } else if (serverButton == 1) {
     button[serverButton].destroy();
-    intLv1+=1;
-    if(intLv1<=40){
-      changeCardTemp[1]=DBrand[0][intLv1];
-      game.load.image("level1_" +changeCardTemp[1],"image/Level1/" +changeCardTemp[1]+ ".png");
+    intLv1 += 1;
+    if (intLv1 <= 40) {
+      changeCardTemp[1] = DBrand[0][intLv1];
+      game.load.image(
+        "level1_" + changeCardTemp[1],
+        "image/Level1/" + changeCardTemp[1] + ".png"
+      );
       rand[1] = "level1_" + changeCardTemp[1];
-      button[serverButton] = game.add.button(4 * x + 140,  2 * y + 40, rand[1]);
+      button[serverButton] = game.add.button(4 * x + 140, 2 * y + 40, rand[1]);
       button[serverButton].events.onInputDown.add(function() {
-      cardlevel_1(button[serverButton], changeCardTemp[1],1);
+        cardlevel_1(button[serverButton], changeCardTemp[1], 1);
       });
     }
-  }
-  else if(serverButton == 2){
+  } else if (serverButton == 2) {
     button[serverButton].destroy();
-    intLv1+=1;
-    if(intLv1<=40){
-      changeCardTemp[2]=DBrand[0][intLv1];
-      game.load.image("level1_" +changeCardTemp[2],"image/Level1/" +changeCardTemp[1]+ ".png");
-      rand[2] = "level1_" +changeCardTemp[2];
+    intLv1 += 1;
+    if (intLv1 <= 40) {
+      changeCardTemp[2] = DBrand[0][intLv1];
+      game.load.image(
+        "level1_" + changeCardTemp[2],
+        "image/Level1/" + changeCardTemp[1] + ".png"
+      );
+      rand[2] = "level1_" + changeCardTemp[2];
       button[serverButton] = game.add.button(4 * x + 280, 2 * y + 40, rand[2]);
       button[serverButton].events.onInputDown.add(function() {
-      cardlevel_1(button[serverButton], changeCardTemp[2],2);
+        cardlevel_1(button[serverButton], changeCardTemp[2], 2);
       });
     }
-  }
-  else if(serverButton == 3){
+  } else if (serverButton == 3) {
     button[serverButton].destroy();
-    intLv1+=1;
-    if(intLv1<=40){
-      changeCardTemp[3]=DBrand[0][intLv1];
-      game.load.image("level1_" +changeCardTemp[3],"image/Level1/" +changeCardTemp[3]+ ".png");
+    intLv1 += 1;
+    if (intLv1 <= 40) {
+      changeCardTemp[3] = DBrand[0][intLv1];
+      game.load.image(
+        "level1_" + changeCardTemp[3],
+        "image/Level1/" + changeCardTemp[3] + ".png"
+      );
       rand[3] = "level1_" + changeCardTemp[3];
       button[serverButton] = game.add.button(4 * x + 420, 2 * y + 40, rand[3]);
       button[serverButton].events.onInputDown.add(function() {
-      cardlevel_1(button[serverButton], changeCardTemp[3],3);
+        cardlevel_1(button[serverButton], changeCardTemp[3], 3);
       });
     }
-  }
-  else if(serverButton == 4){
+  } else if (serverButton == 4) {
     button[serverButton].destroy();
-    intLv2+=1;
-    if(intLv2<=30){
-      changeCardTemp[4]=DBrand[1][intLv2];
-      game.load.image("level2_" +changeCardTemp[4],"image/Level2/" +changeCardTemp[4]+ ".png");
+    intLv2 += 1;
+    if (intLv2 <= 30) {
+      changeCardTemp[4] = DBrand[1][intLv2];
+      game.load.image(
+        "level2_" + changeCardTemp[4],
+        "image/Level2/" + changeCardTemp[4] + ".png"
+      );
       rand2[0] = "level2_" + changeCardTemp[4];
-      button[serverButton] = game.add.button(4 * x,  1.5 * y - 40, rand2[0]);
+      button[serverButton] = game.add.button(4 * x, 1.5 * y - 40, rand2[0]);
       button[serverButton].events.onInputDown.add(function() {
-      cardlevel_2(button[serverButton], changeCardTemp[4],4);
+        cardlevel_2(button[serverButton], changeCardTemp[4], 4);
       });
     }
-  }
-  else if(serverButton == 5){
+  } else if (serverButton == 5) {
     button[serverButton].destroy();
-    intLv2+=1;
-    if(intLv2<=30){
-      changeCardTemp[5]=DBrand[1][intLv2];
-      game.load.image("level2_" +changeCardTemp[5],"image/Level2/" +changeCardTemp[5]+ ".png");
+    intLv2 += 1;
+    if (intLv2 <= 30) {
+      changeCardTemp[5] = DBrand[1][intLv2];
+      game.load.image(
+        "level2_" + changeCardTemp[5],
+        "image/Level2/" + changeCardTemp[5] + ".png"
+      );
       rand2[1] = "level2_" + changeCardTemp[5];
-      button[serverButton] = game.add.button(4 * x + 140,1.5 * y - 40, rand2[1]);
+      button[serverButton] = game.add.button(
+        4 * x + 140,
+        1.5 * y - 40,
+        rand2[1]
+      );
       button[serverButton].events.onInputDown.add(function() {
-      cardlevel_2(button[serverButton], changeCardTemp[5],5);
+        cardlevel_2(button[serverButton], changeCardTemp[5], 5);
       });
     }
-  }
-  else if(serverButton == 6){
+  } else if (serverButton == 6) {
     button[serverButton].destroy();
-    intLv2+=1;
-    if(intLv2<=30){
-      changeCardTemp[6]=DBrand[1][intLv2];
-      game.load.image("level2_" +changeCardTemp[6],"image/Level2/" +changeCardTemp[6]+ ".png");
+    intLv2 += 1;
+    if (intLv2 <= 30) {
+      changeCardTemp[6] = DBrand[1][intLv2];
+      game.load.image(
+        "level2_" + changeCardTemp[6],
+        "image/Level2/" + changeCardTemp[6] + ".png"
+      );
       rand2[2] = "level2_" + changeCardTemp[6];
-      button[serverButton] = game.add.button(4 * x + 280,  1.5 * y - 40, rand2[2]);
+      button[serverButton] = game.add.button(
+        4 * x + 280,
+        1.5 * y - 40,
+        rand2[2]
+      );
       button[serverButton].events.onInputDown.add(function() {
-      cardlevel_2(button[serverButton], changeCardTemp[6],6);
+        cardlevel_2(button[serverButton], changeCardTemp[6], 6);
       });
     }
-  }
-  else if(serverButton == 7){
+  } else if (serverButton == 7) {
     serverButtonbutton[serverButton].destroy();
-    intLv2+=1;
-    if(intLv2<=30){
-      changeCardTemp[7]=DBrand[1][intLv2];
-      game.load.image("level2_" +changeCardTemp[7],"image/Level2/" +changeCardTemp[7]+ ".png");
+    intLv2 += 1;
+    if (intLv2 <= 30) {
+      changeCardTemp[7] = DBrand[1][intLv2];
+      game.load.image(
+        "level2_" + changeCardTemp[7],
+        "image/Level2/" + changeCardTemp[7] + ".png"
+      );
       rand2[3] = "level2_" + changeCardTemp[7];
-      button[serverButton] = game.add.button(4 * x + 420, 1.5 * y - 40, rand2[3]);
+      button[serverButton] = game.add.button(
+        4 * x + 420,
+        1.5 * y - 40,
+        rand2[3]
+      );
       button[serverButton].events.onInputDown.add(function() {
-      cardlevel_2(button[serverButton], changeCardTemp[7],7);
+        cardlevel_2(button[serverButton], changeCardTemp[7], 7);
       });
     }
-  }
-  else if(serverButton == 8){
+  } else if (serverButton == 8) {
     button[serverButton].destroy();
-    intLv3+=1;
-    if(intLv3<=20){
-      changeCardTemp[8]=DBrand[2][intLv2];
-      game.load.image("level3_" +changeCardTemp[8],"image/Level3/" +changeCardTemp[8]+ ".png");
+    intLv3 += 1;
+    if (intLv3 <= 20) {
+      changeCardTemp[8] = DBrand[2][intLv2];
+      game.load.image(
+        "level3_" + changeCardTemp[8],
+        "image/Level3/" + changeCardTemp[8] + ".png"
+      );
       rand3[0] = "level3_" + changeCardTemp[8];
       button[serverButton] = game.add.button(4 * x, 0.5 * y - 25, rand3[0]);
       button[serverButton].events.onInputDown.add(function() {
-      cardlevel_3(button[serverButton], changeCardTemp[8],8);
+        cardlevel_3(button[serverButton], changeCardTemp[8], 8);
       });
     }
-  }
-  else if(serverButton == 9){
+  } else if (serverButton == 9) {
     button[serverButton].destroy();
-    intLv3+=1;
-    if(intLv3<=20){
-      changeCardTemp[9]=DBrand[2][intLv2];
-      game.load.image("level3_" +changeCardTemp[9],"image/Level3/" +changeCardTemp[9]+ ".png");
+    intLv3 += 1;
+    if (intLv3 <= 20) {
+      changeCardTemp[9] = DBrand[2][intLv2];
+      game.load.image(
+        "level3_" + changeCardTemp[9],
+        "image/Level3/" + changeCardTemp[9] + ".png"
+      );
       rand3[1] = "level3_" + changeCardTemp[9];
-      button[serverButton] = game.add.button(4 * x + 140,  0.5 * y - 25, rand3[1]);
+      button[serverButton] = game.add.button(
+        4 * x + 140,
+        0.5 * y - 25,
+        rand3[1]
+      );
       button[serverButton].events.onInputDown.add(function() {
-      cardlevel_3(button[serverButton], changeCardTemp[9],9);
+        cardlevel_3(button[serverButton], changeCardTemp[9], 9);
       });
     }
-  }
-  else if(serverButton == 10){
+  } else if (serverButton == 10) {
     button[serverButton].destroy();
-    intLv3+=1;
-    if(intLv3<=20){
-      changeCardTemp[10]=DBrand[2][intLv2];
-      game.load.image("level3_" + changeCardTemp[10],"image/Level3/" +changeCardTemp[10]+ ".png");
+    intLv3 += 1;
+    if (intLv3 <= 20) {
+      changeCardTemp[10] = DBrand[2][intLv2];
+      game.load.image(
+        "level3_" + changeCardTemp[10],
+        "image/Level3/" + changeCardTemp[10] + ".png"
+      );
       rand3[2] = "level3_" + changeCardTemp[10];
-      button[serverButton] = game.add.button(4 * x + 280, 0.5 * y - 25, rand3[2]);
+      button[serverButton] = game.add.button(
+        4 * x + 280,
+        0.5 * y - 25,
+        rand3[2]
+      );
       button[serverButton].events.onInputDown.add(function() {
-      cardlevel_3(button[serverButton], changeCardTemp[10],10);
+        cardlevel_3(button[serverButton], changeCardTemp[10], 10);
       });
     }
-  }
-  else if(serverButton == 11){
+  } else if (serverButton == 11) {
     button[serverButton].destroy();
-    intLv3+=1;
-    if(intLv3<=20){
-      changeCardTemp[11]=DBrand[2][intLv2];
-      game.load.image("level3_" +changeCardTemp[11],"image/Level3/" +changeCardTemp[11]+ ".png");
+    intLv3 += 1;
+    if (intLv3 <= 20) {
+      changeCardTemp[11] = DBrand[2][intLv2];
+      game.load.image(
+        "level3_" + changeCardTemp[11],
+        "image/Level3/" + changeCardTemp[11] + ".png"
+      );
       rand3[3] = "level3_" + changeCardTemp[11];
-      button[serverButton] = game.add.button(4 * x + 420,  0.5 * y - 25, rand3[3]);
+      button[serverButton] = game.add.button(
+        4 * x + 420,
+        0.5 * y - 25,
+        rand3[3]
+      );
       button[serverButton].events.onInputDown.add(function() {
-      cardlevel_3(button[serverButton], changeCardTemp[11],11);
+        cardlevel_3(button[serverButton], changeCardTemp[11], 11);
       });
     }
-  }
-  else if (serverButton == 18){
+  } else if (serverButton == 18) {
+    button[serverButton].destroy();
+  } else if (serverButton == 19) {
+    button[serverButton].destroy();
+  } else if (serverButton == 20) {
+    button[serverButton].destroy();
+  } else if (serverButton == 21) {
+    button[serverButton].destroy();
+  } else if (serverButton == 22) {
     button[serverButton].destroy();
   }
-  else if (serverButton == 19){
-    button[serverButton].destroy();
-  }
-  else if (serverButton == 20){
-    button[serverButton].destroy();
-  }
-  else if (serverButton == 21){
-    button[serverButton].destroy();
-  }
-  else if (serverButton == 22){
-    button[serverButton].destroy();
-  }
-
-}
-var changeTurn = function(){
-  if(localNum==modedTurn){
+};
+var changeTurn = function() {
+  if (localNum == modedTurn) {
     button[0].inputEnabled = true;
     button[1].inputEnabled = true;
     button[2].inputEnabled = true;
@@ -262,8 +314,7 @@ var changeTurn = function(){
     button[22].inputEnabled = true;
     button[24].inputEnabled = true;
     button[25].inputEnabled = true;
-  }
-  else{
+  } else {
     button[0].inputEnabled = false;
     button[1].inputEnabled = false;
     button[2].inputEnabled = false;
@@ -289,16 +340,16 @@ var changeTurn = function(){
     button[24].inputEnabled = false;
     button[25].inputEnabled = false;
   }
-}
-var upd = function(){
-  text[16].setText(coinLeft[0]+"/7");
-  text[17].setText(coinLeft[1]+"/7");
-  text[18].setText(coinLeft[2]+"/7");
-  text[19].setText(coinLeft[3]+"/7");
-  text[20].setText(coinLeft[4]+"/7");
+};
+var upd = function() {
+  text[16].setText(coinLeft[0] + "/7");
+  text[17].setText(coinLeft[1] + "/7");
+  text[18].setText(coinLeft[2] + "/7");
+  text[19].setText(coinLeft[3] + "/7");
+  text[20].setText(coinLeft[4] + "/7");
   text[21].setText("Turn : " + turn);
   text[23].setText("Turn of : " + InfoPlayer[modedTurn].playerName);
-}
+};
 var checkPlayerDetail = function() {
   InfoPlayer[1] = {
     playerName: "Player1",
@@ -361,7 +412,7 @@ var checkPlayerDetail = function() {
   InfoPlayer[3].playerName = DBplayer[3].user_display_name;
   InfoPlayer[4].playerName = DBplayer[4].user_display_name;
 };
-var turnAdd = function(){
+var turnAdd = function() {
   if (name == InfoPlayer[1].playerName) {
     localNum = 1;
   } else if (name == InfoPlayer[2].playerName) {
@@ -478,22 +529,30 @@ var turnAdd = function(){
     fill: "#ffffff",
     align: "center"
   });
-  text[23] = game.add.text(0, 50, "Turn of : " + InfoPlayer[modedTurn].playerName, {
-    font: "20px Arial",
-    fill: "#ffffff",
-    align: "center"
-  });
+  text[23] = game.add.text(
+    0,
+    50,
+    "Turn of : " + InfoPlayer[modedTurn].playerName,
+    {
+      font: "20px Arial",
+      fill: "#ffffff",
+      align: "center"
+    }
+  );
   //add card datapath
   for (i = 0; i < 4; i++) {
-    rand3[i] = "level3_" + DBrand[2][i+1];console.log(rand3[i]);
+    rand3[i] = "level3_" + DBrand[2][i + 1];
+    console.log(rand3[i]);
   }
   //level2
   for (i = 0; i < 4; i++) {
-    rand2[i] = "level2_" + DBrand[1][i+1];console.log(rand2[i]);
+    rand2[i] = "level2_" + DBrand[1][i + 1];
+    console.log(rand2[i]);
   }
   //level1
   for (i = 0; i < 4; i++) {
-    rand[i] = "level1_" + DBrand[0][i+1];console.log(rand[i]);
+    rand[i] = "level1_" + DBrand[0][i + 1];
+    console.log(rand[i]);
   }
   //level1
   button[0] = game.add.button(4 * x, 2 * y + 40, rand[0]);
@@ -567,13 +626,7 @@ var turnAdd = function(){
   button[13].events.onInputDown.add(function() {
     click_coin("white");
   });
-  button[14] = game.add.button(
-    8 * x + 50,
-    y + 40,
-    "coinRed",
-    click_coin,
-    this
-  );
+  button[14] = game.add.button(8 * x + 50, y + 40, "coinRed", click_coin, this);
   button[14].events.onInputDown.add(function() {
     click_coin("red");
   });
@@ -600,26 +653,26 @@ var turnAdd = function(){
   //Noble
   button[18] = game.add.button(10 * x - 25, 0.5 * y + 25, rand4[0]);
   button[18].events.onInputDown.add(function() {
-    click_Noble(0,18);
+    click_Noble(0, 18);
   });
   button[19] = game.add.button(10 * x - 25, y + 75, rand4[1]);
   button[19].events.onInputDown.add(function() {
-    click_Noble(1,19);
+    click_Noble(1, 19);
   });
   button[20] = game.add.button(10 * x - 25, 2 * y + 25, rand4[2]);
   button[20].events.onInputDown.add(function() {
-    click_Noble(2,20);
+    click_Noble(2, 20);
   });
   button[21] = game.add.button(11 * x, y - 25, rand4[3]);
   button[21].events.onInputDown.add(function() {
-    click_Noble(3,21);
+    click_Noble(3, 21);
   });
   button[22] = game.add.button(11 * x, 1.5 * y + 40, rand4[4]);
   button[22].events.onInputDown.add(function() {
-    click_Noble(4,22);
+    click_Noble(4, 22);
   });
   changeTurn();
-}
+};
 var cardadd = function() {
   for (var i = 1; i <= 40; i++) {
     InfoCardLv1[i] = {
@@ -680,7 +733,7 @@ var cardadd = function() {
   //Noble
   var randImage4;
   for (i = 0; i < 5; i++) {
-    randImage4 = DBrand[3][i+1];
+    randImage4 = DBrand[3][i + 1];
     if (randImage4 == 1) {
       Noble[i].reqBlack = 4;
       Noble[i].reqWhite = 4;
@@ -840,7 +893,7 @@ var gamestate = {
     for (i = 1; i <= 20; i++) {
       this.load.image("level3_" + i, "image/Level3/" + i + ".png");
     }
-    for(i=1;i<=10;i++){
+    for (i = 1; i <= 10; i++) {
       this.load.image("level4_" + i, "image/Level4/" + i + ".png");
     }
     //confirmCancel
@@ -866,7 +919,6 @@ var gamestate = {
     this.load.image("coinGreen", "image/coin/Coin_green.png");
     this.load.image("coinRed", "image/coin/Coin_red.png");
     this.load.image("coinWhite", "image/coin/Coin_white.png");
-    
   },
   create: function() {
     socket.emit("AUTH_ATTEMPT", "");
@@ -877,14 +929,13 @@ var gamestate = {
     });
     server.room.getRoomMessage();
     socket.emit("MY_USER");
-    server.room.joinRoom(875);
+    server.room.joinRoom(parseInt(getParameterByName("room")));
     // server.room.createRoom('jojojj2011', '1234', 4);
     //server.room.createRoom('jardet', '1234', 4);
     //jardet 1234
     //testza 1234
     //123456 123456
     // 147 258 369 741 123
-    server.room.playerStart();
     /*
       server.room.geteRoomMessage();
     */
@@ -1023,12 +1074,12 @@ var gamestate = {
     });
     //reservedCard
     button[26] = game.add.button(8 * x + 25, 3.5 * y + 30, "lilGold");
-    button[26].inputEnabled=false;
+    button[26].inputEnabled = false;
   },
   render: function() {}
 };
 
-function cardlevel_1(card, cardID,index) {
+function cardlevel_1(card, cardID, index) {
   var person = confirm("Are you sure in this card level 1?");
   if (person == true) {
     if (
@@ -1082,7 +1133,7 @@ function cardlevel_1(card, cardID,index) {
       text[12].setText(": " + InfoPlayer[localNum].cardred);
       text[13].setText(": " + InfoPlayer[localNum].cardgreen);
       text[14].setText(": " + InfoPlayer[localNum].cardblack);
-      endTurn(1,index);
+      endTurn(1, index);
       checkEndGame();
     } else {
       //case not enough coin
@@ -1091,7 +1142,7 @@ function cardlevel_1(card, cardID,index) {
   }
   ohCancel();
 }
-function cardlevel_2(card, cardID,index) {
+function cardlevel_2(card, cardID, index) {
   var person = confirm("Are you sure in this card level 2?");
   if (person == true) {
     if (
@@ -1145,7 +1196,7 @@ function cardlevel_2(card, cardID,index) {
       text[12].setText(": " + InfoPlayer[localNum].cardred);
       text[13].setText(": " + InfoPlayer[localNum].cardgreen);
       text[14].setText(": " + InfoPlayer[localNum].cardblack);
-      endTurn(1,index);
+      endTurn(1, index);
       checkEndGame();
     } else {
       //case not enough coin
@@ -1154,7 +1205,7 @@ function cardlevel_2(card, cardID,index) {
   }
   ohCancel();
 }
-function cardlevel_3(card, cardID,index) {
+function cardlevel_3(card, cardID, index) {
   var person = confirm("Are you sure in this card level 3?");
   if (person == true) {
     if (
@@ -1209,7 +1260,7 @@ function cardlevel_3(card, cardID,index) {
       text[13].setText(": " + InfoPlayer[localNum].cardgreen);
       text[14].setText(": " + InfoPlayer[localNum].cardblack);
       text[21].setText("Turn : " + turn);
-      endTurn(1,index);
+      endTurn(1, index);
       checkEndGame();
     } else {
       //case not enough coin
@@ -1218,7 +1269,7 @@ function cardlevel_3(card, cardID,index) {
   }
   ohCancel();
 }
-function click_Noble(NobleID,index) {
+function click_Noble(NobleID, index) {
   var person = confirm("Are you sure in this card Noble?");
   if (person == true) {
     if (
@@ -1229,7 +1280,7 @@ function click_Noble(NobleID,index) {
       InfoPlayer[localNum].cardblack >= Noble[NobleID].reqBlack
     ) {
       InfoPlayer[localNum].score += Noble[NobleID].score;
-      endTurn(1,index);
+      endTurn(1, index);
     } else {
       testMessageBox("noCard");
     }
@@ -1311,7 +1362,7 @@ function OhRight() {
       ohCancel();
       updatePlayerInfo();
       console.log(5);
-      endTurn(0,0);
+      endTurn(0, 0);
       text[21].setText("Turn : " + turn);
 
       checkEndGame();
@@ -1330,7 +1381,7 @@ function OhRight() {
       InfoPlayer[localNum].blackCoin += coinNum[4];
       ohCancel();
       updatePlayerInfo();
-      endTurn(0,0);
+      endTurn(0, 0);
       checkEndGame();
     } else {
       testMessageBox("format");
@@ -1360,7 +1411,7 @@ function OhRight() {
     text[15].setText("Total " + total + "/10");
   }
 }
-function endTurn(dest,butt) {
+function endTurn(dest, butt) {
   server.game.takeCoin(
     [
       null,
@@ -1624,7 +1675,8 @@ function showScore(w = 500, h = 500) {
       "\n\n" +
       InfoPlayer[3].playerName.substring(0, 5) +
       "\n\n" +
-      InfoPlayer[4].playerName.substring(0,5)+localNum
+      InfoPlayer[4].playerName.substring(0, 5) +
+      localNum
   );
   var detail2 = [];
   detail2[0] = this.game.add.sprite(0, 0, "coinBlue");
@@ -1762,7 +1814,7 @@ function showFinalBox(text, w = 300, h = 300) {
 function hideBox3() {
   socket.emit("END_GAME");
 }
-function checkEndGame(){
+function checkEndGame() {
   if (InfoPlayer[1].score >= 15) {
     showFinalBox(
       "The Winner is Player 1 : " + InfoPlayer[1].score + " Point.",
