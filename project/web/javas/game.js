@@ -6,10 +6,12 @@ coinNum[1] = 0;
 coinNum[2] = 0;
 coinNum[3] = 0;
 coinNum[4] = 0;
-var localNum = 0;
+var localNum =  0;
+var serverTemp=[];
+var name;
 var detail = [];
 var turn = 1;
-var modedTurn = 0;
+var modedTurn = 1;
 var send;
 var garlax2;
 var chat2;
@@ -46,123 +48,320 @@ check[8] = 0;
 check[9] = 0;
 check[10] = 0;
 check[11] = 0;
-
-var aImageFiles = [
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "10",
-  "11",
-  "12",
-  "13",
-  "14",
-  "15",
-  "16",
-  "17",
-  "18",
-  "19",
-  "20",
-  "21",
-  "22",
-  "23",
-  "24",
-  "25",
-  "26",
-  "27",
-  "28",
-  "29",
-  "30",
-  "31",
-  "32",
-  "33",
-  "34",
-  "35",
-  "36",
-  "37",
-  "38",
-  "39",
-  "40"
-];
-var aImageFiles2 = [
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "10",
-  "11",
-  "12",
-  "13",
-  "14",
-  "15",
-  "16",
-  "17",
-  "18",
-  "19",
-  "20",
-  "21",
-  "22",
-  "23",
-  "24",
-  "25",
-  "26",
-  "27",
-  "28",
-  "29",
-  "30"
-];
-var aImageFiles3 = [
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "10",
-  "11",
-  "12",
-  "13",
-  "14",
-  "15",
-  "16",
-  "17",
-  "18",
-  "19",
-  "20"
-];
-var aImageFiles4 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
 var rand = [];
 var rand2 = [];
 var rand3 = [];
 var rand4 = [];
+var temp;
+var DBrand;
 var count = 0;
+var serverButton;
+var intLv1 = 4;
+var intLv2 = 4;
+var intLv3 = 4;
+var changeCardTemp=[];
 var InfoPlayer = [];
-/*
-var changeTurn = function(){
+var changeCard = function(){
+  console.log(55555);
+  if(serverButton == 0){
+    button[serverButton].destroy();
+    intLv1+=1;
+    if(intLv1<=40){
+      changeCardTemp[0]=DBrand[0][intLv1];
+      game.load.image("level1_" +changeCardTemp[0],"image/Level1/" +changeCardTemp[0]+ ".png");
+      rand[0] = "level1_" + changeCardTemp[0];
+      button[serverButton] = game.add.button(4 * x,2 * y + 40, rand[0]);
+      button[serverButton].events.onInputDown.add(function() {
+      cardlevel_1(button[serverButton], changeCardTemp[0],0);
+      });
+    }
+  }
+  else if(serverButton == 1){
+    button[serverButton].destroy();
+    intLv1+=1;
+    if(intLv1<=40){
+      changeCardTemp[1]=DBrand[0][intLv1];
+      game.load.image("level1_" +changeCardTemp[1],"image/Level1/" +changeCardTemp[1]+ ".png");
+      rand[1] = "level1_" + changeCardTemp[1];
+      button[serverButton] = game.add.button(4 * x + 140,  2 * y + 40, rand[1]);
+      button[serverButton].events.onInputDown.add(function() {
+      cardlevel_1(button[serverButton], changeCardTemp[1],1);
+      });
+    }
+  }
+  else if(serverButton == 2){
+    button[serverButton].destroy();
+    intLv1+=1;
+    if(intLv1<=40){
+      changeCardTemp[2]=DBrand[0][intLv1];
+      game.load.image("level1_" +changeCardTemp[2],"image/Level1/" +changeCardTemp[1]+ ".png");
+      rand[2] = "level1_" +changeCardTemp[2];
+      button[serverButton] = game.add.button(4 * x + 280, 2 * y + 40, rand[2]);
+      button[serverButton].events.onInputDown.add(function() {
+      cardlevel_1(button[serverButton], changeCardTemp[2],2);
+      });
+    }
+  }
+  else if(serverButton == 3){
+    button[serverButton].destroy();
+    intLv1+=1;
+    if(intLv1<=40){
+      changeCardTemp[3]=DBrand[0][intLv1];
+      game.load.image("level1_" +changeCardTemp[3],"image/Level1/" +changeCardTemp[3]+ ".png");
+      rand[3] = "level1_" + changeCardTemp[3];
+      button[serverButton] = game.add.button(4 * x + 420, 2 * y + 40, rand[3]);
+      button[serverButton].events.onInputDown.add(function() {
+      cardlevel_1(button[serverButton], changeCardTemp[3],3);
+      });
+    }
+  }
+  else if(serverButton == 4){
+    button[serverButton].destroy();
+    intLv2+=1;
+    if(intLv2<=30){
+      changeCardTemp[4]=DBrand[1][intLv2];
+      game.load.image("level2_" +changeCardTemp[4],"image/Level2/" +changeCardTemp[4]+ ".png");
+      rand2[0] = "level2_" + changeCardTemp[4];
+      button[serverButton] = game.add.button(4 * x,  1.5 * y - 40, rand2[0]);
+      button[serverButton].events.onInputDown.add(function() {
+      cardlevel_2(button[serverButton], changeCardTemp[4],4);
+      });
+    }
+  }
+  else if(serverButton == 5){
+    button[serverButton].destroy();
+    intLv2+=1;
+    if(intLv2<=30){
+      changeCardTemp[5]=DBrand[1][intLv2];
+      game.load.image("level2_" +changeCardTemp[5],"image/Level2/" +changeCardTemp[5]+ ".png");
+      rand2[1] = "level2_" + changeCardTemp[5];
+      button[serverButton] = game.add.button(4 * x + 140,1.5 * y - 40, rand2[1]);
+      button[serverButton].events.onInputDown.add(function() {
+      cardlevel_2(button[serverButton], changeCardTemp[5],5);
+      });
+    }
+  }
+  else if(serverButton == 6){
+    button[serverButton].destroy();
+    intLv2+=1;
+    if(intLv2<=30){
+      changeCardTemp[6]=DBrand[1][intLv2];
+      game.load.image("level2_" +changeCardTemp[6],"image/Level2/" +changeCardTemp[6]+ ".png");
+      rand2[2] = "level2_" + changeCardTemp[6];
+      button[serverButton] = game.add.button(4 * x + 280,  1.5 * y - 40, rand2[2]);
+      button[serverButton].events.onInputDown.add(function() {
+      cardlevel_2(button[serverButton], changeCardTemp[6],6);
+      });
+    }
+  }
+  else if(serverButton == 7){
+    serverButtonbutton[serverButton].destroy();
+    intLv2+=1;
+    if(intLv2<=30){
+      changeCardTemp[7]=DBrand[1][intLv2];
+      game.load.image("level2_" +changeCardTemp[7],"image/Level2/" +changeCardTemp[7]+ ".png");
+      rand2[3] = "level2_" + changeCardTemp[7];
+      button[serverButton] = game.add.button(4 * x + 420, 1.5 * y - 40, rand2[3]);
+      button[serverButton].events.onInputDown.add(function() {
+      cardlevel_2(button[serverButton], changeCardTemp[7],7);
+      });
+    }
+  }
+  else if(serverButton == 8){
+    button[serverButton].destroy();
+    intLv3+=1;
+    if(intLv3<=20){
+      changeCardTemp[8]=DBrand[2][intLv2];
+      game.load.image("level3_" +changeCardTemp[8],"image/Level3/" +changeCardTemp[8]+ ".png");
+      rand3[0] = "level3_" + changeCardTemp[8];
+      button[serverButton] = game.add.button(4 * x, 0.5 * y - 25, rand3[0]);
+      button[serverButton].events.onInputDown.add(function() {
+      cardlevel_3(button[serverButton], changeCardTemp[8],8);
+      });
+    }
+  }
+  else if(serverButton == 9){
+    button[serverButton].destroy();
+    intLv3+=1;
+    if(intLv3<=20){
+      changeCardTemp[9]=DBrand[2][intLv2];
+      game.load.image("level3_" +changeCardTemp[9],"image/Level3/" +changeCardTemp[9]+ ".png");
+      rand3[1] = "level3_" + changeCardTemp[9];
+      button[serverButton] = game.add.button(4 * x + 140,  0.5 * y - 25, rand3[1]);
+      button[serverButton].events.onInputDown.add(function() {
+      cardlevel_3(button[serverButton], changeCardTemp[9],9);
+      });
+    }
+  }
+  else if(serverButton == 10){
+    button[serverButton].destroy();
+    intLv3+=1;
+    if(intLv3<=20){
+      changeCardTemp[10]=DBrand[2][intLv2];
+      game.load.image("level3_" + changeCardTemp[10],"image/Level3/" +changeCardTemp[10]+ ".png");
+      rand3[2] = "level3_" + changeCardTemp[10];
+      button[serverButton] = game.add.button(4 * x + 280, 0.5 * y - 25, rand3[2]);
+      button[serverButton].events.onInputDown.add(function() {
+      cardlevel_3(button[serverButton], changeCardTemp[10],10);
+      });
+    }
+  }
+  else if(serverButton == 11){
+    button[serverButton].destroy();
+    intLv3+=1;
+    if(intLv3<=20){
+      changeCardTemp[11]=DBrand[2][intLv2];
+      game.load.image("level3_" +changeCardTemp[11],"image/Level3/" +changeCardTemp[11]+ ".png");
+      rand3[3] = "level3_" + changeCardTemp[11];
+      button[serverButton] = game.add.button(4 * x + 420,  0.5 * y - 25, rand3[3]);
+      button[serverButton].events.onInputDown.add(function() {
+      cardlevel_3(button[serverButton], changeCardTemp[11],11);
+      });
+    }
+  }
+  else if (serverButton == 18){
+    button[serverButton].destroy();
+  }
+  else if (serverButton == 19){
+    button[serverButton].destroy();
+  }
+  else if (serverButton == 20){
+    button[serverButton].destroy();
+  }
+  else if (serverButton == 21){
+    button[serverButton].destroy();
+  }
+  else if (serverButton == 22){
+    button[serverButton].destroy();
+  }
 
 }
-*/
-/*var update = function(){
-  InfoPlayer[1].
-}*/
+var changeTurn = function(){
+  if(localNum==modedTurn){
+    button[0].inputEnabled = true;
+    button[1].inputEnabled = true;
+    button[2].inputEnabled = true;
+    button[3].inputEnabled = true;
+    button[4].inputEnabled = true;
+    button[5].inputEnabled = true;
+    button[6].inputEnabled = true;
+    button[7].inputEnabled = true;
+    button[8].inputEnabled = true;
+    button[9].inputEnabled = true;
+    button[10].inputEnabled = true;
+    button[11].inputEnabled = true;
+    button[12].inputEnabled = true;
+    button[13].inputEnabled = true;
+    button[14].inputEnabled = true;
+    button[15].inputEnabled = true;
+    button[16].inputEnabled = true;
+    button[18].inputEnabled = true;
+    button[19].inputEnabled = true;
+    button[20].inputEnabled = true;
+    button[21].inputEnabled = true;
+    button[22].inputEnabled = true;
+    button[24].inputEnabled = true;
+    button[25].inputEnabled = true;
+  }
+  else{
+    button[0].inputEnabled = false;
+    button[1].inputEnabled = false;
+    button[2].inputEnabled = false;
+    button[3].inputEnabled = false;
+    button[4].inputEnabled = false;
+    button[5].inputEnabled = false;
+    button[6].inputEnabled = false;
+    button[7].inputEnabled = false;
+    button[8].inputEnabled = false;
+    button[9].inputEnabled = false;
+    button[10].inputEnabled = false;
+    button[11].inputEnabled = false;
+    button[12].inputEnabled = false;
+    button[13].inputEnabled = false;
+    button[14].inputEnabled = false;
+    button[15].inputEnabled = false;
+    button[16].inputEnabled = false;
+    button[18].inputEnabled = false;
+    button[19].inputEnabled = false;
+    button[20].inputEnabled = false;
+    button[21].inputEnabled = false;
+    button[22].inputEnabled = false;
+    button[24].inputEnabled = false;
+    button[25].inputEnabled = false;
+  }
+}
+var upd = function(){
+  text[16].setText(coinLeft[0]+"/7");
+  text[17].setText(coinLeft[1]+"/7");
+  text[18].setText(coinLeft[2]+"/7");
+  text[19].setText(coinLeft[3]+"/7");
+  text[20].setText(coinLeft[4]+"/7");
+  text[21].setText("Turn : " + turn);
+  text[23].setText("Turn of : " + InfoPlayer[modedTurn].playerName);
+}
 var checkPlayerDetail = function() {
+  InfoPlayer[1] = {
+    playerName: "Player1",
+    blueCoin: 0,
+    whiteCoin: 0,
+    redCoin: 0,
+    greenCoin: 0,
+    blackCoin: 0,
+    cardblack: 0,
+    cardblue: 0,
+    cardred: 0,
+    cardgreen: 0,
+    cardwhite: 0,
+    score: 0
+  };
+  InfoPlayer[2] = {
+    playerName: "Player2",
+    blueCoin: 0,
+    whiteCoin: 0,
+    redCoin: 0,
+    greenCoin: 0,
+    blackCoin: 0,
+    cardblack: 0,
+    cardblue: 0,
+    cardred: 0,
+    cardgreen: 0,
+    cardwhite: 0,
+    score: 0
+  };
+  InfoPlayer[3] = {
+    playerName: "Player3",
+    blueCoin: 0,
+    whiteCoin: 0,
+    redCoin: 0,
+    greenCoin: 0,
+    blackCoin: 0,
+    cardblack: 0,
+    cardblue: 0,
+    cardred: 0,
+    cardgreen: 0,
+    cardwhite: 0,
+    score: 0
+  };
+  InfoPlayer[4] = {
+    playerName: "Player4",
+    blueCoin: 0,
+    whiteCoin: 0,
+    redCoin: 0,
+    greenCoin: 0,
+    blackCoin: 0,
+    cardblack: 0,
+    cardblue: 0,
+    cardred: 0,
+    cardgreen: 0,
+    cardwhite: 0,
+    score: 0
+  };
   InfoPlayer[1].playerName = DBplayer[1].user_display_name;
   InfoPlayer[2].playerName = DBplayer[2].user_display_name;
   InfoPlayer[3].playerName = DBplayer[3].user_display_name;
   InfoPlayer[4].playerName = DBplayer[4].user_display_name;
+};
+var turnAdd = function(){
   if (name == InfoPlayer[1].playerName) {
     localNum = 1;
   } else if (name == InfoPlayer[2].playerName) {
@@ -173,31 +372,6 @@ var checkPlayerDetail = function() {
     localNum = 4;
   }
   console.log(localNum);
-  text[0] = game.add.text(8 * x + 50, 2.5 * y + 20, "Blue:   " + coinNum[0], {
-    font: "13px Arial",
-    fill: "#ffffff",
-    align: "center"
-  });
-  text[1] = game.add.text(8 * x + 50, 2.5 * y + 35, "White: " + coinNum[1], {
-    font: "13px Arial",
-    fill: "#ffffff",
-    align: "center"
-  });
-  text[2] = game.add.text(8 * x + 50, 2.5 * y + 50, "Red:    " + coinNum[2], {
-    font: "13px Arial",
-    fill: "#ffffff",
-    align: "center"
-  });
-  text[3] = game.add.text(8 * x + 50, 2.5 * y + 65, "Green: " + coinNum[3], {
-    font: "13px Arial",
-    fill: "#ffffff",
-    align: "center"
-  });
-  text[4] = game.add.text(8 * x + 50, 2.5 * y + 80, "Black:  " + coinNum[4], {
-    font: "13px Arial",
-    fill: "#ffffff",
-    align: "center"
-  });
   //PlayerInfo
   text[5] = game.add.text(
     4 * x + 55,
@@ -299,7 +473,153 @@ var checkPlayerDetail = function() {
       align: "center"
     }
   );
-};
+  text[22] = game.add.text(0, 25, "Name : " + InfoPlayer[localNum].playerName, {
+    font: "20px Arial",
+    fill: "#ffffff",
+    align: "center"
+  });
+  text[23] = game.add.text(0, 50, "Turn of : " + InfoPlayer[modedTurn].playerName, {
+    font: "20px Arial",
+    fill: "#ffffff",
+    align: "center"
+  });
+  //add card datapath
+  for (i = 0; i < 4; i++) {
+    rand3[i] = "level3_" + DBrand[2][i+1];console.log(rand3[i]);
+  }
+  //level2
+  for (i = 0; i < 4; i++) {
+    rand2[i] = "level2_" + DBrand[1][i+1];console.log(rand2[i]);
+  }
+  //level1
+  for (i = 0; i < 4; i++) {
+    rand[i] = "level1_" + DBrand[0][i+1];console.log(rand[i]);
+  }
+  //level1
+  button[0] = game.add.button(4 * x, 2 * y + 40, rand[0]);
+  button[0].events.onInputDown.add(function() {
+    cardlevel_1(button[0], DBrand[0][1], 0);
+  });
+  button[1] = game.add.button(4 * x + 140, 2 * y + 40, rand[1]);
+  button[1].events.onInputDown.add(function() {
+    cardlevel_1(button[1], DBrand[0][2], 1);
+  });
+  button[2] = game.add.button(4 * x + 280, 2 * y + 40, rand[2]);
+  button[2].events.onInputDown.add(function() {
+    cardlevel_1(button[2], DBrand[0][3], 2);
+  });
+  button[3] = game.add.button(4 * x + 420, 2 * y + 40, rand[3]);
+  button[3].events.onInputDown.add(function() {
+    cardlevel_1(button[3], DBrand[0][4], 3);
+  });
+  //level2
+  button[4] = game.add.button(4 * x, 1.5 * y - 40, rand2[0]);
+  button[4].events.onInputDown.add(function() {
+    cardlevel_2(button[4], DBrand[1][1], 4);
+  });
+  button[5] = game.add.button(4 * x + 140, 1.5 * y - 40, rand2[1]);
+  button[5].events.onInputDown.add(function() {
+    cardlevel_2(button[5], DBrand[1][2], 5);
+  });
+  button[6] = game.add.button(4 * x + 280, 1.5 * y - 40, rand2[2]);
+  button[6].events.onInputDown.add(function() {
+    cardlevel_2(button[6], DBrand[1][3], 6);
+  });
+  button[7] = game.add.button(4 * x + 420, 1.5 * y - 40, rand2[3]);
+  button[7].events.onInputDown.add(function() {
+    cardlevel_2(button[7], DBrand[1][4], 7);
+  });
+  //level3
+  button[8] = game.add.button(4 * x, 0.5 * y - 25, rand3[0]);
+  button[8].events.onInputDown.add(function() {
+    cardlevel_3(button[8], DBrand[2][1], 8);
+  });
+  button[9] = game.add.button(4 * x + 140, 0.5 * y - 25, rand3[1]);
+  button[9].events.onInputDown.add(function() {
+    cardlevel_3(button[9], DBrand[2][2], 9);
+  });
+  button[10] = game.add.button(4 * x + 280, 0.5 * y - 25, rand3[2]);
+  button[10].events.onInputDown.add(function() {
+    cardlevel_3(button[10], DBrand[2][3], 10);
+  });
+  button[11] = game.add.button(4 * x + 420, 0.5 * y - 25, rand3[3]);
+  button[11].events.onInputDown.add(function() {
+    cardlevel_3(button[11], DBrand[2][4], 11);
+  });
+  //coin
+  button[12] = game.add.button(
+    8 * x + 50,
+    0.5 * y - 25,
+    "coinBlue",
+    click_coin,
+    this
+  );
+  button[12].events.onInputDown.add(function() {
+    click_coin("blue");
+  });
+  button[13] = game.add.button(
+    8 * x + 50,
+    y - 45,
+    "coinWhite",
+    click_coin,
+    this
+  );
+  button[13].events.onInputDown.add(function() {
+    click_coin("white");
+  });
+  button[14] = game.add.button(
+    8 * x + 50,
+    y + 40,
+    "coinRed",
+    click_coin,
+    this
+  );
+  button[14].events.onInputDown.add(function() {
+    click_coin("red");
+  });
+  button[15] = game.add.button(
+    8 * x + 50,
+    1.5 * y + 20,
+    "coinGreen",
+    click_coin,
+    this
+  );
+  button[15].events.onInputDown.add(function() {
+    click_coin("green");
+  });
+  button[16] = game.add.button(
+    8 * x + 50,
+    2 * y - 5,
+    "coinBlack",
+    click_coin,
+    this
+  );
+  button[16].events.onInputDown.add(function() {
+    click_coin("black");
+  });
+  //Noble
+  button[18] = game.add.button(10 * x - 25, 0.5 * y + 25, rand4[0]);
+  button[18].events.onInputDown.add(function() {
+    click_Noble(0,18);
+  });
+  button[19] = game.add.button(10 * x - 25, y + 75, rand4[1]);
+  button[19].events.onInputDown.add(function() {
+    click_Noble(1,19);
+  });
+  button[20] = game.add.button(10 * x - 25, 2 * y + 25, rand4[2]);
+  button[20].events.onInputDown.add(function() {
+    click_Noble(2,20);
+  });
+  button[21] = game.add.button(11 * x, y - 25, rand4[3]);
+  button[21].events.onInputDown.add(function() {
+    click_Noble(3,21);
+  });
+  button[22] = game.add.button(11 * x, 1.5 * y + 40, rand4[4]);
+  button[22].events.onInputDown.add(function() {
+    click_Noble(4,22);
+  });
+  changeTurn();
+}
 var cardadd = function() {
   for (var i = 1; i <= 40; i++) {
     InfoCardLv1[i] = {
@@ -346,7 +666,74 @@ var cardadd = function() {
       score: 0
     };
   }
-
+  //Noble
+  for (var i = 0; i < 5; i++) {
+    Noble[i] = {
+      reqBlue: 0,
+      reqWhite: 0,
+      reqRed: 0,
+      reqGreen: 0,
+      reqBlack: 0,
+      score: 0
+    };
+  }
+  //Noble
+  var randImage4;
+  for (i = 0; i < 5; i++) {
+    randImage4 = DBrand[3][i+1];
+    if (randImage4 == 1) {
+      Noble[i].reqBlack = 4;
+      Noble[i].reqWhite = 4;
+      Noble[i].score = 3;
+    } else if (randImage4 == 2) {
+      Noble[i].reqRed = 4;
+      Noble[i].reqGreen = 4;
+      Noble[i].score = 3;
+    } else if (randImage4 == 3) {
+      Noble[i].reqBlack = 4;
+      Noble[i].reqqRed = 4;
+      Noble[i].score = 3;
+    } else if (randImage4 == 4) {
+      Noble[i].reqBlue = 4;
+      Noble[i].reqWhite = 4;
+      Noble[i].score = 3;
+    } else if (randImage4 == 5) {
+      Noble[i].reqBlack = 3;
+      Noble[i].reqRed = 3;
+      Noble[i].reqWhite = 3;
+      Noble[i].score = 3;
+    } else if (randImage4 == 6) {
+      Noble[i].reqGreen = 3;
+      Noble[i].reqRed = 3;
+      Noble[i].reqBlue = 3;
+      Noble[i].score = 3;
+    } else if (randImage4 == 7) {
+      Noble[i].reqBlack = 3;
+      Noble[i].reqRed = 3;
+      Noble[i].reqGreen = 3;
+      Noble[i].score = 3;
+    } else if (randImage4 == 8) {
+      Noble[i].reqBlue = 4;
+      Noble[i].reqGreen = 4;
+      Noble[i].score = 3;
+    } else if (randImage4 == 9) {
+      Noble[i].reqBlue = 3;
+      Noble[i].reqWhite = 3;
+      Noble[i].reqGreen = 3;
+      Noble[i].score = 3;
+    } else if (randImage4 == 10) {
+      Noble[i].reqBlack = 3;
+      Noble[i].reqBlue = 3;
+      Noble[i].reqWhite = 3;
+      Noble[i].score = 3;
+    }
+    game.load.image(
+      "level4_" + randImage4,
+      "image/Level4/" + randImage4 + ".png"
+    );
+    rand4[i] = "level4_" + randImage4;
+    console.log(rand[i]);
+  }
   for (var i = 1; i <= 40; i++) {
     if (DBcards[i].reqBlue) {
       InfoCardLv1[i].reqBlue = DBcards[i].reqBlue;
@@ -443,18 +830,6 @@ var gamestate = {
 
     game.load.image("modal", "assets/464885029.jpg");
     game.load.image("modal_bg", "assets/modal_bg.png");
-    //cardVar
-
-    for (var i = 0; i < 5; i++) {
-      Noble[i] = {
-        reqBlue: 0,
-        reqWhite: 0,
-        reqRed: 0,
-        reqGreen: 0,
-        reqBlack: 0,
-        score: 0
-      };
-    }
     //chat
     for (i = 1; i <= 40; i++) {
       this.load.image("level1_" + i, "image/Level1/" + i + ".png");
@@ -464,6 +839,9 @@ var gamestate = {
     }
     for (i = 1; i <= 20; i++) {
       this.load.image("level3_" + i, "image/Level3/" + i + ".png");
+    }
+    for(i=1;i<=10;i++){
+      this.load.image("level4_" + i, "image/Level4/" + i + ".png");
     }
     //confirmCancel
     this.load.image("right", "image/right.png");
@@ -477,90 +855,6 @@ var gamestate = {
     this.load.image("lilGold", "image/misc/Eflower.png");
     this.load.image("popup", "image/misc/newpopup.png");
     this.load.image("exitpopup", "image/misc/exit.png");
-    //Noble
-    for (i = 0; i < 5; i++) {
-      var randIndex4 = Math.floor(Math.random() * aImageFiles4.length);
-      var randImage4 = aImageFiles4[randIndex4];
-      if (randImage4 == 1) {
-        Noble[i].reqBlack = 4;
-        Noble[i].reqWhite = 4;
-        Noble[i].score = 3;
-      } else if (randImage4 == 2) {
-        Noble[i].reqRed = 4;
-        Noble[i].reqGreen = 4;
-        Noble[i].score = 3;
-      } else if (randImage4 == 3) {
-        Noble[i].reqBlack = 4;
-        Noble[i].reqqRed = 4;
-        Noble[i].score = 3;
-      } else if (randImage4 == 4) {
-        Noble[i].reqBlue = 4;
-        Noble[i].reqWhite = 4;
-        Noble[i].score = 3;
-      } else if (randImage4 == 5) {
-        Noble[i].reqBlack = 3;
-        Noble[i].reqRed = 3;
-        Noble[i].reqWhite = 3;
-        Noble[i].score = 3;
-      } else if (randImage4 == 6) {
-        Noble[i].reqGreen = 3;
-        Noble[i].reqRed = 3;
-        Noble[i].reqBlue = 3;
-        Noble[i].score = 3;
-      } else if (randImage4 == 7) {
-        Noble[i].reqBlack = 3;
-        Noble[i].reqRed = 3;
-        Noble[i].reqGreen = 3;
-        Noble[i].score = 3;
-      } else if (randImage4 == 8) {
-        Noble[i].reqBlue = 4;
-        Noble[i].reqGreen = 4;
-        Noble[i].score = 3;
-      } else if (randImage4 == 9) {
-        Noble[i].reqBlue = 3;
-        Noble[i].reqWhite = 3;
-        Noble[i].reqGreen = 3;
-        Noble[i].score = 3;
-      } else if (randImage4 == 10) {
-        Noble[i].reqBlack = 3;
-        Noble[i].reqBlue = 3;
-        Noble[i].reqWhite = 3;
-        Noble[i].score = 3;
-      }
-      this.load.image(
-        "level4_" + randImage4,
-        "image/Level4/" + randImage4 + ".png"
-      );
-      rand4[i] = "level4_" + randImage4;
-      aImageFiles4.splice(randIndex4, 1);
-    }
-    //level3
-    for (i = 0; i < 4; i++) {
-      var randIndex3 = Math.floor(Math.random() * aImageFiles3.length);
-      var randImage3 = aImageFiles3[randIndex3];
-      rand3[i] = "level3_" + randImage3;
-      check[i + 8] = randImage3;
-      aImageFiles3.splice(randIndex3, 1);
-      console.log(aImageFiles3);
-    }
-    //level2
-    for (i = 0; i < 4; i++) {
-      var randIndex2 = Math.floor(Math.random() * aImageFiles2.length);
-      var randImage2 = aImageFiles2[randIndex2];
-      rand2[i] = "level2_" + randImage2;
-      check[i + 4] = randImage2;
-      aImageFiles2.splice(randIndex2, 1);
-    }
-    //level1
-    for (i = 0; i < 4; i++) {
-      var randIndex = Math.floor(Math.random() * aImageFiles.length);
-      var randImage = aImageFiles[randIndex];
-      rand[i] = "level1_" + randImage;
-      aImageFiles.splice(randIndex, 1);
-      check[i] = randImage;
-      console.log(check);
-    }
-
     //deck_level1-3
     this.load.image("level1_BG", "image/level1/BG_1.png");
     this.load.image("level2_BG", "image/level2/BG_2.png");
@@ -572,62 +866,7 @@ var gamestate = {
     this.load.image("coinGreen", "image/coin/Coin_green.png");
     this.load.image("coinRed", "image/coin/Coin_red.png");
     this.load.image("coinWhite", "image/coin/Coin_white.png");
-    InfoPlayer[1] = {
-      playerName: "Player1",
-      blueCoin: 0,
-      whiteCoin: 0,
-      redCoin: 0,
-      greenCoin: 0,
-      blackCoin: 0,
-      cardblack: 0,
-      cardblue: 0,
-      cardred: 0,
-      cardgreen: 0,
-      cardwhite: 0,
-      score: 0
-    };
-    InfoPlayer[2] = {
-      playerName: "Player2",
-      blueCoin: 0,
-      whiteCoin: 0,
-      redCoin: 0,
-      greenCoin: 0,
-      blackCoin: 0,
-      cardblack: 0,
-      cardblue: 0,
-      cardred: 0,
-      cardgreen: 0,
-      cardwhite: 0,
-      score: 0
-    };
-    InfoPlayer[3] = {
-      playerName: "Player3",
-      blueCoin: 0,
-      whiteCoin: 0,
-      redCoin: 0,
-      greenCoin: 0,
-      blackCoin: 0,
-      cardblack: 0,
-      cardblue: 0,
-      cardred: 0,
-      cardgreen: 0,
-      cardwhite: 0,
-      score: 0
-    };
-    InfoPlayer[4] = {
-      playerName: "Player4",
-      blueCoin: 0,
-      whiteCoin: 0,
-      redCoin: 0,
-      greenCoin: 0,
-      blackCoin: 0,
-      cardblack: 0,
-      cardblue: 0,
-      cardred: 0,
-      cardgreen: 0,
-      cardwhite: 0,
-      score: 0
-    };
+    
   },
   create: function() {
     socket.emit("AUTH_ATTEMPT", "");
@@ -637,8 +876,10 @@ var gamestate = {
       }
     });
     server.room.getRoomMessage();
-    server.room.joinRoom(854);
-    // server.room.createRoom("147", "123", 4);
+    socket.emit("MY_USER");
+    server.room.joinRoom(875);
+    // server.room.createRoom('jojojj2011', '1234', 4);
+    //server.room.createRoom('jardet', '1234', 4);
     //jardet 1234
     //testza 1234
     //123456 123456
@@ -649,7 +890,7 @@ var gamestate = {
     */
     x = window.outerWidth / 12; //row
     y = window.outerHeight / 4; //col
-
+    //level3
     this.BG = this.game.add.sprite(0, 0, "BG").scale.setTo(1.5);
 
     this.player1 = this.game.add.sprite(0, 0.5 * y - 25, "player1");
@@ -677,154 +918,32 @@ var gamestate = {
       0.5 * y - 25,
       "level3_BG"
     );
-    //level1
-    button[0] = game.add.button(4 * x, 2 * y + 40, rand[0]);
-    button[0].events.onInputDown.add(function() {
-      cardlevel_1(button[0], 4 * x, 2 * y + 40, check[0], 0);
+    //coinNum
+    text[0] = game.add.text(8 * x + 50, 2.5 * y + 20, "Blue:   " + coinNum[0], {
+      font: "13px Arial",
+      fill: "#ffffff",
+      align: "center"
     });
-    button[0].inputEnabled = true;
-    button[1] = game.add.button(4 * x + 140, 2 * y + 40, rand[1]);
-    button[1].events.onInputDown.add(function() {
-      cardlevel_1(button[1], 4 * x + 140, 2 * y + 40, check[1], 1);
+    text[1] = game.add.text(8 * x + 50, 2.5 * y + 35, "White: " + coinNum[1], {
+      font: "13px Arial",
+      fill: "#ffffff",
+      align: "center"
     });
-    button[1].inputEnabled = true;
-    button[2] = game.add.button(4 * x + 280, 2 * y + 40, rand[2]);
-    button[2].events.onInputDown.add(function() {
-      cardlevel_1(button[2], 4 * x + 280, 2 * y + 40, check[2], 2);
+    text[2] = game.add.text(8 * x + 50, 2.5 * y + 50, "Red:    " + coinNum[2], {
+      font: "13px Arial",
+      fill: "#ffffff",
+      align: "center"
     });
-    button[2].inputEnabled = true;
-    button[3] = game.add.button(4 * x + 420, 2 * y + 40, rand[3]);
-    button[3].events.onInputDown.add(function() {
-      cardlevel_1(button[3], 4 * x + 420, 2 * y + 40, check[3], 3);
+    text[3] = game.add.text(8 * x + 50, 2.5 * y + 65, "Green: " + coinNum[3], {
+      font: "13px Arial",
+      fill: "#ffffff",
+      align: "center"
     });
-    button[3].inputEnabled = true;
-
-    //level2
-    button[4] = game.add.button(4 * x, 1.5 * y - 40, rand2[0]);
-    button[4].events.onInputDown.add(function() {
-      cardlevel_2(button[4], 4 * x, 1.5 * y - 40, check[4], 4);
+    text[4] = game.add.text(8 * x + 50, 2.5 * y + 80, "Black:  " + coinNum[4], {
+      font: "13px Arial",
+      fill: "#ffffff",
+      align: "center"
     });
-    button[4].inputEnabled = true;
-    button[5] = game.add.button(4 * x + 140, 1.5 * y - 40, rand2[1]);
-    button[5].events.onInputDown.add(function() {
-      cardlevel_2(button[5], 4 * x + 140, 1.5 * y - 40, check[5], 5);
-    });
-    button[5].inputEnabled = true;
-    button[6] = game.add.button(4 * x + 280, 1.5 * y - 40, rand2[2]);
-    button[6].events.onInputDown.add(function() {
-      cardlevel_2(button[6], 4 * x + 280, 1.5 * y - 40, check[6], 6);
-    });
-    button[6].inputEnabled = true;
-    button[7] = game.add.button(4 * x + 420, 1.5 * y - 40, rand2[3]);
-    button[7].events.onInputDown.add(function() {
-      cardlevel_2(button[7], 4 * x + 420, 1.5 * y - 40, check[7], 7);
-    });
-    button[7].inputEnabled = true;
-
-    //level3
-    button[8] = game.add.button(4 * x, 0.5 * y - 25, rand3[0]);
-    button[8].events.onInputDown.add(function() {
-      cardlevel_3(button[8], 4 * x, 0.5 * y - 25, check[8], 8);
-    });
-    button[8].inputEnabled = true;
-    button[9] = game.add.button(4 * x + 140, 0.5 * y - 25, rand3[1]);
-    button[9].events.onInputDown.add(function() {
-      cardlevel_3(button[9], 4 * x + 140, 0.5 * y - 25, check[9], 9);
-    });
-    button[9].inputEnabled = true;
-    button[10] = game.add.button(4 * x + 280, 0.5 * y - 25, rand3[2]);
-    button[10].events.onInputDown.add(function() {
-      cardlevel_3(button[10], 4 * x + 280, 0.5 * y - 25, check[10], 10);
-    });
-    button[10].inputEnabled = true;
-    button[11] = game.add.button(4 * x + 420, 0.5 * y - 25, rand3[3]);
-    button[11].events.onInputDown.add(function() {
-      cardlevel_3(button[11], 4 * x + 420, 0.5 * y - 25, check[11], 11);
-    });
-    button[11].inputEnabled = true;
-    //coin
-    button[12] = game.add.button(
-      8 * x + 50,
-      0.5 * y - 25,
-      "coinBlue",
-      click_coin,
-      this
-    );
-    button[12].events.onInputDown.add(function() {
-      click_coin("blue");
-    });
-    button[12].inputEnabled = true;
-    button[13] = game.add.button(
-      8 * x + 50,
-      y - 45,
-      "coinWhite",
-      click_coin,
-      this
-    );
-    button[13].events.onInputDown.add(function() {
-      click_coin("white");
-    });
-    button[13].inputEnabled = true;
-    button[14] = game.add.button(
-      8 * x + 50,
-      y + 40,
-      "coinRed",
-      click_coin,
-      this
-    );
-    button[14].events.onInputDown.add(function() {
-      click_coin("red");
-    });
-    button[14].inputEnabled = true;
-    button[15] = game.add.button(
-      8 * x + 50,
-      1.5 * y + 20,
-      "coinGreen",
-      click_coin,
-      this
-    );
-    button[15].events.onInputDown.add(function() {
-      click_coin("green");
-    });
-    button[15].inputEnabled = true;
-    button[16] = game.add.button(
-      8 * x + 50,
-      2 * y - 5,
-      "coinBlack",
-      click_coin,
-      this
-    );
-    button[16].events.onInputDown.add(function() {
-      click_coin("black");
-    });
-    button[16].inputEnabled = true;
-
-    //Noble
-    button[18] = game.add.button(10 * x - 25, 0.5 * y + 25, rand4[0]);
-    button[18].events.onInputDown.add(function() {
-      click_Noble(button[18], 0);
-    });
-    button[18].inputEnabled = true;
-    button[19] = game.add.button(10 * x - 25, y + 75, rand4[1]);
-    button[19].events.onInputDown.add(function() {
-      click_Noble(button[19], 1);
-    });
-    button[19].inputEnabled = true;
-    button[20] = game.add.button(10 * x - 25, 2 * y + 25, rand4[2]);
-    button[20].events.onInputDown.add(function() {
-      click_Noble(button[20], 2);
-    });
-    button[20].inputEnabled = true;
-    button[21] = game.add.button(11 * x, y - 25, rand4[3]);
-    button[21].events.onInputDown.add(function() {
-      click_Noble(button[21], 3);
-    });
-    button[21].inputEnabled = true;
-    button[22] = game.add.button(11 * x, 1.5 * y + 40, rand4[4]);
-    button[22].events.onInputDown.add(function() {
-      click_Noble(button[22], 4);
-    });
-    button[22].inputEnabled = true;
     //showscore
     button[23] = game.add.button(x + 50, 0.5 * y, "score", function() {
       showScore(5 * x, 2 * y);
@@ -904,73 +1023,12 @@ var gamestate = {
     });
     //reservedCard
     button[26] = game.add.button(8 * x + 25, 3.5 * y + 30, "lilGold");
-
-    //chat  input
-    chat2 = game.add.inputField(game.width * 0.001, game.height * 0.95, {
-      width: 200,
-      height: 20,
-      borderRadius: 6,
-      zomm: true,
-      placeHolder: "   Message......"
-    });
-    chat2.inputEnabled = true;
-    chat2.focusOnenter = true;
-    chat2.bringToTop();
-    //chat bg
-    galax2 = game.add.image(chat2.x, chat2.y - 205, "galaxy");
-    galax2.scale.setTo(300 / galax2.width, 200 / galax2.height);
-    galax2.alpha = 0.45;
-    send = game.add.button(
-      chat2.x + 200 + 50,
-      chat2.y + 10,
-      "chat",
-      ChatClick2,
-      this
-    );
-    //chat send button
-    send.inputEnabled = true;
-    send.anchor.setTo(0.5, 0.5);
-    send.scale.setTo(1, 30 / 29);
-    send.onInputOver.add(function() {
-      this.game.canvas.style.cursor = "pointer";
-      game.add
-        .tween(send.scale)
-        .to({ x: 100 / 80, y: 35 / 29 }, 400, Phaser.Easing.Back.Out, true, 0);
-    });
-    send.onInputOut.add(function() {
-      this.game.canvas.style.cursor = "default";
-      game.add
-        .tween(send.scale)
-        .to({ x: 80 / 80, y: 30 / 29 }, 200, Phaser.Easing.Back.In, true, 0);
-    });
-    //chat scroller
-    scroller2 = game.add.existing(
-      new ScrollableArea(chat2.x, chat2.y - 200, 300, 190)
-    );
-    chat_h = game.add.button(galax2.x, galax2.y, "chat_head", ChatDown2, this);
-    chat_h.inputEnabled = true;
-    chat_h.scale.setTo(300 / chat_h.width, 20 / chat_h.height);
-    chat_h.onInputOver.add(function() {
-      this.game.canvas.style.cursor = "pointer";
-      chat_h.alpha = 0.3;
-    });
-    chat_h.onInputOut.add(function() {
-      this.game.canvas.style.cursor = "default";
-      chat_h.alpha = 1;
-    });
-    scroller2.start(); // scroller show
-    loading();
+    button[26].inputEnabled=false;
   },
   render: function() {}
 };
 
-function cardlevel_1(card, x, y, cardID, index) {
-  console.log(cardID);
-  console.log(InfoCardLv1[cardID].reqBlack);
-  console.log(InfoCardLv1[cardID].reqBlue);
-  console.log(InfoCardLv1[cardID].reqGreen);
-  console.log(InfoCardLv1[cardID].reqRed);
-  console.log(InfoCardLv1[cardID].reqWhite);
+function cardlevel_1(card, cardID,index) {
   var person = confirm("Are you sure in this card level 1?");
   if (person == true) {
     if (
@@ -1024,55 +1082,8 @@ function cardlevel_1(card, x, y, cardID, index) {
       text[12].setText(": " + InfoPlayer[localNum].cardred);
       text[13].setText(": " + InfoPlayer[localNum].cardgreen);
       text[14].setText(": " + InfoPlayer[localNum].cardblack);
-
-      card.destroy();
-      randIndex = Math.floor(Math.random() * aImageFiles.length);
-      if (aImageFiles.length == 0) {
-        aImageFiles.splice(randIndex, 0);
-      } else {
-        randImage = aImageFiles[randIndex];
-        game.load.image(
-          "level1_" + randImage,
-          "image/Level1/" + randImage + ".png"
-        );
-        rand[0] = "level1_" + randImage;
-        check[index] = randImage;
-        console.log(check[index]);
-        card = game.add.button(x, y, rand[0]);
-        card.events.onInputDown.add(function() {
-          cardlevel_1(card, x, y, check[index], index);
-        });
-        aImageFiles.splice(randIndex, 1);
-        console.log(aImageFiles);
-      }
-      text[21].setText("Turn : " + turn);
-      console.log(1);
-      endTurn();
-      if (InfoPlayer[1].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 1 : " + InfoPlayer[1].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      } else if (InfoPlayer[2].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 2 : " + InfoPlayer[2].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      } else if (InfoPlayer[3].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 3 : " + InfoPlayer[3].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      } else if (InfoPlayer[4].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 4 : " + InfoPlayer[4].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      }
+      endTurn(1,index);
+      checkEndGame();
     } else {
       //case not enough coin
       testMessageBox("insufficient");
@@ -1080,13 +1091,7 @@ function cardlevel_1(card, x, y, cardID, index) {
   }
   ohCancel();
 }
-function cardlevel_2(card, x, y, cardID, index) {
-  console.log(cardID);
-  /*console.log(InfoCardLv1[cardID].reqBlack);
-  console.log(InfoCardLv1[cardID].reqBlue);
-  console.log(InfoCardLv1[cardID].reqGreen);
-  console.log(InfoCardLv1[cardID].reqRed);
-  console.log(InfoCardLv1[cardID].reqWhite);*/
+function cardlevel_2(card, cardID,index) {
   var person = confirm("Are you sure in this card level 2?");
   if (person == true) {
     if (
@@ -1140,55 +1145,8 @@ function cardlevel_2(card, x, y, cardID, index) {
       text[12].setText(": " + InfoPlayer[localNum].cardred);
       text[13].setText(": " + InfoPlayer[localNum].cardgreen);
       text[14].setText(": " + InfoPlayer[localNum].cardblack);
-      //randomCardPic
-      card.destroy();
-      randIndex2 = Math.floor(Math.random() * aImageFiles2.length);
-      if (aImageFiles2.length == 0) {
-        aImageFiles2.splice(randIndex2, 0);
-      } else {
-        randImage2 = aImageFiles2[randIndex2];
-        game.load.image(
-          "level2_" + randImage2,
-          "image/Level2/" + randImage2 + ".png"
-        );
-        rand2[0] = "level2_" + randImage2;
-        check[index] = randImage2;
-        console.log(check[index]);
-        card = game.add.button(x, y, rand2[0]);
-        card.events.onInputDown.add(function() {
-          cardlevel_2(card, x, y, check[index], index);
-        });
-        aImageFiles2.splice(randIndex2, 1);
-        console.log(aImageFiles2);
-      }
-      text[21].setText("Turn : " + turn);
-      console.log(2);
-      endTurn();
-      if (InfoPlayer[1].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 1 : " + InfoPlayer[1].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      } else if (InfoPlayer[2].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 2 : " + InfoPlayer[2].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      } else if (InfoPlayer[3].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 3 : " + InfoPlayer[3].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      } else if (InfoPlayer[4].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 4 : " + InfoPlayer[4].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      }
+      endTurn(1,index);
+      checkEndGame();
     } else {
       //case not enough coin
       testMessageBox("insufficient");
@@ -1196,13 +1154,7 @@ function cardlevel_2(card, x, y, cardID, index) {
   }
   ohCancel();
 }
-function cardlevel_3(card, x, y, cardID, index) {
-  console.log(cardID);
-  /*console.log(InfoCardLv1[cardID].reqBlack);
-  console.log(InfoCardLv1[cardID].reqBlue);
-  console.log(InfoCardLv1[cardID].reqGreen);
-  console.log(InfoCardLv1[cardID].reqRed);
-  console.log(InfoCardLv1[cardID].reqWhite);*/
+function cardlevel_3(card, cardID,index) {
   var person = confirm("Are you sure in this card level 3?");
   if (person == true) {
     if (
@@ -1256,55 +1208,9 @@ function cardlevel_3(card, x, y, cardID, index) {
       text[12].setText(": " + InfoPlayer[localNum].cardred);
       text[13].setText(": " + InfoPlayer[localNum].cardgreen);
       text[14].setText(": " + InfoPlayer[localNum].cardblack);
-      //randomCardPic
-      card.destroy();
-      randIndex3 = Math.floor(Math.random() * aImageFiles3.length);
-      if (aImageFiles3.length == 0) {
-        aImageFiles3.splice(randIndex3, 0);
-      } else {
-        randImage3 = aImageFiles3[randIndex3];
-        game.load.image(
-          "level3_" + randImage3,
-          "image/Level3/" + randImage3 + ".png"
-        );
-        rand3[0] = "level3_" + randImage3;
-        check[index] = randImage3;
-        console.log(check[index]);
-        card = game.add.button(x, y, rand3[0]);
-        card.events.onInputDown.add(function() {
-          cardlevel_3(card, x, y, check[index], index);
-        });
-        aImageFiles3.splice(randIndex3, 1);
-        console.log(aImageFiles3);
-      }
       text[21].setText("Turn : " + turn);
-      console.log(3);
-      endTurn();
-      if (InfoPlayer[1].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 1 : " + InfoPlayer[1].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      } else if (InfoPlayer[2].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 2 : " + InfoPlayer[2].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      } else if (InfoPlayer[3].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 3 : " + InfoPlayer[3].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      } else if (InfoPlayer[4].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 4 : " + InfoPlayer[4].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      }
+      endTurn(1,index);
+      checkEndGame();
     } else {
       //case not enough coin
       testMessageBox("insufficient");
@@ -1312,7 +1218,7 @@ function cardlevel_3(card, x, y, cardID, index) {
   }
   ohCancel();
 }
-function click_Noble(card, NobleID) {
+function click_Noble(NobleID,index) {
   var person = confirm("Are you sure in this card Noble?");
   if (person == true) {
     if (
@@ -1323,9 +1229,7 @@ function click_Noble(card, NobleID) {
       InfoPlayer[localNum].cardblack >= Noble[NobleID].reqBlack
     ) {
       InfoPlayer[localNum].score += Noble[NobleID].score;
-      card.destroy();
-      console.log(4);
-      endTurn();
+      endTurn(1,index);
     } else {
       testMessageBox("noCard");
     }
@@ -1371,9 +1275,6 @@ function click_coin(color) {
 }
 
 function OhRight() {
-  /*  if (turn == 2) {
-      InfoPlayer[1].inputEnabled = false;
-    }*/
   console.log(InfoPlayer);
   var total =
     InfoPlayer[localNum].blueCoin +
@@ -1410,35 +1311,10 @@ function OhRight() {
       ohCancel();
       updatePlayerInfo();
       console.log(5);
-      endTurn();
+      endTurn(0,0);
       text[21].setText("Turn : " + turn);
 
-      //runturn(turn);
-      if (InfoPlayer[1].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 1 : " + InfoPlayer[1].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      } else if (InfoPlayer[2].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 2 : " + InfoPlayer[2].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      } else if (InfoPlayer[3].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 3 : " + InfoPlayer[3].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      } else if (InfoPlayer[4].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 4 : " + InfoPlayer[4].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      }
+      checkEndGame();
     } else if (
       coinNum[0] + coinNum[1] + coinNum[2] + coinNum[3] + coinNum[4] < 3 &&
       (coinNum[0] == 2 ||
@@ -1454,34 +1330,8 @@ function OhRight() {
       InfoPlayer[localNum].blackCoin += coinNum[4];
       ohCancel();
       updatePlayerInfo();
-      text[21].setText("Turn : " + turn);
-      console.log(6);
-      endTurn();
-      if (InfoPlayer[1].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 1 : " + InfoPlayer[1].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      } else if (InfoPlayer[2].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 2 : " + InfoPlayer[2].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      } else if (InfoPlayer[3].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 3 : " + InfoPlayer[3].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      } else if (InfoPlayer[4].score >= 15) {
-        showFinalBox(
-          "The Winner is Player 4 : " + InfoPlayer[4].score + " Point.",
-          5 * x,
-          2 * y
-        );
-      }
+      endTurn(0,0);
+      checkEndGame();
     } else {
       testMessageBox("format");
       ohCancel();
@@ -1510,7 +1360,7 @@ function OhRight() {
     text[15].setText("Total " + total + "/10");
   }
 }
-function endTurn() {
+function endTurn(dest,butt) {
   server.game.takeCoin(
     [
       null,
@@ -1527,8 +1377,8 @@ function endTurn() {
       cardred: InfoPlayer[localNum].cardred,
       cardwhite: InfoPlayer[localNum].cardwhite
     },
-    0,
-    0,
+    dest,
+    butt,
     InfoPlayer[localNum].score
   );
 }
@@ -1621,6 +1471,7 @@ function showMessageBox(text, w = 300, h = 300) {
   msgBox.add(back);
   msgBox.add(closeButton);
   msgBox.add(text1);
+  back.inputEnabled = true;
   closeButton.x = back.width / 2 - closeButton.width / 2;
   closeButton.y = back.height - closeButton.height;
   closeButton.inputEnabled = true;
@@ -1773,7 +1624,7 @@ function showScore(w = 500, h = 500) {
       "\n\n" +
       InfoPlayer[3].playerName.substring(0, 5) +
       "\n\n" +
-      InfoPlayer[4].playerName.substring(0, 5)
+      InfoPlayer[4].playerName.substring(0,5)+localNum
   );
   var detail2 = [];
   detail2[0] = this.game.add.sprite(0, 0, "coinBlue");
@@ -1823,7 +1674,7 @@ function showScore(w = 500, h = 500) {
   scrBox.add(detail2[7]);
   scrBox.add(detail2[8]);
   scrBox.add(detail2[9]);
-
+  back2.inputEnabled = true;
   closeButton2.x = back2.width - 40;
   closeButton2.y = 10;
   closeButton2.scale.setTo(0.5);
@@ -1882,42 +1733,6 @@ function showScore(w = 500, h = 500) {
 function hideBox2() {
   this.scrBox.destroy();
 }
-function ChatClick2() {
-  if (chat2.value.length > 2) {
-    text2[start_text] = chat2.value;
-    message2[start_text] = game.make.text(
-      10,
-      start_text * 22 + 20,
-      "Pro : " + chat2.value,
-      {
-        font: "14px Arial",
-        fill: "#000000",
-        stroke: "#ffffff",
-        strokeThickness: 2
-      }
-    );
-    scroller2.addChild(message2[start_text]);
-    block2 = game.make.text(0, start_text * 22 + 35, "", {
-      font: "18px Arial"
-    });
-    scroller2.addChild(block2);
-    scroller2.scrollTo(0, block2.y, 10, false);
-    chat2.resetText();
-    start_text++;
-  }
-}
-function ChatDown2() {
-  scroller2.visible = !scroller2.visible;
-  galax.visible = !galax.visible;
-  chat.visible = !chat.visible;
-  send.visible = !send.visible;
-
-  if (!scroller2.visible) {
-    chat_h.y = chat.y;
-  } else {
-    chat_h.y = galax2.y;
-  }
-}
 function showFinalBox(text, w = 300, h = 300) {
   if (this.msgBox3) {
     this.msgBox3.destroy();
@@ -1933,6 +1748,7 @@ function showFinalBox(text, w = 300, h = 300) {
   msgBox3.add(back);
   msgBox3.add(closeButton);
   msgBox3.add(text1);
+  back.inputEnabled = true;
   closeButton.x = back.width / 2 - closeButton.width / 2;
   closeButton.y = back.height - closeButton.height;
   closeButton.inputEnabled = true;
@@ -1945,4 +1761,31 @@ function showFinalBox(text, w = 300, h = 300) {
 }
 function hideBox3() {
   socket.emit("END_GAME");
+}
+function checkEndGame(){
+  if (InfoPlayer[1].score >= 15) {
+    showFinalBox(
+      "The Winner is Player 1 : " + InfoPlayer[1].score + " Point.",
+      5 * x,
+      2 * y
+    );
+  } else if (InfoPlayer[2].score >= 15) {
+    showFinalBox(
+      "The Winner is Player 2 : " + InfoPlayer[2].score + " Point.",
+      5 * x,
+      2 * y
+    );
+  } else if (InfoPlayer[3].score >= 15) {
+    showFinalBox(
+      "The Winner is Player 3 : " + InfoPlayer[3].score + " Point.",
+      5 * x,
+      2 * y
+    );
+  } else if (InfoPlayer[4].score >= 15) {
+    showFinalBox(
+      "The Winner is Player 4 : " + InfoPlayer[4].score + " Point.",
+      5 * x,
+      2 * y
+    );
+  }
 }

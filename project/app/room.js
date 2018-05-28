@@ -255,12 +255,22 @@ const room = function(socket, io) {
     }
   });
 
-  socket.on("LOAD_CARD", async function() {
+  socket.on("MY_USER", async function(){
+    let [resUserDisplay] = await db.query(
+      "SELECT user_display_name FROM user WHERE user_id = ?",
+      [socket.handshake.session.userdata.user_id]
+    );
+    socket.emit("ROOM_MESSAGE", {
+      status: "success",
+      action: "MY_USER",
+      user_id: socket.handshake.session.userdata.user_id,
+      myuser: resUserDisplay[0].user_display_name
+    });
+  })
+
+  let loadCard = async function() {
     if (socket.room) {
-      let [resUserDisplay] = await db.query(
-        "SELECT user_display_name FROM user WHERE user_id = ?",
-        [socket.handshake.session.userdata.user_id]
-      );
+      
       let [resSelect] = await db.query(
         "SELECT c.card_id, c.card_image, c.card_level, c.card_score, ccc.color_name as card_color_name, ccc.color_code, cc.color_name, cr.amount FROM coin_requirement cr " +
           "JOIN card c ON c.card_id = cr.card_id " +
@@ -287,6 +297,11 @@ const room = function(socket, io) {
         if (!arr[2]) arr[2] = [];
         arr[2][i - 70] = rand[i - 70];
       }
+      for (i = 91; i <= 100; i++) {
+        rand[i - 90] = Math.floor(Math.random() * 10) + 1;
+        if (!arr[3]) arr[3] = [];
+        arr[3][i - 90] = rand[i - 90];
+      }
       let result = [];
       if (resSelect.length != 0) {
         resSelect.forEach(function(item, index) {
@@ -302,11 +317,7 @@ const room = function(socket, io) {
             ["req" + item["color_name"]]: item["amount"]
           };
         });
-        socket.emit("ROOM_MESSAGE", {
-          status: "success",
-          action: "MY_USER",
-          myuser: resUserDisplay[0].user_display_name
-        });
+       
         io.sockets.to(socket.room).emit("ROOM_MESSAGE", {
           status: "success",
           action: "LOAD_CARD",
@@ -324,7 +335,7 @@ const room = function(socket, io) {
         });
       }
     }
-  });
+  }
 
   socket.on("GAME_START", async function() {
     if (socket.room) {
@@ -362,7 +373,10 @@ const room = function(socket, io) {
                 start: true,
                 turn: resGetTurn[0].match_turn
               });
-              detail();
+              detail(function(){
+                loadCard();
+              });
+              
             }
           } catch (error) {
             console.log(error);
@@ -381,7 +395,7 @@ const room = function(socket, io) {
     }
   });
 
-  let detail = async function() {
+  let detail = async function(callback) {
     let [resUser] = await db.query(
       "SELECT user.user_id, user.user_display_name, user.user_image, mp.score FROM user " +
         "JOIN match_player mp ON mp.user_id = user.user_id WHERE mp.match_id = ?",
@@ -440,6 +454,7 @@ const room = function(socket, io) {
       card: resultCard,
       coin: resultCoin
     });
+    callback()
   };
 
   socket.on("TAKE_COIN", async function(data) {
